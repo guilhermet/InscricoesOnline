@@ -1,0 +1,134 @@
+﻿@model InscricoesOnline.Models.UsuarioSite
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Filiados")">Filiados</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted text-capitalize"><a class="text-primary" href="@Url.Action("Visualizar", "Filiados", new { id = Model.FiliadoId })">@Model.Filiado.Nome.ToLower()</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Novo Usuário</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("NovoUsuarioSalvar", "Filiados", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-con panel panel-primary fv-form fv-form-bootstrap", @id = "form-fili", @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <header class="panel-heading">
+                    <i class="fa fa-file-text-o"></i> Dados cadastrais
+                </header>
+                <div class="panel-body">
+                    <div class="clearfix">
+                        <div class="alert alert-danger pull-left">
+                            <p>* Campos obrigatórios</p>
+                        </div>
+                    </div>
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.FiliadoId)
+                    @Html.HiddenFor(model => model.DataCadastro)
+                    @Html.HiddenFor(model => model.AlterarSenha)
+
+                    <div class="text-center">
+                        @Html.CheckBoxFor(model => model.Ativo, new { @class = "chkAtivo hidden", @checked = "true" })
+                    </div>
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        <label for="txtNome"><span class="text-alerta">*</span> Senha:</label>
+                        @Html.PasswordFor(model => model.Senha, new { @class = "form-control", @maxlength = 30 })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtDataFimInscricoes"><span class="text-alerta">*</span> Academias adicionais:</label>
+                        <select class="form-control select2-offscreen" id="AcademiaId" name="AcademiaId" multiple>
+                            @foreach (var academia in (IEnumerable<InscricoesOnline.Models.Academia>)ViewBag.AcademiaId)
+                            {
+                                <option value="@academia.Id">
+                                    @academia.Nome
+                                </option>
+                            }
+                        </select>
+
+                        <input class="none" type="hidden" id="txtIdsAcademias" name="txtIdsAcademias" readonly="readonly">
+                    </div>
+
+                    <div style="clear: both" />
+                    <div class="panel-footer text-center">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i> Salvar edição</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        $("#AcademiaId").select2();
+
+        $("#AcademiaId").change(function () {
+            $("#txtIdsAcademias").val("");
+
+            var data = $('#AcademiaId').select2('data')
+            var i = 0, ids = "";
+            while (typeof data[i] !== 'undefined') {
+                if (ids == "")
+                    ids += data[i].id;
+                else
+                    ids += ',' + data[i].id;
+
+                i++;
+            }
+            $("#txtIdsAcademias").val(ids);
+        });
+
+        $("#form-fili")
+            .formValidation({
+                framework: '',
+                err: {
+                    container: 'tooltip'
+                },
+                excluded: [':disabled', ':hidden', ':not(:visible)', '.disabled'],
+                icon: {
+                    valid: "fa fa-check",
+                    invalid: "fa fa-times",
+                    validating: "fa fa-refresh fa-spin"
+                },
+                fields: {
+                    Nome: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Campo obrigatório'
+                            }
+                        }
+                    }
+                }
+            }).on('err.field.fv', function (e, data) {
+                var $icon = data.element.data('fv.icon'),
+                    title = $icon.data('bs.tooltip').getTitle();
+
+                $icon.tooltip('destroy').tooltip({
+                    html: true,
+                    placement: 'left',
+                    title: title,
+                    container: 'body'
+                });
+            });
+
+    </script>
+}

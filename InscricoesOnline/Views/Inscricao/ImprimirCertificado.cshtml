@@ -1,0 +1,155 @@
+﻿@model InscricoesOnline.Models.InscricaoModalidade
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="~/Imagem/favicon-57.png" type="image/x-icon">
+
+    <title>Certificado </title>
+
+    <link href="https://fonts.googleapis.com/css?family=Tangerine:700" rel="stylesheet">
+
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .certificado span {
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+            position: absolute;
+            font-family: 'Arial Bold';
+            font-weight: 700;
+            font-size: 19px;
+        }
+
+        .filiado {
+            width: 760px;
+            font-family: 'Tangerine', cursive !important;
+            font-size: 50px !important;
+            font-weight: 700 !important;
+            top: 89mm;
+            left: 45mm;
+            line-height: 0.8;
+            text-align: center;
+            text-transform: capitalize !important;
+        }
+
+        .faixa {
+            width: 237px;
+            overflow: hidden;
+            top: 108mm;
+            left: 85.937mm;
+            text-align: center;
+        }
+
+        .dataCertificado > .diaSemana {
+            width: 225px;
+            overflow: hidden;
+            top: 137mm;
+            left: 22.037mm;
+            text-align: center;
+        }
+
+        .dataCertificado > .dia {
+            width: 39px;
+            overflow: hidden;
+            top: 137mm;
+            left: 86mm;
+            text-align: center;
+        }
+
+        .dataCertificado > .mes {
+            width: 131px;
+            overflow: hidden;
+            top: 137mm;
+            left: 106.3958mm;
+            text-align: center;
+        }
+
+        .dataCertificado > .ano {
+            width: 75px;
+            overflow: hidden;
+            top: 137mm;
+            left: 150.937mm;
+            text-align: center;
+        }
+
+        .mestre {
+            width: 221px;
+            bottom: 45.81458mm;
+            left: 30mm;
+            text-align: center;
+            white-space: nowrap !important;
+            font-size: 13px !important;
+        }
+
+            .mestre:before {
+                content: '____________________________';
+                display: block;
+                position: absolute;
+                visibility: visible;
+                top: -19px;
+                left: 17px;
+            }
+
+        .mestre-label {
+            width: 175px;
+            bottom: 39.600mm;
+            left: 35.15mm;
+            text-align: center;
+            white-space: nowrap !important;
+            font-size: 14px !important;
+        }
+
+        .professor {
+            width: 221px;
+            bottom: 45.81458mm;
+            left: 99.15mm;
+            text-align: center;
+            white-space: nowrap !important;
+            font-size: 13px !important;
+        }
+
+            .professor:before {
+                content: '____________________________';
+                display: block;
+                position: absolute;
+                visibility: visible;
+                top: -19px;
+                left: 17px;
+            }
+
+        .prof-label {
+            width: 175px;
+            bottom: 39.600mm;
+            right: 145.135mm;
+            text-align: center;
+            white-space: normal !important;
+            font-size: 14px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="certificado" style="background: url(@(Model.Modalidade.Titulo == "Professor" ?
+                                                       "/Static/Layout/Certificado/certificado8.jpg" :
+                                                       (Model.Modalidade.Titulo == "Auxiliar"? 
+                                                       "/Static/Layout/Certificado/certificado9.jpg" : 
+                                                       "/Static/Layout/Certificado/certificado10.jpg")));
+                                    margin: 0; padding: 0; width: 297mm; height: 210mm; 
+                                    background-size: 297mm 210mm; position: relative; 
+                                    -webkit-print-color-adjust: exact; ">
+        <span class="filiado">@Model.Inscricao.Filiado.Nome.ToLower()</span>
+    </div>
+</body>
+</html>

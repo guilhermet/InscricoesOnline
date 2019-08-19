@@ -1,0 +1,65 @@
+﻿@model InscricoesOnline.ModelView.EventoInscricoes
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Eventos", "Inscricao" )">Eventos</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">@Model.Eventos.Titulo</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel panel-info">
+                <header class="panel-heading">
+                    <i class="fa fa-list"></i> Lista de inscrições - <strong>@Model.Inscricoes.Count() registros</strong> - @Model.Eventos.Titulo
+                </header>
+                <div class="panel-body">
+                    <div class="pad-bot-15 text-center">
+                        <a href="@Url.Action("Novo", "Inscricao", new { id = Model.Eventos.Id })" class="btn btn-success"><i class="fa fa-plus-circle"></i> Nova inscrição</a>
+                        &nbsp;&nbsp;
+                        <a href="@Url.Action("GerarChaves", "Inscricao", new { id = Model.Eventos.Id })" class="btn btn-primary"><i class="fa fa-sitemap"></i> Gerar chaves</a>
+                    </div>
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                        <div class="col-sm-12 table-responsive">
+                            <table class="fp-table table table-striped table-bordered table-hover" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="text-center">Ações</th>
+                                        <th>Academia</th>
+                                        <th>Filiado</th>
+                                        <th>Modalidades</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var inscricao in Model.Inscricoes)
+                                    {
+                                        <tr role="row">
+                                            <td class="text-center col-md-2">
+                                                <a class="btn btn-warning btn-circle" href="@Url.Action("Visualizar", "Inscricao" , new { id = inscricao.Id })" data-toggle="tooltip" data-placement="top" title="Visualizar informações da inscrição"><i class="fa fa-eye"></i></a>
+                                                @*<a class="btn btn-microsoft btn-circle" href="@Url.Action("ImprimirCertificado", "Inscricao", new { id = inscricao.Id })" target="_blank" data-toggle="tooltip" data-placement="top" title="Imprimir certificado"><i class="fa fa-print"></i></a>*@
+                                            </td>
+                                            <td> @Html.DisplayFor(modelItem => inscricao.Academia.Nome) </td>
+                                            <td> @Html.DisplayFor(modelItem => inscricao.Filiado.Nome) </td>
+                                            <td> @String.Join(", ", inscricao.InscricaoModalidade.Select(i => i.Modalidade.Titulo))</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

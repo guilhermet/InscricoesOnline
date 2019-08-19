@@ -1,0 +1,241 @@
+﻿@model InscricoesOnline.ModelView.InscricaoViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Eventos", "Inscricao")">Eventos</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Inscricao", new { id = Model.Evento.Id })">@Model.Evento.Titulo</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Nova inscrição</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("NovoSalvar", "Inscricao", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "panel panel-green fv-form fv-form-bootstrap", @id = "form-inscricao", @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <header class="panel-heading">
+                    <i class="fa fa-file-text-o"></i> Dados cadastrais - @Model.Evento.Titulo
+                </header>
+                <div class="panel-body">
+                    <div class="clearfix">
+                        <div class="alert alert-danger pull-left">
+                            <p>* Campos obrigatórios</p>
+                        </div>
+                    </div>
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Evento.Id)
+
+                    <input type="text" value="@Model.Evento.Id" id="drpEvento" style="display: none" />
+
+                    <div class="form-group">
+                        <label for="drpAcademia"><span class="text-alerta">*</span> Academia:</label>
+                        @Html.DropDownListFor(model => model.Academia.Id, ((IEnumerable<InscricoesOnline.Models.Academia>)ViewBag.Academias).Select(option => new SelectListItem
+                        {
+                            Text = option.Nome,
+                            Value = option.Id.ToString(),
+                            Selected = (Model != null) && (option.Id == Model.Academia.Id)
+                        }), "", new { @class = "form-control select2-offscreen", @id = "drpAcademia" })
+                    </div>
+
+                    <br />
+                    <div class="form-group class-none" id="atletas">
+                        <fieldset>
+                            <legend class="text-primary pad-top-15">Atletas</legend>
+
+                            <div class="row">
+                                <div class="form-group col-lg-2">
+                                    <label for="txtCodFili">Código:</label>
+                                    <input type="text" class="form-control txtCodFili" placeholder="Código" value="">
+                                </div>
+
+                                <div class="form-group col-lg-4">
+                                    <label for="txtNomeFili">Nome do filiado:</label>
+                                    <input type="text" class="form-control txtNomeFili" value="" readonly="">
+                                </div>
+
+                                <div class="form-group col-lg-3">
+                                    <label for="txtFaixa">Faixa:</label>
+                                    <input type="text" class="form-control txtFaixa" value="" readonly="">
+                                </div>
+
+                                <div class="form-group col-lg-3">
+                                    <label for="txtFaixa">Sexo:</label>
+                                    <input type="text" class="form-control txtSexo" value="" readonly="">
+                                </div>
+                            </div>
+
+                            <div id="listaModalidades">
+
+                            </div>
+
+                            <div class="text-center">
+                                <button type="button" class="btn btn-success btn-add-filiado"><i class="fa fa-plus"></i> Adicionar</button>
+                            </div>
+
+                            <div style="clear: both" />
+
+                            <div class="panel-footer text-center" style="margin: 20px 0px; padding-bottom: 20px;">
+                                <button type="submit" id="submit-inscricao" class="btn btn-success"><i class="fa fa-check-circle"></i> Salvar</button>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                        <div class="col-sm-12 table-responsive">
+                                            <table class="fp-table table table-striped table-bordered" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="text-center">Ações</th>
+                                                        <th>Código</th>
+                                                        <th>Nome</th>
+                                                        <th class="text-center">Faixa</th>
+                                                        <th class="text-center">Modalidade</th>
+                                                        <th class="text-center">Categoria Faixa</th>
+                                                        <th class="text-center">Categoria Idade</th>
+                                                        <th class="text-center">Categoria Peso</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div id="listaFili" style="margin-top: 5px;">
+
+                    </div>
+
+                    <div style="clear: both" />
+
+                    <div class="panel-footer text-center">
+                        <button type="submit" id="submit-inscricao" class="btn btn-success"><i class="fa fa-check-circle"></i> Salvar</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        $('#txtData')
+            .on('dp.change', function (e) {
+                $('#form-inscricao').formValidation('revalidateField', 'DataRealizacao');
+            });
+
+
+        $("#form-inscricao")
+
+            .find('AcademiaId')
+            .change(function (e) {
+                $('#form-inscricao').formValidation('revalidateField', 'AcademiaId');
+            })
+            .end()
+
+            .find('FiliadoIdMestre')
+            .change(function (e) {
+                $('#form-inscricao').formValidation('revalidateField', 'FiliadoIdMestre');
+            })
+            .end()
+
+            .find('FiliadoIdProfessor')
+            .change(function (e) {
+                $('#form-inscricao').formValidation('revalidateField', 'FiliadoIdProfessor');
+            })
+            .end()
+
+            .formValidation({
+                framework: '',
+                err: {
+                    container: 'tooltip'
+                },
+                excluded: [':disabled', ':hidden', ':not(:visible)', '.disabled'],
+                icon: {
+                    valid: "fa fa-check",
+                    invalid: "fa fa-times",
+                    validating: "fa fa-refresh fa-spin"
+                },
+                fields: {
+                    'AcademiaId': {
+                        validators: {
+                            callback: {
+                                message: 'Campo obrigatório',
+                                callback: function (value, validator, $field) {
+                                    return (value !== "");
+                                }
+                            }
+                        }
+                    },
+                    'FiliadoIdMestre': {
+                        validators: {
+                            callback: {
+                                message: 'Campo obrigatório',
+                                callback: function (value, validator, $field) {
+                                    return (value !== "");
+                                }
+                            }
+                        }
+                    },
+                    'FiliadoIdProfessor': {
+                        validators: {
+                            callback: {
+                                message: 'Campo obrigatório',
+                                callback: function (value, validator, $field) {
+                                    return (value !== "");
+                                }
+                            },
+                            notEmpty: {
+                                message: 'Campo obrigatório'
+                            }
+                        }
+                    },
+                    DataRealizacao: {
+                        validators: {
+                            date: {
+                                format: 'DD/MM/YYYY',
+                                message: 'Data inválida'
+                            },
+                            notEmpty: {
+                                message: 'Campo obrigatório'
+                            }
+                        }
+                    },
+                    Cidade: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Campo obrigatório'
+                            }
+                        }
+                    }
+                }
+            }).on('err.field.fv', function (e, data) {
+                var $icon = data.element.data('fv.icon'),
+                    title = $icon.data('bs.tooltip').getTitle();
+
+                $icon.tooltip('destroy').tooltip({
+                    html: true,
+                    placement: 'left',
+                    title: title,
+                    container: 'body'
+                });
+            });
+
+    </script>
+}

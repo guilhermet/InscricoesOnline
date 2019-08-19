@@ -1,0 +1,66 @@
+﻿@model IEnumerable<InscricoesOnline.ModelView.EventoInscricoes>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Eventos</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel panel-info">
+                <header class="panel-heading">
+                    <i class="fa fa-list"></i> Lista de eventos - <strong>@Model.Count() registros</strong>
+                </header>
+                <div class="panel-body">
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                        <div class="col-sm-12 table-responsive">
+                            <table class="fp-table table table-striped table-bordered table-hover" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th rowspan="2" class="text-center">Ações</th>
+                                        <th rowspan="2">Evento</th>
+                                        <th rowspan="2">Cidade</th>
+                                        <th colspan="2" class="text-center">Inscrições</th>
+                                        <th rowspan="2" class="text-center">Inscritos</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Inicio</th>
+                                        <th class="text-center">Fim</th>
+                                        @*<th class="text-center">Pago</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var eventoInscricao in Model)
+                                    {
+                                        <tr role="row">
+                                            <td class="text-center col-md-2">
+                                                <a class="btn btn-warning btn-circle" href="@Url.Action("Lista", "Inscricao", new { id = eventoInscricao.Eventos.Id })" data-toggle="tooltip" data-placement="top" title="Visualizar informações da inscrição"><i class="fa fa-eye"></i></a>
+                                                <a class="btn btn-primary btn-circle" href="@Url.Action("Controle", "Inscricao", new { id = eventoInscricao.Eventos.Id })" data-toggle="tooltip" data-placement="top" title="Controlar Chaves"><i class="fa fa-columns"></i></a>
+                                            </td>
+                                            <td> @Html.DisplayFor(modelItem => eventoInscricao.Eventos.Titulo) </td>
+                                            <td> @Html.DisplayFor(modelItem => eventoInscricao.Eventos.Cidade) - @Html.DisplayFor(modelItem => eventoInscricao.Eventos.Estado) </td>
+                                            <td class="text-center"> @Html.DisplayFor(modelItem => eventoInscricao.Eventos.DataInicioInscricoes) </td>
+                                            <td class="text-center"> @Html.DisplayFor(modelItem => eventoInscricao.Eventos.DataFimInscricoes) </td>
+                                            <td class="text-center"> @eventoInscricao.Inscricoes.Count() </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

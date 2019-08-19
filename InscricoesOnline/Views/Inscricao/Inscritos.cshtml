@@ -1,0 +1,65 @@
+﻿@model InscricoesOnline.Models.Chave
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper" style="min-height: 343px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Eventos", "Inscricao" )">Eventos</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Inscricao", new { id = Model.Evento.Id})">@Model.Evento.Titulo</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("GerarChaves", "Inscricao", new { id = Model.Evento.Id })">Geração de chaves</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Inscritos</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel panel-primary">
+                <header class="panel-heading">
+                    <i class="fa fa-list"></i> Lista de inscritos - <strong>@Model.Inscritos.Count() registros</strong>
+                </header>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <fieldset>
+                            <legend class="text-primary pad-top-15">@Model.Modalidade.Titulo - @(Model.Sexo == "M" ? "Masculino" : "Feminino") @(Model.CategoriaFaixa == null ? "" : " - " + Model.CategoriaFaixa.Titulo) @(Model.CategoriaIdade == null ? "" : " - " + Model.CategoriaIdade.Titulo) @(Model.CategoriaLutaPeso == null ? "" : " - " + @Model.CategoriaLutaPeso.Titulo)</legend>
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                <div class="col-sm-12 table-responsive">
+                                    <table class="fp-table table table-striped table-bordered table-hover" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th>Filiado</th>
+                                                <th>Faixa</th>
+                                                <th>Academia</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var inscricao in Model.Inscritos)
+                                            {
+                                                <tr role="row">
+                                                    <td> @Html.DisplayFor(modelItem => inscricao.Inscricao.Filiado.Nome) </td>
+                                                    <td> @Html.DisplayFor(modelItem => inscricao.Inscricao.Filiado.Faixa.Descricao) </td>
+                                                    <td> @Html.DisplayFor(modelItem => inscricao.Inscricao.Academia.Nome) </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

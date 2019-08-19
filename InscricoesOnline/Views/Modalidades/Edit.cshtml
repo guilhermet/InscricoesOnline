@@ -1,0 +1,115 @@
+﻿@model InscricoesOnline.Models.Modalidade
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Modalidades")">Modalidades</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Edição</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("EditSalvar", "Modalidades", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "panel panel-primary fv-form fv-form-bootstrap", @id = "form-modalidade" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <header class="panel-heading">
+                    <i class="fa fa-file-text-o"></i> Dados cadastrais
+                </header>
+                <div class="panel-body">
+                    <div class="clearfix">
+                        <div class="alert alert-danger pull-left">
+                            <p>* Campos obrigatórios</p>
+                        </div>
+                    </div>
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.EventoId)
+
+                    <div class="form-group">
+                        <label for="txtDescricao"><span class="text-alerta">*</span> Descrição:</label>
+                        @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control", @id = "txtTitulo", @maxlength = 50 } })
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="txtAtivarInscricao">Utiliza categoria de idade:</label>
+                        <br />
+                        @Html.CheckBoxFor(model => model.CategoriaIdade, new { @class = "chkSimNao hidden", @checked = "true" })
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="txtAtivarInscricao">Utiliza categoria de peso:</label>
+                        <br />
+                        @Html.CheckBoxFor(model => model.CategoriaPeso, new { @class = "chkSimNao hidden", @checked = "true" })
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="txtAtivarInscricao">Utiliza categoria de faixa:</label>
+                        <br />
+                        @Html.CheckBoxFor(model => model.CategoriaFaixa, new { @class = "chkSimNao hidden", @checked = "true" })
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="txtAtivarInscricao">Modalidade ParaTaekwondo:</label>
+                        <br />
+                        @Html.CheckBoxFor(model => model.Parataekwondo, new { @class = "chkSimNao hidden", @checked = "true" })
+                    </div>
+
+                    <br />
+
+                    <div class="panel-footer text-center">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i> Salvar edição</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        $('#form-modalidade').formValidation({
+            framework: '',
+            err: {
+                container: 'tooltip'
+            },
+            icon: {
+                valid: 'fa fa-check',
+                invalid: 'fa fa-times',
+                validating: 'fa fa-refresh fa-spin'
+            },
+            fields: {
+                Titulo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Campo obrigatório'
+                        }
+                    }
+                }
+            }
+        }).on('err.field.fv', function (e, data) {
+            var $icon = data.element.data('fv.icon'),
+                title = $icon.data('bs.tooltip').getTitle();
+
+            $icon.tooltip('destroy').tooltip({
+                html: true,
+                placement: 'left',
+                title: title,
+                container: 'body'
+            });
+        });
+    </script>
+}

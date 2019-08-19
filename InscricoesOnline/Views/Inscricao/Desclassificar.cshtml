@@ -1,0 +1,76 @@
+﻿@model List<InscricoesOnline.Models.ChaveParticipante>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Eventos", "Inscricao" )">Eventos</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">@Model.FirstOrDefault().Chave.Evento.Titulo</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("DesclassificarSalvar", "Inscricao", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <section class="panel panel-info">
+                    <header class="panel-heading">
+                        <i class="fa fa-list"></i> Lista de participantes
+                    </header>
+                    <div class="panel-body">
+                        <div class="pad-bot-15 text-center">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-check-circle"></i> Salvar</button>
+                        </div>
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="col-sm-12 table-responsive">
+                                <table class="fp-table table table-striped table-bordered table-hover" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th>Filiado</th>
+                                            <th>Academia</th>
+                                            <th>Categoria</th>
+                                            <th>Ativo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < Model.Count(); i++)
+                                        {
+                                            <tr role="row">
+                                                <td> @Html.DisplayFor(modelItem => Model[i].InscricaoModalidade.Inscricao.Filiado.Nome) </td>
+                                                <td> @Html.DisplayFor(modelItem => Model[i].InscricaoModalidade.Inscricao.Academia.Nome) </td>
+                                                <td>
+                                                    <b>@Model[i].InscricaoModalidade.Modalidade.Titulo</b> @(" - ") @Model[i].InscricaoModalidade.CategoriaFaixa.Titulo @(" - ")
+                                                    @Model[i].InscricaoModalidade.CategoriaIdade.Titulo
+                                                    @(Model[i].InscricaoModalidade.CategoriaLutaPeso == null ? "" : " - " + Model[i].InscricaoModalidade.CategoriaLutaPeso.Titulo)
+                                                </td>
+                                                <td class="text-center col-md-2"> @Html.CheckBoxFor(model => Model[i].Ativo, new { @class = "chkOk hidden" }) </td>
+                                            </tr>
+                                            @Html.HiddenFor(Model => Model[i].Id)
+                                            @Html.HiddenFor(Model => Model[i].Ordem, new { @class = "hidden" })
+                                            @Html.HiddenFor(Model => Model[i].ChaveId)
+                                            @Html.HiddenFor(Model => Model[i].Colocacao)
+                                            @Html.HiddenFor(Model => Model[i].InscricaoModalidadeId)
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="pad-bot-15 text-center">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-check-circle"></i> Salvar</button>
+                        </div>
+                    </div>
+                </section>
+            }
+        </div>
+    </div>
+</div>

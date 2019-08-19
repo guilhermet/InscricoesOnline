@@ -1,0 +1,132 @@
+﻿@model InscricoesOnline.ModelView.ChaveViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Eventos", "Inscricao" )">Eventos</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Inscricao", new { id = Model.Evento.Id})">@Model.Evento.Titulo</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Geração de chaves</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel panel-info">
+                <header class="panel-heading">
+                    <i class="fa fa-list"></i> Lista de chaves - <strong>@Model.Chaves.Count() registros</strong>
+                </header>
+                <div class="panel-body">
+                    <div class="pad-bot-15 text-center">
+                        <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Gerar chave">
+                            <a class="btn btn-primary btn-gerar-chave" href="#" data-href="@Url.Action("SortearEvento", "Inscricao", new { id = Model.Evento.Id })" data-toggle="modal" data-target="#mod-gerar-chave">
+                                <i class="fa fa-sitemap"></i> Gerar chaves
+                            </a>
+                        </span>
+                        &nbsp;&nbsp;
+                        <a href="@Url.Action("ImprimirEvento", "Inscricao", new { id = Model.Evento.Id })" class="btn btn-warning"><i class="fa fa-print"></i> Imprimir chaves</a>
+                    </div>
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                        <div class="col-sm-12 table-responsive">
+                            <table class="fp-table table table-striped table-bordered table-hover" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="text-center">Ações</th>
+                                        <th>Nº Participantes</th>
+                                        <th>Nº Inscritos</th>
+                                        <th>Modalidade</th>
+                                        <th>Categoria de Faixa</th>
+                                        <th>Categoria de Idade</th>
+                                        <th>Sexo</th>
+                                        <th>Categoria de Peso</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var chave in Model.Chaves)
+                                    {
+                                        <tr id="@chave.Id" role="row" style="background-color: @(chave.ChaveParticipantes.Count() != @chave.Inscritos.Count() ? "#f2dede" : "")">
+                                            <td class="text-center col-md-2" style="white-space: nowrap;">
+
+                                                @if (chave.Inscritos.Count() == 0)
+                                                {
+                                                    <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Gerar chave">
+                                                        <a class="btn btn-primary btn-gerar-chave-single btn-circle" href="#" data-href="@Url.Action("Sortear", "Inscricao", new { id = chave.Id })" data-toggle="modal" data-id="@chave.Id" data-target="#mod-aviso">
+                                                            <i class="fa fa-sitemap"></i>
+                                                        </a>
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="btn btn-primary btn-gerar-chave-single btn-circle" data-id="@chave.Id" data-toggle="tooltip" data-placement="top" title="Gerar chave">
+                                                        <i class="fa fa-sitemap"></i>
+                                                    </span>
+                                                }
+                                                <a class="btn btn-warning btn-circle" href="@Url.Action("Imprimir", "Inscricao", new { id = chave.Id })" data-toggle="tooltip" data-placement="top" title="Imprimir chave"><i class="fa fa-print"></i></a>
+                                                <a class="btn btn-dark btn-circle" href="@Url.Action("Inscritos", "Inscricao", new { id = chave.Id })" data-toggle="tooltip" data-placement="top" title="Ver inscrições"><i class="fa fa-user"></i></a>
+                                            </td>
+                                            <td class="text-center"> @chave.ChaveParticipantes.Count() </td>
+                                            <td class="text-center"> @chave.Inscritos.Count() </td>
+                                            <td> @Html.DisplayFor(modelItem => chave.Modalidade.Titulo) </td>
+                                            <td> @Html.DisplayFor(modelItem => chave.CategoriaFaixa.Titulo) </td>
+                                            <td> @Html.DisplayFor(modelItem => chave.CategoriaIdade.Titulo) </td>
+                                            <td> @(chave.Sexo == "M" ? "Masculino" : "Feminino")  </td>
+                                            <td> @Html.DisplayFor(modelItem => chave.CategoriaLutaPeso.Titulo) </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mod-gerar-chave" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h4 class="modal-title text-primary" id="mod-excluir-label">ATENÇÃO</h4>
+            </div>
+            <div class="modal-body">
+                A geração de chaves apagará as chaves geradas anteriormente,
+                deseja realmente gerar todas as chaves deste evento?
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <a href="#" class="btn btn-primary mod-gerar-chave-a"><i class="fa fa-check-circle"></i> Sim</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mod-aviso" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h4 class="modal-title text-warning" id="mod-excluir-label">ATENÇÃO</h4>
+            </div>
+            <div class="modal-body">
+                Não há atletas inscritos nessa categoria.
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <a href="#" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-check-circle"></i> Ok</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

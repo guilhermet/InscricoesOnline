@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="~/Content/login.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Admin/font-awesome.min.css">
+    <link rel="shortcut icon" href="~/Imagem/favicon-57.png" type="image/x-icon">
+    <title>Sistema - Federação Paranaense de Taekwondo </title>
+
+</head>
+<body>
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <div class="login100-form-title" style="background-image: url(/Static/Layout/login-tkd.jpg);">
+                    <span class="login100-form-title-1">
+                        Login
+                    </span>
+                </div>
+
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

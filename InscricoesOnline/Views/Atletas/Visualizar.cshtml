@@ -1,0 +1,230 @@
+﻿@model InscricoesOnline.ModelView.FiliadoExames
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Filiados")">Filiados</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted text-capitalize">@Model.Filiado.Nome.ToLower()</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel panel-default @(Model.Filiado.Ativo ? "panel-success" : "panel-danger")">
+                <header class="panel-heading">
+                    <i class="fa fa-user"></i>
+                    Informações do Filiado - <strong> @Model.Filiado.Nome</strong>
+                </header>
+                <div class="panel-body">
+                    <ul class="panel-info col-lg-2">
+                        <li class="col-lg-12 text-center">
+                            <img class="img-fili" alt="Imagem atual" src="~/Static/Uploads/Admin/Filiados/@(String.IsNullOrEmpty(Model.Filiado.URLFoto) ? "sem-imagem.jpg" : Model.Filiado.URLFoto)">
+                        </li>
+                    </ul>
+
+                    <div class="col-lg-7 pull-left">
+                        <ul class="panel-info col-lg-7">
+                            <li><strong>Código:</strong> @Model.Filiado.Id </li>
+                            <li><strong>Nome:</strong> @Model.Filiado.Nome </li>
+                            <li><strong>Nascimento:</strong> @(Model.Filiado.DataNascimento.HasValue ? Model.Filiado.DataNascimento.Value.ToShortDateString() : "") </li>
+                            <li><strong>Sexo:</strong> @Model.Filiado.Sexo </li>
+                            <li><strong>Estado Civil:</strong> @Model.Filiado.EstadoCivil </li>
+                            <li><strong>Academia:</strong> @Model.Filiado.Academia.Nome </li>
+                            <li><strong>RG:</strong> @Model.Filiado.RG </li>
+                            <li><strong>CPF:</strong> @Model.Filiado.CPF </li>
+                            <li><strong>Certidao:</strong> @Model.Filiado.CertidaoNascimento </li>
+                            <li><strong>ParaTaekwondo:</strong> @(Model.Filiado.Parataekwondo ? "Sim" : "Não" ) </li>
+                            <li><strong>Nome do Pai:</strong> @Model.Filiado.NomePai </li>
+                            <li><strong>Nome da Mãe:</strong> @Model.Filiado.NomeMae </li>
+                        </ul>
+                        <ul class="panel-info col-lg-5">
+                            <li><strong>Data Cadastro</strong> @Model.Filiado.DataRegistro.ToShortDateString() </li>
+                            <li><strong>Faixa:</strong> @Model.Filiado.Faixa.Descricao </li>
+                            <li><strong>Cidade:</strong> @Model.Filiado.Endereco.Cidade </li>
+                            <li><strong>Estado:</strong> @Model.Filiado.Endereco.Estado </li>
+                            <li><strong>Endereço:</strong> @Model.Filiado.Endereco.Logradouro </li>
+                            <li><strong>Número:</strong> @Model.Filiado.Endereco.Numero </li>
+                            <li><strong>Complemento:</strong> @Model.Filiado.Endereco.Complemento </li>
+                            <li><strong>CEP:</strong> @Model.Filiado.Endereco.CEP </li>
+                            <li><strong>RegCBTKD:</strong> @Model.Filiado.RegistroCBTKD </li>
+
+                        </ul>
+                        <ul class="panel-info col-lg-12 pad-top-10">
+                            <li><strong>Observações</strong> @Model.Filiado.Observacoes</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3">
+
+                        <ul class="panel-info">
+                            @foreach (InscricoesOnline.Models.ContatosFiliado contatoFiliado in Model.Filiado.Contatos)
+                            {
+                                var icon = "fa-phone";
+                                switch (contatoFiliado.Contato.TipoContato)
+                                {
+                                    case "Telefone fixo":
+                                        icon = "fa-phone";
+                                        break;
+                                    case "Telefone Celular":
+                                        icon = "fa-mobile";
+                                        break;
+                                    case "WhatsApp":
+                                        icon = "fa-whatsapp";
+                                        break;
+                                    case "E-mail":
+                                        icon = "fa-envelope";
+                                        break;
+                                    default:
+                                        icon = "fa-phone";
+                                        break;
+                                }
+                                <li><i class="fa @icon fa-fw"></i> @contatoFiliado.Contato.Numero</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <a href="@Url.Action("Novo", "Filiados")" class="btn btn-success">
+                        <i class="fa fa-plus-circle"></i> Novo filiado
+                    </a>
+                    <a class="btn btn-primary" href="@Url.Action("Edit", "Filiados", new { id = Model.Filiado.Id })" data-toggle="tooltip" title="Editar filiado">
+                        <i class="fa fa-pencil"></i> Editar filiado
+                    </a>
+                    <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Excluir filiados">
+                        <a class="btn btn-danger btn-excluir" href="#" data-href="@Url.Action("Delete", "Filiados", new { id = Model.Filiado.Id })" data-toggle="modal" data-target="#mod-excluir">
+                            <i class="fa fa-trash"></i> Excluir filiado
+                        </a>
+                    </span>
+                    <a class="btn btn-dark" href="@Url.Action("Contatos", "Filiados" , new { id=Model.Filiado.Id })" data-toggle="tooltip" title="Contatos do filiado">
+                        <i class="fa fa-phone"></i> Editar Contatos
+                    </a>
+                    @if (Model.UsuarioSite == null)
+                    {
+                        <a class="btn btn-warning" href="@Url.Action("NovoUsuario", "Filiados", new { id = Model.Filiado.Id })" data-toggle="tooltip" title="Criar usuário para acessar a área restrita do site">
+                            <i class="fa fa-user"></i> Criar usuário
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-warning" href="@Url.Action("VisualizarUsuario", "Filiados", new { id = Model.Filiado.Id })" data-toggle="tooltip" title="Visualizar dados do usuário de acesso a área restrita do site">
+                            <i class="fa fa-user"></i> Visualizar usuário
+                        </a>
+                    }
+                    @if (Model.Filiado.ClienteFornecedor == null)
+                    {
+                        <a class="btn btn-purple" href="@Url.Action("CriarClienteFornecedor", "Filiados", new { id = Model.Filiado.Id })" data-toggle="tooltip" title="Criar cliente/fornecedor vinculado com este filiado">
+                            <i class="fa fa-user"></i> Criar cliente/fornecedor
+                        </a>
+                    }
+
+                </div>
+            </section>
+
+            @if (Model.Exames.Count() > 0)
+            {
+                <section class="panel panel-default panel-primary">
+                    <header class="panel-heading">
+                        <i class="fa fa-list-alt"></i>
+                        Exames
+                    </header>
+                    <div class="panel-body">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="col-sm-12 table-responsive">
+                                <table class="fp-table table table-striped table-bordered table-hover empresa dataTable no-footer dtr-inline" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th style="min-width: 140px;">Ações</th>
+                                            <th class="text-center">Data</th>
+                                            <th>Cidade</th>
+                                            <th>Graduação</th>
+                                            <th>Mestre</th>
+                                            <th>Professor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var exame in Model.Exames)
+                                        {
+                                            <tr role="row">
+                                                <td class="text-center col-md-1">
+                                                    <a class="btn btn-microsoft btn-circle" href="@Url.Action("Imprimir", "Exames", new { id = exame.Id })" target="_blank" data-toggle="tooltip" data-placement="top" title="Imprimir certificado"><i class="fa fa-print"></i></a>
+                                                    <a class="btn btn-warning btn-circle" href="@Url.Action("EditExameFiliado", "Exames", new { id = exame.Id })" data-toggle="tooltip" data-placement="top" title="Editar do exame"><i class="fa fa-pencil"></i></a>
+                                                    <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Excluir exame">
+                                                        <a class="btn btn-danger btn-circle btn-excluir" href="#" data-href="@Url.Action("DeleteExameFiliado", "Exames", new { id = exame.Id, idOrigem = Model.Filiado.Id })" data-toggle="modal" data-target="#mod-excluir">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    </span>
+                                                </td>
+                                                <td class="text-center"> @Html.DisplayFor(modelItem => exame.Exame.DataRealizacao) </td>
+                                                <td> @Html.DisplayFor(modelItem => exame.Exame.Cidade) </td>
+                                                <td> @Html.DisplayFor(modelItem => exame.FaixaProximo.Descricao) </td>
+                                                <td> @Html.DisplayFor(modelItem => exame.Exame.Mestre.Nome) </td>
+                                                <td> @Html.DisplayFor(modelItem => exame.Exame.Professor.Nome) </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            }
+
+            @if (Model.Lancamentos.Count() > 0)
+            {
+                <section class="panel panel-default panel-primary">
+                    <header class="panel-heading">
+                        <i class="fa fa-list-alt"></i>
+                        Pagamentos
+                    </header>
+                    <div class="panel-body">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="col-sm-12 table-responsive">
+                                <table class="fp-table table table-striped table-bordered table-hover empresa dataTable no-footer dtr-inline" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th style="min-width: 140px;">Ações</th>
+                                            <th class="text-center">Data Vencimento</th>
+                                            <th class="text-center">Valor</th>
+                                            <th class="text-center">Data Pagamento</th>
+                                            <th class="text-center">Valor Pago</th>
+                                            <th>Observação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var lancamento in Model.Lancamentos)
+                                        {
+                                        <tr role="row" class="@(lancamento.Pago ? "entrada" : (lancamento.Vencimento < DateTime.Today ? "saida" : ""))">
+                                            <td class="text-center col-md-1">
+                                                <a class="btn btn-warning btn-circle" href="@Url.Action("Edit", "Lancamentos", new { id = lancamento.Id })" data-toggle="tooltip" data-placement="top" title="Editar lançamento"><i class="fa fa-pencil"></i></a>
+                                                <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Excluir lançamento">
+                                                    <a class="btn btn-danger btn-circle btn-excluir" href="#" data-href="@Url.Action("Delete", "Lancamentos", new { id = lancamento.Id, idOrigem = Model.Filiado.Id })" data-toggle="modal" data-target="#mod-excluir">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                </span>
+                                            </td>
+                                            <td class="text-center"> @Html.DisplayFor(modelItem => lancamento.Vencimento) </td>
+                                            <td class="text-right"> @Html.DisplayFor(modelItem => lancamento.ValorExibicao) </td>
+                                            <td class="text-center"> @Html.DisplayFor(modelItem => lancamento.Pagamento) </td>
+                                            <td class="text-right"> @Html.DisplayFor(modelItem => lancamento.ValorPagoExibicao) </td>
+                                            <td> @Html.DisplayFor(modelItem => lancamento.Observacao) </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            }
+        </div>
+    </div>
+</div>

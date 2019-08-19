@@ -1,0 +1,36 @@
+﻿@media only screen and (max-width: 1024px) {
+                
+    #menu_principal .navbar-nav {
+        float: left;
+    }
+
+    #menu_principal .navbar-nav li{
+        display: block;
+    }
+
+    #sidenav01{
+        text-align: center;
+    }
+
+    .footer .row{
+        text-align: center;
+    }
+
+    .footer h3 {
+        font-weight: bold;
+        display: inline-block;
+    }
+    .news_block .news{
+        width: 130px;
+    }
+}
+
+@media only screen and (min-width: 767px) {
+    #form_atendimento .frm_l{
+        padding-left: 3px
+    }
+
+    #form_atendimento .frm_r{
+        padding-right: 3px;
+    }
+}

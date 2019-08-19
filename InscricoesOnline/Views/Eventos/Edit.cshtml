@@ -1,0 +1,366 @@
+﻿@model InscricoesOnline.ModelView.EventoModalidadesViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Eventos")">Eventos</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Edição</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("EditSalvar", "Eventos", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "panel panel-primary fv-form fv-form-bootstrap", @id = "form-eventos", @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <header class="panel-heading">
+                    <i class="fa fa-file-text-o"></i> Dados cadastrais
+                </header>
+                <div class="panel-body">
+                    <div class="clearfix">
+                        <div class="alert alert-danger pull-left">
+                            <p>* Campos obrigatórios</p>
+                        </div>
+                    </div>
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Evento.Id)
+                    @Html.HiddenFor(model => model.Evento.Imagem)
+
+                    <div class="text-center">
+                        @Html.CheckBoxFor(model => model.Evento.Ativo, new { @class = "chkAtivo hidden", @checked = "true" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtTitulo"><span class="text-alerta">*</span> Título:</label>
+                        @Html.EditorFor(model => model.Evento.Titulo, new { htmlAttributes = new { @class = "form-control", @maxlength = 60 } })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtDescricao"><span class="text-alerta">*</span> Descrição:</label>
+                        @Html.TextAreaFor(model => model.Evento.Descricao, new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtTipoEvento"><span class="text-alerta">*</span> Classificação do evento:</label>
+                        @Html.DropDownList("TipoEventoId", null, htmlAttributes: new { @class = "form-control", @Name = "Evento.TipoEventoId" })
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-3">
+                            <label for="txtDataInicio"><span class="text-alerta">*</span> Data inicial do evento:</label>
+                            <div class="input-group date" id="txtDataInicio">
+                                @Html.EditorFor(model => model.Evento.DataInicio, new { htmlAttributes = new { @class = "form-control text-center", @id = "txtData" } })
+                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-3">
+                            <label for="txtDataFim"><span class="text-alerta">*</span> Data final do evento:</label>
+                            <div class="input-group date" id="txtDataFim">
+                                @Html.EditorFor(model => model.Evento.DataFim, new { htmlAttributes = new { @class = "form-control text-center data" } })
+                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><span class="text-alerta">*</span> UF:</label>
+                        @Html.DropDownListFor(model => model.Evento.Estado, new SelectList(new System.Collections.Generic.List<object> { }), new { @class = "form-control", @id = "drpEstado", @name = "drpEstado", @value = Model.Evento.Estado })
+                    </div>
+
+                    <div class="form-group">
+                        <label><span class="text-alerta">*</span> Cidade:</label>
+                        @Html.DropDownListFor(model => model.Evento.Cidade, new SelectList(new System.Collections.Generic.List<object> { }), new { @class = "form-control", @id = "drpCidade", @name = "drpCidade", @value = Model.Evento.Cidade })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtLocal"> Local:</label>
+                        @Html.EditorFor(model => model.Evento.Local, new { htmlAttributes = new { @class = "form-control", @maxlength = "120" } })
+                    </div>
+
+                    <div class="form-group">
+                        <fieldset>
+                            <legend class="text-primary pad-top-15">Inscrições</legend>
+
+                            <div class="form-group">
+                                <label for="txtAtivarInscricao">Habilitar ficha de inscrição:</label>
+                                <br />
+                                @Html.CheckBoxFor(model => model.Evento.AtivaInscricao, new { @class = "chkAtivo hidden ativaData", @checked = "true" })
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+                                <div class="form-group col-lg-3">
+                                    <label for="txtDataInicioInscricoes"><span class="text-alerta">*</span> Data de inicio:</label>
+                                    <div class="input-group date" id="txtDataInicioInscricoes">
+                                        @Html.EditorFor(model => model.Evento.DataInicioInscricoes, new { htmlAttributes = new { @class = "form-control text-center data" } })
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-3">
+                                    <label for="txtDataFimInscricoes"><span class="text-alerta">*</span> Data de encerramento:</label>
+                                    <div class="input-group date" id="txtDataFimInscricoes">
+                                        @Html.EditorFor(model => model.Evento.DataFimInscricoes, new { htmlAttributes = new { @class = "form-control text-center data" } })
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-3">
+                                    <label for="txtDataFimAlteracoes"><span class="text-alerta">*</span> Data de encer. das alterações:</label>
+                                    <div class="input-group date" id="txtDataFimAlteracoes">
+                                        @Html.EditorFor(model => model.Evento.DataFimAlteracoes, new { htmlAttributes = new { @class = "form-control text-center data" } })
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="txtDataFimInscricoes"><span class="text-alerta">*</span> Modalidades disponíveis:</label>
+                                <select class="form-control select2-offscreen" id="ModalidadesId" name="ModalidadesId" multiple>
+                                    @foreach (var modadelidade in (IEnumerable<InscricoesOnline.Models.Modalidade>)ViewBag.ModalidadesId)
+                                    {
+                                        <option value="@modadelidade.Id"
+                                                @(Model.Modalidades.Select(m => m.Id).Contains(modadelidade.Id) ? "selected" : "")>
+                                            @modadelidade.Titulo
+                                        </option>
+                                    }
+                                </select>
+
+                                <input class="none" type="hidden" id="txtIdsModalidades" name="txtIdsModalidades" readonly="readonly">
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="form-group">
+                        <fieldset>
+                            <legend class="text-primary pad-top-15">Pontuações</legend>
+                            <div class="row">
+                                <div class="form-group col-lg-2">
+                                    <label for="txtDataInicioInscricoes"><span class="text-alerta">*</span> 1º Lugar:</label>
+                                    @Html.EditorFor(model => model.Evento.Pontuacao1, new { htmlAttributes = new { @class = "form-control text-center" } })
+                                </div>
+
+                                <div class="form-group col-lg-2">
+                                    <label for="txtDataFimInscricoes"><span class="text-alerta">*</span> 2º Lugar:</label>
+                                    @Html.EditorFor(model => model.Evento.Pontuacao2, new { htmlAttributes = new { @class = "form-control text-center" } })
+                                </div>
+
+                                <div class="form-group col-lg-2">
+                                    <label for="txtDataFimAlteracoes"><span class="text-alerta">*</span> 3º Lugar:</label>
+                                    @Html.EditorFor(model => model.Evento.Pontuacao3, new { htmlAttributes = new { @class = "form-control text-center" } })
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="form-group">
+                        <fieldset>
+                            <legend class="text-primary pad-top-15">Imagem</legend>
+                            <div class="clearfix">
+                                <div class="alert alert-danger pull-left">
+                                    <ul>
+                                        <li>• Campo obrigatório</li>
+                                        <li>• Extensões permitidas: .jpg</li>
+                                        <li>• Tamanho final da imagem: 200x288 pixels</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="dropzone smalltext smalltools smalladded" style="width: 200px; height: 288px;" data-hidden="hidCrop" data-width="200" data-height="288" data-ajax="false" data-resize="true" data-originalsize="false" @(!String.IsNullOrEmpty(Model.Evento.Imagem) ? "data-image=/Static/Uploads/Site/Eventos/" + Model.Evento.Imagem : "")>
+                                    <input type="file" class="fileCrop" id="fileCrop" name="fileCrop" accept=".jpg">
+                                    <i class="form-control-feedback fv-icon-no-label" data-fv-icon-for="fileCrop" style="display: none; position: absolute;"></i>
+                                </div>
+                                <input type="hidden" id="hidCrop" name="hidCrop">
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="panel-footer text-center">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i> Salvar edição</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        $("#ModalidadesId").select2();
+
+        ValidaModalidades();
+
+        $("#ModalidadesId").change(function () {
+            ValidaModalidades()
+        });
+
+        function ValidaModalidades() {
+            $("#txtIdsModalidades").val("");
+
+            var data = $('#ModalidadesId').select2('data')
+            var i = 0, ids = "";
+            while (typeof data[i] !== 'undefined') {
+                if (ids == "")
+                    ids += data[i].id;
+                else
+                    ids += ',' + data[i].id;
+
+                i++;
+            }
+            $("#txtIdsModalidades").val(ids);
+        }
+
+        $('#txtDataInicio')
+            .on('dp.change', function (e) {
+                $('#form-eventos').formValidation('revalidateField', 'Evento.DataInicio');
+            });
+
+        $('#txtDataFim')
+            .on('dp.change', function (e) {
+                $('#form-eventos').formValidation('revalidateField', 'Evento.DataFim');
+            });
+
+        $('#txtDataInicioInscricoes')
+            .on('dp.change', function (e) {
+                $('#form-eventos').formValidation('revalidateField', 'Evento.DataInicioInscricoes');
+            });
+
+        $('#txtDataFimInscricoes')
+            .on('dp.change', function (e) {
+                $('#form-eventos').formValidation('revalidateField', 'Evento.DataFimInscricoes');
+            });
+
+        $('#txtDataFimAlteracoes')
+            .on('dp.change', function (e) {
+                $('#form-eventos').formValidation('revalidateField', 'Evento.DataFimAlteracoes');
+            });
+
+        $(".ativaData").change(function () {
+            $('#form-eventos').formValidation('revalidateField', 'Evento.DataInicioInscricoes');
+            $('#form-eventos').formValidation('revalidateField', 'Evento.DataFimInscricoes');
+            $('#form-eventos').formValidation('revalidateField', 'Evento.DataFimAlteracoes');
+            $('#form-eventos').formValidation('revalidateField', 'ModalidadesId');
+        });
+
+        $('#ModalidadesId').change(function (e) {
+            $('#form-eventos').formValidation('revalidateField', 'ModalidadesId');
+        });
+
+        $('#form-eventos').formValidation({
+            framework: '',
+            err: {
+                container: 'tooltip'
+            },
+            icon: {
+                valid: 'fa fa-check',
+                invalid: 'fa fa-times',
+                validating: 'fa fa-refresh fa-spin'
+            },
+            fields: {
+                'Evento.Titulo': {
+                    validators: {
+                        notEmpty: {
+                            message: 'Campo obrigatório'
+                        }
+                    }
+                },
+                'Evento.TipoEventoId': {
+                    validators: {
+                        notEmpty: {
+                            message: 'Campo obrigatório'
+                        }
+                    }
+                },
+                'Evento.DataInicio': {
+                    validators: {
+                        date: {
+                            format: 'DD/MM/YYYY',
+                            message: 'Data inválida'
+                        },
+                        notEmpty: {
+                            message: 'Campo obrigatório'
+                        }
+                    }
+                },
+                'Evento.DataFim': {
+                    validators: {
+                        date: {
+                            format: 'DD/MM/YYYY',
+                            message: 'Data inválida'
+                        },
+                        notEmpty: {
+                            message: 'Campo obrigatório'
+                        }
+                    }
+                },
+                'Evento.DataInicioInscricoes': {
+                    validators: {
+                        callback: {
+                            message: 'Campo obrigatório',
+                            callback: function (value, validator, $field) {
+                                return ($('.ativaData').is(":checked") ? (value !== '') : true);
+                            },
+                        }
+                    }
+                },
+                'Evento.DataFimInscricoes': {
+                    validators: {
+                        callback: {
+                            message: 'Campo obrigatório',
+                            callback: function (value, validator, $field) {
+                                return ($('.ativaData').is(":checked") ? (value !== '') : true);
+                            }
+                        }
+                    }
+                },
+                'Evento.DataFimAlteracoes': {
+                    validators: {
+                        callback: {
+                            message: 'Campo obrigatório',
+                            callback: function (value, validator, $field) {
+                                return ($('.ativaData').is(":checked") ? (value !== '') : true);
+                            }
+                        }
+                    }
+                },
+                ModalidadesId: {
+                    validators: {
+                        callback: {
+                            message: 'Campo obrigatório',
+                            callback: function (value, validator, $field) {
+                                return ($('.ativaData').is(":checked") ? ($("#txtIdsModalidades").val() !== "") : true);
+                            }
+                        }
+                    }
+                }
+            }
+        }).on('err.field.fv', function (e, data) {
+            var $icon = data.element.data('fv.icon'),
+                title = $icon.data('bs.tooltip').getTitle();
+
+            $icon.tooltip('destroy').tooltip({
+                html: true,
+                placement: 'left',
+                title: title,
+                container: 'body'
+            });
+        });
+
+    </script>
+}

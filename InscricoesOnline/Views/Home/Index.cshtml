@@ -1,0 +1,14 @@
+﻿@model IEnumerable<InscricoesOnline.Models.Evento>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    @foreach (var e in Model)
+    {
+        <div class="col-md-3">
+            @Html.ActionLink(e.Titulo, "Evento", new { controller = "Home", id = e.Id }, new { @class = "site_title" })
+        </div>
+    }
+</div>

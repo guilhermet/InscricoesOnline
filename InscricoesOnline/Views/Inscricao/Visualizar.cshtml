@@ -1,0 +1,76 @@
+﻿@model InscricoesOnline.ModelView.InscricaoViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper" style="min-height: 343px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Eventos", "Inscricao")">Eventos</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Inscricao", new { id = Model.Evento.Id })">@Model.Evento.Titulo</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">@Model.Filiado.Nome</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel panel-default panel-primary">
+                <header class="panel-heading">
+                    <i class="fa fa-user"></i>
+                    Informações da incrição do atleta - <strong> @Model.Filiado.Nome</strong>
+                </header>
+
+                @Html.HiddenFor(model => model.Academia.Id)
+                @Html.HiddenFor(model => model.Evento.Id)
+                @Html.HiddenFor(model => model.Filiado.Id)
+
+                <div class="panel-body">
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                        <div class="col-sm-12 table-responsive">
+                            <table class="fp-table table table-striped table-bordered table-hover empresa dataTable no-footer dtr-inline" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th style="min-width: 140px;">Ações</th>
+                                        <th class="text-center">Modalidade</th>
+                                        <th>Sexo</th>
+                                        <th>Categoria de faixa</th>
+                                        <th>Categoria de idade</th>
+                                        <th>Categoria de peso</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var inscricoes in Model.InscricoesModalidade)
+                                    {
+                                        <tr role="row">
+                                            <td class="text-center col-md-1">
+                                                <a class="btn btn-warning btn-circle" href="@Url.Action("Edit", "Inscricao", new { id = inscricoes.Id })" data-toggle="tooltip" data-placement="top" title="Editar inscrição"><i class="fa fa-pencil"></i></a>
+                                                <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Excluir inscrição">
+                                                    <a class="btn btn-danger btn-circle btn-excluir" href="#" data-href="@Url.Action("Delete", "Inscricao", new { id = inscricoes.Id })" data-toggle="modal" data-target="#mod-excluir">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                </span>
+                                            </td>
+                                            <td class="text-center"> @Html.DisplayFor(modelItem => inscricoes.Modalidade.Titulo) </td>
+                                            <td> @(Model.Filiado.Sexo == "M" ? "MASCULINO" : "FEMININO") </td>
+                                            <td> @Html.DisplayFor(modelItem => inscricoes.CategoriaFaixa.Titulo) </td>
+                                            <td> @Html.DisplayFor(modelItem => inscricoes.CategoriaIdade.Titulo) </td>
+                                            <td> @Html.DisplayFor(modelItem => inscricoes.CategoriaLutaPeso.Titulo) </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+﻿@model InscricoesOnline.Models.Evento
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row evento-detalhe">
+        <div class="col-lg-6">
+            <img src="~/Static/Brazil Open 2019.png" style="max-width: 100%" />
+        </div>
+
+        <div class="col-lg-6">
+            <h1>@Model.Titulo.ToUpper()</h1>
+            <hr />
+
+            <div class="descricao">
+                @Model.Descricao <br />
+
+                Data do Evento: @Model.DataInicio.Value.ToShortDateString() à @Model.DataFim.Value.ToShortDateString() <br />
+                Cidade: @Model.Cidade - @Model.Estado <br />
+                Local: @Model.Local <br /><br />
+
+                Período de Inscrição: @Model.DataInicioInscricoes.Value.ToShortDateString() à @Model.DataFimInscricoes.Value.ToShortDateString()
+            </div>
+            <br />
+            @*@Model.DataFimAlteracoes.Value.ToShortDateString() <br />*@
+            <a class="btn btn-primary" href="/Home/Login/@Model.Id"> Inscrever </a>
+        </div>
+    </div>
+</div>

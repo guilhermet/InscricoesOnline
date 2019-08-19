@@ -1,0 +1,80 @@
+﻿@model IEnumerable<InscricoesOnline.Models.CategoriaFaixa>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Categorias por faixa</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel panel-info">
+                <header class="panel-heading">
+                    <i class="fa fa-list"></i> Lista de Categorias - <strong>@Model.Count() registros</strong>
+                </header>
+                <div class="panel-body">
+                    <div class="pad-bot-15 text-center">
+                        <a href="@Url.Action("Novo", "CategoriaFaixa")" class="btn btn-success"><i class="fa fa-plus-circle"></i> Nova categoria</a>
+                    </div>
+                    <div class="col-sm-12 table-responsive">
+                        <table class="fp-table table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" class="text-center"> Ações</th>
+                                    <th rowspan="2">Modalidade</th>
+                                    <th rowspan="2">Título</th>
+                                    <th colspan="2" class="text-center">Faixa</th>
+                                    <th rowspan="2" class="text-center">Ativo</th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">De: </th>
+                                    <th class="text-center">Até: </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var categoriaFaixa in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center col-md-2">
+                                            <a class="btn btn-primary btn-circle" href="@Url.Action("Edit", "CategoriaFaixa", new { id = categoriaFaixa.Id })" data-toggle="tooltip" data-placement="top" title="Editar categoria"><i class="fa fa-pencil"></i></a>
+                                            <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Excluir categoria">
+                                                <a class="btn btn-danger btn-circle btn-excluir" href="#" data-href="@Url.Action("Delete", "CategoriaFaixa", new { id = categoriaFaixa.Id })" data-toggle="modal" data-target="#mod-excluir">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </span>
+                                        </td>
+                                        <td> @Html.DisplayFor(modelItem => categoriaFaixa.Modalidade.Titulo) </td>
+                                        <td> @Html.DisplayFor(modelItem => categoriaFaixa.Titulo) </td>
+                                        <td class="text-center"> @Html.DisplayFor(modelItem => categoriaFaixa.FaixaInicial.Descricao) </td>
+                                        <td class="text-center"> @Html.DisplayFor(modelItem => categoriaFaixa.FaixaFinal.Descricao) </td>
+                                        <td class="col-md-1 text-center">
+                                            @if (categoriaFaixa.Ativo)
+                                            {
+                                                <i data-toggle="tooltip" data-placement="left" title="Sim" class="fa fa-lg fa-thumbs-up text-success"></i>
+                                            }
+                                            else
+                                            {
+                                                <i data-toggle="tooltip" data-placement="left" title="Não" class="fa fa-lg fa-thumbs-down text-danger"></i>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

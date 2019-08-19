@@ -1,0 +1,76 @@
+﻿@model IEnumerable<InscricoesOnline.Models.Evento>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Eventos</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel panel-info">
+                <header class="panel-heading">
+                    <i class="fa fa-list"></i> Lista de eventos - <strong>@Model.Count() registros</strong>
+                </header>
+                <div class="panel-body">
+                    <div class="pad-bot-15 text-center">
+                        <a href="@Url.Action("Novo", "Eventos")" class="btn btn-success"><i class="fa fa-plus-circle"></i> Novo evento</a>
+                        <a href="@Url.Action("Lista", "TiposEventos")" class="btn btn-primary"><i class="fa fa-tags"></i> Classificação para eventos</a>
+                    </div>
+                    <div class="col-sm-12 table-responsive">
+                        <table class="fp-table table table-striped table-bordered table-hover datatable dataTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Ações</th>
+                                    <th>Titulo</th>
+                                    <th>Cidade</th>
+                                    <th>Data</th>
+                                    <th>Ativo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var tipoEvento in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center col-md-2">
+                                            <a class="btn btn-primary btn-circle" href="@Url.Action("Edit", "Eventos", new { id = tipoEvento.Id })" data-toggle="tooltip" data-placement="top" title="Editar evento"><i class="fa fa-pencil"></i></a>
+                                            <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Excluir evento">
+                                                <a class="btn btn-danger btn-circle btn-excluir" href="#" data-href="@Url.Action("Delete", "Eventos", new { id = tipoEvento.Id })" data-toggle="modal" data-target="#mod-excluir">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </span>
+                                            <a class="btn btn-warning btn-circle" href="@Url.Action("Arbitro", "Eventos", new { id = tipoEvento.Id })" data-toggle="tooltip" data-placement="top" title="Informar árbitros do evento"><i class="fa fa-users"></i></a>
+                                        </td>
+                                        <td> @Html.DisplayFor(modelItem => tipoEvento.Titulo) </td>
+                                        <td> @Html.DisplayFor(modelItem => tipoEvento.Cidade) - @Html.DisplayFor(modelItem => tipoEvento.Estado) </td>
+                                        <td> @Html.DisplayFor(modelItem => tipoEvento.DataInicio) </td>
+                                        <td class="col-md-1 text-center">
+                                            @if (tipoEvento.Ativo)
+                                            {
+                                                <i data-toggle="tooltip" data-placement="left" title="Sim" class="fa fa-lg fa-thumbs-up text-success"></i>
+                                            }
+                                            else
+                                            {
+                                                <i data-toggle="tooltip" data-placement="left" title="Não" class="fa fa-lg fa-thumbs-down text-danger"></i>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

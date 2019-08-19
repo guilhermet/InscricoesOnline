@@ -1,0 +1,95 @@
+﻿@model InscricoesOnline.Models.InscricaoModalidade
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Eventos", "Inscricao" )">Eventos</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Inscricao", new { id = Model.Inscricao.Evento.Id })">@Model.Inscricao.Evento.Titulo</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Visualizar", "Inscricao", new { id = Model.InscricaoId })">@Model.Inscricao.Filiado.Nome</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Edição</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("EditSalvar", "Inscricao", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "panel panel-primary fv-form fv-form-bootstrap", @id = "form-inscricao" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <header class="panel-heading">
+                    <i class="fa fa-file-text-o"></i> Dados cadastrais - @Model.Inscricao.Filiado.Nome
+                </header>
+                <div class="panel-body">
+                    <div class="clearfix">
+                        <div class="alert alert-danger pull-left">
+                            <p>* Campos obrigatórios</p>
+                        </div>
+                    </div>
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.InscricaoId)
+                    @Html.HiddenFor(model => model.ModalidadeId)
+
+                    <div class="form-group">
+                        <fieldset>
+                            <legend class="text-primary pad-top-15">@Model.Modalidade.Titulo</legend>
+
+                            <div id="div-modalidade" class="row" style="">
+                                <div class="form-group col-lg-2 listSimNao-4">
+                                    <label class="row col-lg-12">Sexo</label>
+                                    <input class="form-control txtSexo text-box single-line" readonly="readonly" type="text" value="@(Model.Inscricao.Filiado.Sexo == "M" ? "MASCULINO" : "FEMININO")">
+                                </div>
+
+                                <div class="form-group col-lg-4 listFaixa-4">
+                                    <label>Categoria de faixa:</label>
+                                    @Html.DropDownList("CategoriaFaixaId", null, htmlAttributes: new { @class = "form-control cf" })
+                                </div>
+
+                                <div class="form-group col-lg-3 listIdade">
+                                    <label>Categoria de idade:</label>
+                                    @Html.DropDownList("CategoriaIdadeId", null, htmlAttributes: new { @class = "form-control ci" })
+                                </div>
+
+                                <div class="form-group col-lg-3 listPeso-4">
+                                    <label>Categoria de peso:</label>
+                                    @Html.DropDownList("CategoriaLutaPesoId", null, htmlAttributes: new { @class = "form-control cp" })
+                                </div>
+                            </div>
+                            <div class="panel-footer text-center">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i> Salvar edição</button>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        if (!$('.cf').val())
+            $('.cf').attr("disabled", true);
+
+        if ($('.ci').val() == "")
+            $('.ci').attr("disabled", true);
+
+        if (!$('.cp').val())
+            $('.cp').attr("disabled", true);
+
+    </script>
+}

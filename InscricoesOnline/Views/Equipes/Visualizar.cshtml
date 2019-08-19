@@ -1,0 +1,103 @@
+﻿@model InscricoesOnline.Models.Academia
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Academias")">Academias</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">@Model.Nome</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel panel-default @(Model.Ativo ? "panel-success" : "panel-danger")">
+                <header class="panel-heading">
+                    <i class="fa fa-user"></i>
+                    Informações da academia - <strong> @Model.Nome</strong>
+                </header>
+                <div class="panel-body">
+                    <ul class="panel-info col-lg-3">
+                        <li class="col-lg-12 text-center">
+                            <br />
+                            <img class="img-acad" alt="Imagem atual" src="~/Static/Uploads/Admin/Academias/@(String.IsNullOrEmpty(Model.URLLogo) ? "sem-logo.png" : Model.URLLogo)">
+                        </li>
+                    </ul>
+
+                    <div class="col-lg-6 pull-left">
+                        <ul class="panel-info col-lg-6">
+                            <li><strong>Código:</strong> @Model.Id</li>
+                            <li><strong>Nome:</strong>  @Model.Nome</li>
+                            <li><strong>Endereço:</strong> @Model.Endereco.Logradouro</li>
+                            <li><strong>CEP:</strong> @Model.Endereco.CEP</li>
+                            <li><strong>Cidade:</strong> @Model.Endereco.Cidade</li>
+                        </ul>
+                        <ul class="panel-info col-lg-5">
+                            <li><strong>Data Cadastro</strong> @Model.DataRegistro.ToShortDateString()</li>
+                            <li><strong>CNPJ: </strong> @Model.CNPJ</li>
+                            <li><strong>Numero:</strong> @Model.Endereco.Numero</li>
+                            <li><strong>Complemento:</strong> @Model.Endereco.Complemento</li>
+                            <li><strong>Mestre:</strong> @(Model.Mestre != null ? Model.Mestre.Nome : "") </li>
+                        </ul>
+                        <ul class="panel-info col-lg-12 pad-top-10">
+                            <li><strong>Observações:</strong> @Model.Observacoes</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3">
+
+                        <ul class="panel-info">
+                            @foreach (InscricoesOnline.Models.ContatosAcademia contatoAcademia in Model.Contatos)
+                            {
+                                var icon = "fa-phone";
+                                switch (contatoAcademia.Contato.TipoContato)
+                                {
+                                    case "Telefone fixo":
+                                        icon = "fa-phone";
+                                        break;
+                                    case "Telefone Celular":
+                                        icon = "fa-mobile";
+                                        break;
+                                    case "WhatsApp":
+                                        icon = "fa-whatsapp";
+                                        break;
+                                    case "E-mail":
+                                        icon = "fa-envelope";
+                                        break;
+                                    default:
+                                        icon = "fa-phone";
+                                        break;
+                                }
+                                <li><i class="fa @icon fa-fw"></i> @contatoAcademia.Contato.Numero</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <a class="btn btn-primary" href="@Url.Action("Edit", "Academias", new { id = Model.Id})" data-toggle="tooltip" title="Editar academia">
+                        <i class="fa fa-pencil"></i> Editar academia
+                    </a>
+                    <a class="btn btn-warning" href="@Url.Action("Lista", "Filiados", new { idAcademia = Model.Id })" data-toggle="tooltip" data-placement="top" title="Visualizar filiados">
+                        <i class="fa fa-user"></i> Visualizar filiados
+                    </a>
+                    <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Excluir academia">
+                        <a class="btn btn-danger btn-excluir" href="#" data-href="@Url.Action("Delete", "Academias", new { id = Model.Id})" data-toggle="modal" data-target="#mod-excluir">
+                            <i class="fa fa-trash"></i> Excluir academia
+                        </a>
+                    </span>
+                    <a class="btn btn-dark" href="@Url.Action("Contatos", "Academias", new { id = Model.Id})" data-toggle="tooltip" title="Contatos da academia">
+                        <i class="fa fa-phone"></i> Editar Contatos
+                    </a>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

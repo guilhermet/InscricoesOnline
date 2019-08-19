@@ -1,0 +1,80 @@
+﻿@model IEnumerable<InscricoesOnline.Models.Academia>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Academias</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel panel-info">
+                <header class="panel-heading">
+                    <i class="fa fa-list"></i> Lista de academias - <strong>@Model.Count() registros</strong>
+                </header>
+                <div class="panel-body">
+                    <div class="pad-bot-15 text-center">
+                        <a href="@Url.Action("Novo", "Academias")" class="btn btn-success"><i class="fa fa-plus-circle"></i> Nova Academia</a>
+                    </div>
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                        <div class="col-sm-12 table-responsive">
+                            <table class="fp-table table table-striped table-bordered table-hover academia dataTable no-footer dtr-inline" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="text-center">Ações</th>
+                                        <th>Logo</th>
+                                        <th>Código</th>
+                                        <th>Nome</th>
+                                        <th class="text-center">Filiação</th>
+                                        <th>Cidade</th>
+                                        <th class="text-center">Ativo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var academia in Model)
+                                    {
+                                        <tr role="row">
+                                            <td class="text-center col-md-1">
+                                                <a class="btn btn-warning btn-circle" href="@Url.Action("Visualizar", "Academias", new { id = academia.Id })" data-toggle="tooltip" data-placement="top" title="Visualizar informações da academia"><i class="fa fa-eye"></i></a>
+                                            </td>
+                                            <td> 
+                                                @if (!String.IsNullOrEmpty(academia.URLLogo))
+                                                {
+                                                    <img src="~/Static/Uploads/Admin/Academias/@(academia.URLLogo)" style="width: 60px; height: 28px; display:block; margin: 0 auto;">
+                                                }
+                                            </td>
+                                            <td> @Html.DisplayFor(modelItem => academia.Id) </td>
+                                            <td> @Html.DisplayFor(modelItem => academia.Nome) </td>
+                                            <td class="text-center"> @Html.DisplayFor(modelItem => academia.TipoContrato) </td>
+                                            <td> @Html.DisplayFor(modelItem => academia.Endereco.Cidade) </td>
+                                            <td class="col-md-1 text-center">
+                                                @if (academia.Ativo)
+                                                {
+                                                    <i data-toggle="tooltip" data-placement="left" title="Sim" class="fa fa-lg fa-thumbs-up text-success"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i data-toggle="tooltip" data-placement="left" title="Não" class="fa fa-lg fa-thumbs-down text-danger"></i>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

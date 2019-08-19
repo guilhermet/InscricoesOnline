@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="~/Imagem/favicon-57.png" type="image/x-icon">
+    <title> </title>
+
+    <style>
+        body {
+            color: #73879C;
+            background: #F7F7F7;
+        }
+    </style>
+
+    @Styles.Render("~/ContentAdmin/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        @Html.ActionLink("ParanaTKD", "Index", new { controller = "Admin" }, new { @class = "site_title" })
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <br />
+
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a><i class="fa fa-cogs"></i> Configuração<span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="@Url.Action("Edit", "Evento")"><i class="fa fa-calendar-o"></i> Configurar Evento</a></li>
+                                        <li><a href="@Url.Action("Lista", "Faixas")"><i class="fa fa-level-up"></i> Faixas</a></li>
+                                        <li><a href="@Url.Action("Lista", "Modalidades")"><i class="fa fa-cubes"></i> Modalidades</a></li>
+                                        <li><a href="@Url.Action("Lista", "CategoriaIdade")"><i class="fa fa-hourglass"></i> Categorias Idades</a></li>
+                                        <li><a href="@Url.Action("Lista", "CategoriaFaixa")"><i class="fa fa-bookmark"></i> Categorias Faixas</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a><i class="fa fa-home"></i> Inscrições<span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="@Url.Action("Lista", "Equipes" )"><i class="fa fa-building-o"></i> Equipes</a></li>
+                                        <li><a href="@Url.Action("Lista", "Atletas" )"><i class="fa fa-user"></i> Atletas</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a><i class="fa fa-bar-chart-o"></i> Relatórios<span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="@Url.Action("Cracha", "Relatorios")"><i class="fa fa-building-o"></i> Equipes</a></li>
+                                        <li><a href="@Url.Action("Lista", "Atletas")"><i class="fa fa-user"></i> Atletas</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /sidebar menu -->
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+
+                        <div class="nav navbar-nav navbar-left">
+                            <div class="input-group pesquisar-filiados">
+                                <input type="text" class="form-control pesq-fili-input" id="pesquisa-fili" name="pesquisa-fili" placeholder="Pesquise filiados..">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="#" data-toggle="modal" data-target="#mod-sair"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    @*Usuário: @InscricoesOnline.Security.AdminSessionPersister.Username*@
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="right_col" role="main" style="min-height: 1700px;">
+                <section class="container-fluid">
+                    @RenderBody()
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mod-sair" tabindex="-1" role="dialog" aria-labelledby="mod-sair-label" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h4 class="modal-title text-danger" id="mod-sair-label">ATENÇÃO</h4>
+                </div>
+                <div class="modal-body">
+                    Deseja realmente <span class="text-danger">SAIR</span> do sistema?
+                </div>
+                <div class="modal-footer">
+                    <a href="@Url.Action("LogOff", "Account")" class="btn btn-danger"><i class="fa fa-check-circle"></i> Sim</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mod-excluir" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h4 class="modal-title text-danger" id="mod-excluir-label">ATENÇÃO</h4>
+                </div>
+                <div class="modal-body">
+                    Deseja realmente <span class="text-alerta">EXCLUIR</span> este registro?
+                </div>
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <a href="#" class="btn btn-danger mod-excluir-a"><i class="fa fa-check-circle"></i> Sim</a>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    <script src="//cdn.ckeditor.com/4.9.2/full/ckeditor.js"></script>
+    @Scripts.Render("~/bundles/bootstrap_admin")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

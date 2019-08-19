@@ -1,0 +1,64 @@
+﻿@model IEnumerable<InscricoesOnline.Models.Faixa>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Faixas</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel panel-info">
+                <header class="panel-heading">
+                    <i class="fa fa-list"></i> Lista de Faixas - <strong>@Model.Count() registros</strong>
+                </header>
+                <div class="panel-body">
+                    <div class="pad-bot-15 text-center">
+                        <a href="@Url.Action("Novo", "Faixas")" class="btn btn-success"><i class="fa fa-plus-circle"></i> Nova faixa</a>
+                        &nbsp;&nbsp;
+                        <a href="@Url.Action("Reordenar", "Faixas")" class="btn btn-primary"><i class="fa fa-sort-numeric-asc"></i> Reordenar lista</a>
+                    </div>
+                    <div class="col-sm-12 table-responsive">
+                        <table class="fp-table table table-striped table-bordered table-hover academia">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Ações</th>
+                                    <th>Título</th>
+                                    <th>Ordem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var faixa in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center col-md-2">
+                                            <a class="btn btn-primary btn-circle" href="@Url.Action("Edit", "Faixas", new { id = faixa.Id })" data-toggle="tooltip" data-placement="top" title="Editar faixa"><i class="fa fa-pencil"></i></a>
+                                            <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Excluir faixa">
+                                                <a class="btn btn-danger btn-circle btn-excluir" href="#" data-href="@Url.Action("Delete", "Faixas", new { id = faixa.Id })" data-toggle="modal" data-target="#mod-excluir">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </span>
+                                        </td>
+                                        <td> @Html.DisplayFor(modelItem => faixa.Descricao) </td>
+                                        <td> @Html.DisplayFor(modelItem => faixa.Ordem) </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

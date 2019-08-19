@@ -1,0 +1,21 @@
+﻿@model FPTKD.Models.ResetPasswordViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLoginLayout.cshtml";
+}
+@using (Html.BeginForm("ResetarSenha", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login100-form validate-form", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="wrap-input100 validate-input m-b-18" data-validate="Password is required">
+        <span class="label-input100">Senha</span>
+        @Html.PasswordFor(model => model.Password, new { @class = "input100", placeholder = "Digite uma senha nova" })
+        <span class="focus-input100"></span>
+    </div>
+
+    <div class="container-login100-form-btn">
+        <button class="login100-form-btn">
+            Confirmar
+        </button>
+    </div>
+}

@@ -1,0 +1,58 @@
+﻿@model InscricoesOnline.Models.UsuarioSite
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Filiados")">Filiados</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted text-capitalize"><a class="text-primary" href="@Url.Action("Visualizar", "Filiados", new { id = Model.FiliadoId })">@Model.Filiado.Nome.ToLower()</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Usuário</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel panel-default @(Model.Ativo ? "panel-success" : "panel-danger")">
+                <header class="panel-heading">
+                    <i class="fa fa-user"></i>
+                    Informações do Filiado - <strong> @Model.Filiado.Nome</strong>
+                </header>
+                <div class="panel-body">
+                    <ul class="panel-info col-lg-2">
+                        <li class="col-lg-12 text-center">
+                            <img class="img-fili" alt="Imagem atual" src="~/Static/Uploads/Admin/Filiados/@(String.IsNullOrEmpty(Model.Filiado.URLFoto) ? "sem-imagem.jpg" : Model.Filiado.URLFoto)">
+                        </li>
+                    </ul>
+
+                    <div class="col-lg-7 pull-left">
+                        <ul class="panel-info col-lg-12">
+                            <li><strong>Código:</strong> @Model.Filiado.Id </li>
+                            <li><strong>Nome:</strong> @Model.Filiado.Nome </li>
+                            <li><strong>Academias:</strong> @Model.Filiado.Academia.Nome,  @String.Join(", ", @Model.UsuarioSiteAcademia.Select(u => u.Academia.Nome)) </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <a class="btn btn-primary" href="@Url.Action("EditUsuario", "Filiados", new { id = Model.Filiado.Id })" data-toggle="tooltip" title="Editar usuário">
+                        <i class="fa fa-pencil"></i> Editar usuário
+                    </a>
+                    <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Excluir usuário">
+                        <a class="btn btn-danger btn-excluir" href="#" data-href="@Url.Action("DeleteUsuario", "Filiados", new { id = Model.Filiado.Id })" data-toggle="modal" data-target="#mod-excluir">
+                            <i class="fa fa-trash"></i> Excluir usuário
+                        </a>
+                    </span>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

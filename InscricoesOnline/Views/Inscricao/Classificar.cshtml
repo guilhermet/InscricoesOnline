@@ -1,0 +1,67 @@
+﻿@model List<InscricoesOnline.Models.ChaveParticipante>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper" style="min-height: 343px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Eventos", "Inscricao" )">Eventos</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Inscricao", new { id = Model.First().Chave.Evento.Id})">@Model.First().Chave.Evento.Titulo</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("GerarChaves", "Inscricao", new { id = Model.First().Chave.Evento.Id })">Geração de chaves</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Reordenar</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ClassificarSalvar", "Inscricao", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "panel panel-primary", @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <header class="panel-heading">
+                    <i class="fa fa-sort-numeric-asc"></i> Reordenar classificação
+                </header>
+                <div class="panel-body">
+                    <div class="col-lg-12 clearfix">
+                        <div class="alert alert-info pull-left">
+                            <p>
+                                Clique e arraste os atletas para reordenar.
+                                <br>
+                                A ordem configurada abaixo será utilizado para classificar o campeão.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <ul class="list-group sortable">
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                <li class="list-group-item drag clearfix" draggable="true">
+                                    <strong class="text-primary"><span>@Model[i].Colocacao</span>º</strong>&nbsp;&nbsp;@Model[i].InscricaoModalidade.Inscricao.Filiado.Nome
+
+                                    @Html.HiddenFor(Model => Model[i].Id)
+                                    @Html.HiddenFor(Model => Model[i].Colocacao, new { @class = "hidden" })
+                                    @Html.HiddenFor(Model => Model[i].ChaveId)
+                                    @Html.HiddenFor(Model => Model[i].Ordem)
+                                    @Html.HiddenFor(Model => Model[i].Ativo)
+                                    @Html.HiddenFor(Model => Model[i].InscricaoModalidadeId)
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <button type="submit" name="btnReordenar" class="btn btn-primary"><i class="fa fa-check-circle"></i> Salvar ordem</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

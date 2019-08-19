@@ -1,0 +1,23 @@
+﻿@model FPTKD.Models.ForgotPasswordViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLoginLayout.cshtml";
+}
+
+@using (Html.BeginForm("EsqueciMinhaSenha", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login100-form validate-form", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+        <span class="label-input100">E-mail</span>
+        @Html.TextBoxFor(model => model.Email, htmlAttributes: new { @class = "input100", @placeholder = "Digite seu e-mail" })
+        <span class="focus-input100"></span>
+    </div>
+
+    <div class="text-alerta text-center" style="margin-bottom: 5px; color: red;">@ViewBag.Erro</div>
+
+    <div class="container-login100-form-btn">
+        <button class="login100-form-btn">
+            Confirmar
+        </button>
+    </div>
+}
