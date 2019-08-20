@@ -40,6 +40,7 @@
 
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.EventoId)
 
                     <div class="form-group">
                         <label for="drpModalidade"><span class="text-alerta">*</span> Modalidade:</label>
@@ -58,13 +59,13 @@
                                     id="@Html.IdFor(model => model.FaixaIdFaixaInicial)"
                                     class="form-control">
                                 @foreach (var faixa in (IEnumerable<InscricoesOnline.Models.Faixa>)ViewBag.Faixas)
-                {
-                    <option value="@faixa.Id"
-                            @(faixa.Id == Model.FaixaIdFaixaInicial ? "selected" : "")
-                            data-ordem="@faixa.Ordem">
-                        @faixa.Descricao
-                    </option>
-}
+                                {
+                                    <option value="@faixa.Id"
+                                            @(faixa.Id == Model.FaixaIdFaixaInicial ? "selected" : "")
+                                            data-ordem="@faixa.Ordem">
+                                        @faixa.Descricao
+                                    </option>
+                                }
                             </select>
                         </div>
 
@@ -74,13 +75,13 @@
                                     id="@Html.IdFor(model => model.FaixaIdFaixaFinal)"
                                     class="form-control">
                                 @foreach (var faixa in (IEnumerable<InscricoesOnline.Models.Faixa>)ViewBag.Faixas)
-                {
-                    <option value="@faixa.Id"
-                            @(faixa.Id == Model.FaixaIdFaixaFinal ? "selected" : "")
-                            data-ordem="@faixa.Ordem">
-                        @faixa.Descricao
-                    </option>
-}
+                                {
+                                    <option value="@faixa.Id"
+                                            @(faixa.Id == Model.FaixaIdFaixaFinal ? "selected" : "")
+                                            data-ordem="@faixa.Ordem">
+                                        @faixa.Descricao
+                                    </option>
+                                }
                             </select>
                         </div>
                     </div>

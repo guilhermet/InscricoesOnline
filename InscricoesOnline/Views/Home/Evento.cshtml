@@ -26,7 +26,10 @@
             </div>
             <br />
             @*@Model.DataFimAlteracoes.Value.ToShortDateString() <br />*@
-            <a class="btn btn-primary" href="/Home/Login/@Model.Id"> Inscrever </a>
+            @if (Model.DataInicioInscricoes <= DateTime.Now)
+            {
+                @Html.ActionLink("Inscrever", "Login", new { id = @Model.Id }, new { @class = "btn btn-primary" })
+            }
         </div>
     </div>
 </div>

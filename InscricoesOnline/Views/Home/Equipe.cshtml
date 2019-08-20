@@ -22,10 +22,29 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">
                                 Nome da Equipe
                             </label>
-                            <div class="col-md-9 col-sm-6 col-xs-12">
+                            <div class="col-md-8 col-sm-6 col-xs-12">
                                 @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12" } })
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                E-mail
+                            </label>
+                            <div class="col-md-5 col-sm-6 col-xs-12">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Telefone
+                            </label>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12 telefone" } })
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">
                                 Login
@@ -34,17 +53,18 @@
                                 @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12" } })
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">
                                 Senha
                             </label>
                             <div class="col-md-3 col-sm-6 col-xs-12">
-                                @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12" } })
+                                @Html.PasswordFor(model => model.Senha, new { @class = "form-control col-md-7 col-xs-12" })
                             </div>
                         </div>
 
                         <div class="panel-footer text-center">
-                            <a href="/Home/Login/@Model.EventoId" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Voltar</a>
+                            @Html.ActionLink("Voltar", "Login", new { id = @Model.EventoId }, new { @class = "btn btn-default" })
                             <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i> Salvar</button>
                         </div>
                     }
@@ -58,6 +78,7 @@
 @section scripts{
     <script>
 
+        //$(".telefone").mask("(99) 99999-9999");
         $('#form').formValidation({
             framework: '',
             err: {
@@ -69,22 +90,38 @@
                 validating: 'fa fa-refresh fa-spin'
             },
             fields: {
-                Descricao: {
+                Nome: {
                     validators: {
                         notEmpty: {
                             message: 'Campo obrigatório'
                         }
                     }
                 },
-                Valor: {
+                Email: {
                     validators: {
                         notEmpty: {
-                            message: 'Campo obrigatorio'
-                        },
-                        greaterThan: {
-                            inclusive: true,
-                            message: "Ordem deve ser maior ou igual a 0",
-                            value: 0
+                            message: 'Campo obrigatório'
+                        }
+                    }
+                },
+                Telefone: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Campo obrigatório'
+                        }
+                    }
+                },
+                Login: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Campo obrigatório'
+                        }
+                    }
+                },
+                Senha: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Campo obrigatório'
                         }
                     }
                 }

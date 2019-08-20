@@ -40,6 +40,7 @@ namespace InscricoesOnline.Controllers.Admin.Campeonato
         {
             if (ModelState.IsValid)
             {
+                categoriaIdade.EventoId = AdminSessionPersister.Evento.Id;
                 db.CategoriaIdades.Add(categoriaIdade);
                 db.SaveChanges();
                 return RedirectToAction("Lista");
@@ -127,10 +128,11 @@ namespace InscricoesOnline.Controllers.Admin.Campeonato
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/CategoriaIdade/CategoriaPeso/NovoSalvar")]
-        public ActionResult NovoCategoriaLutaPesoSalvar(CategoriaLutaPeso CategoriaLutaPeso, HttpPostedFileBase file)
+        public ActionResult NovoCategoriaLutaPesoSalvar(CategoriaLutaPeso CategoriaLutaPeso)
         {
             if (ModelState.IsValid)
             {
+                CategoriaLutaPeso.EventoId = AdminSessionPersister.Evento.Id;
                 db.CategoriaLutaPeso.Add(CategoriaLutaPeso);
                 db.SaveChanges();
                 return RedirectToAction("ListaCategoriaLutaPeso", new RouteValueDictionary(new { id = CategoriaLutaPeso.CategoriaIdadeId }));

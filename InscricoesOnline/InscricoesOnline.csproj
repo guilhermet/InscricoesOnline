@@ -76,11 +76,11 @@
       <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.5\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.18.3, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
-      <HintPath>..\packages\Oracle.ManagedDataAccess.18.3.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.12.2.1100\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
-    <Reference Include="Oracle.ManagedDataAccess.EntityFramework, Version=6.122.18.3, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
-      <HintPath>..\packages\Oracle.ManagedDataAccess.EntityFramework.18.3.0\lib\net45\Oracle.ManagedDataAccess.EntityFramework.dll</HintPath>
+    <Reference Include="Oracle.ManagedDataAccess.EntityFramework, Version=6.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.EntityFramework.12.2.1100\lib\net45\Oracle.ManagedDataAccess.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -173,21 +173,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905300003071_InitialCreate.cs" />
-    <Compile Include="Migrations\201905300003071_InitialCreate.Designer.cs">
-      <DependentUpon>201905300003071_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201908200051423_initial.cs" />
+    <Compile Include="Migrations\201908200051423_initial.Designer.cs">
+      <DependentUpon>201908200051423_initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906041331186_removido_valor.cs" />
-    <Compile Include="Migrations\201906041331186_removido_valor.Designer.cs">
-      <DependentUpon>201906041331186_removido_valor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906251303018_equipe.cs" />
-    <Compile Include="Migrations\201906251303018_equipe.Designer.cs">
-      <DependentUpon>201906251303018_equipe.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906262305145_atleta.cs" />
-    <Compile Include="Migrations\201906262305145_atleta.Designer.cs">
-      <DependentUpon>201906262305145_atleta.cs</DependentUpon>
+    <Compile Include="Migrations\201908200324074_evento.cs" />
+    <Compile Include="Migrations\201908200324074_evento.Designer.cs">
+      <DependentUpon>201908200324074_evento.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Equipe.cs" />
@@ -3429,7 +3421,9 @@
     <Content Include="Scripts\validacoes.js" />
     <Content Include="Scripts\wow.min.js" />
     <Content Include="Static\Brazil Open 2019.png" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -3567,17 +3561,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201905300003071_InitialCreate.resx">
-      <DependentUpon>201905300003071_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908200051423_initial.resx">
+      <DependentUpon>201908200051423_initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906041331186_removido_valor.resx">
-      <DependentUpon>201906041331186_removido_valor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906251303018_equipe.resx">
-      <DependentUpon>201906251303018_equipe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906262305145_atleta.resx">
-      <DependentUpon>201906262305145_atleta.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908200324074_evento.resx">
+      <DependentUpon>201908200324074_evento.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

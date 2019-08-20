@@ -19,7 +19,7 @@ namespace InscricoesOnline.Controllers.Admin.Campeonato
         [Route("Admin/CategoriaFaixas/Lista")]
         public ActionResult Lista()
         {
-            var categoriaFaixas = db.CategoriaFaixas.Include(c => c.FaixaFinal).Include(c => c.FaixaInicial).Include(c => c.Modalidade);
+            var categoriaFaixas = db.CategoriaFaixas.Where(f => f.EventoId == AdminSessionPersister.Evento.Id).Include(c => c.FaixaFinal).Include(c => c.FaixaInicial).Include(c => c.Modalidade);
             return View(categoriaFaixas.OrderBy(c => new { c.Modalidade.Titulo, c.FaixaInicial.Ordem }).ToList());
         }
 
@@ -38,6 +38,7 @@ namespace InscricoesOnline.Controllers.Admin.Campeonato
         {
             if (ModelState.IsValid)
             {
+                categoriaFaixa.EventoId = AdminSessionPersister.Evento.Id;
                 db.CategoriaFaixas.Add(categoriaFaixa);
                 db.SaveChanges();
                 return RedirectToAction("Lista");

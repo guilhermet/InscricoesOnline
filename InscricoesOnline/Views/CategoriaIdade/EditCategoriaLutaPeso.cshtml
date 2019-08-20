@@ -39,6 +39,7 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.Id)
                     @Html.HiddenFor(model => model.CategoriaIdadeId)
+                    @Html.HiddenFor(model => model.EventoId)
 
                     <div class="text-center">
                         @Html.CheckBoxFor(model => model.Ativo, new { @class = "chkAtivo hidden", @checked = "true" })

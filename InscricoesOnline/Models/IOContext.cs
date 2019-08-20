@@ -10,19 +10,14 @@ namespace InscricoesOnline.Models
     [DbConfigurationType(typeof(MyDbConfiguration))]
     public class IOContext : DbContext
     {
-        //public IOContext() : base("USER ID=InscricoesOnline;Password=InscricoesOnline#XYFJL127TT4MCINLUK;Data Source=XE;")
-        //{
-
-        //}
-
-        public IOContext() : base()
+        public IOContext() : base("USER ID=LIXO;Password=LIXO;Data Source=XE;")
         {
 
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //modelBuilder.HasDefaultSchema("InscricoesOnline");
+            modelBuilder.HasDefaultSchema("LIXO");
 
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConve‌​ntion>();
         }

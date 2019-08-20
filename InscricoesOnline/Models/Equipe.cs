@@ -29,6 +29,12 @@ namespace InscricoesOnline.Models
         [MaxLength(30)]
         public string Senha { get; set; }
 
+        [MaxLength(30)]
+        public string Telefone { get; set; }
+
+        [MaxLength(50)]
+        public string Email { get; set; }
+
         public DateTime DataRegistro { get; set; }
 
         public long EventoId { get; set; }

@@ -10,7 +10,6 @@ namespace InscricoesOnline.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "InscricoesOnline.Models.IOContext";
         }
 
         protected override void Seed(InscricoesOnline.Models.IOContext context)
