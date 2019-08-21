@@ -5,30 +5,51 @@
 }
 
 <div class="container">
-    <div class="row evento-detalhe">
-        @Model.Nome
-        @Model.
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>@Model.Nome</h2>
+            <div class="clearfix"></div>
+        </div>
 
-        <hr />
         <div class="row">
-            <div class="form-group col-md-2">
-                <label for="txtCodFili">Código:</label>
-                <input type="text" class="form-control txtCodFili" placeholder="Código" value="" data-toggle="tooltip" title="Digite o código do filiado e pressione Enter">
-            </div>
-
-            <div class="form-group col-md-4">
-                <label>Nome do filiado:</label>
+            <div class="form-group col-md-3">
+                <label>Nome do atleta:</label>
                 <input type="text" class="form-control txtNome">
             </div>
 
-            <div class="form-group col-md-3">
-                <label>Faixa:</label>
-                <input type="text" class="form-control txtFaixa">
+            <div class="form-group col-md-2">
+                <label>Nascimento:</label>
+                <input type="text" class="form-control txtNascimento" />
             </div>
 
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
                 <label>Sexo:</label>
-                <input type="text" class="form-control txtSexo">
+                <select type="text" class="form-control cbxSexo">
+                    <option value="M">Masculino</option>
+                    <option value="F">Feminino</option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label>Faixa:</label>
+                <select type="text" class="form-control cbxFaixa"></select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label>Categoria de Faixa:</label>
+                <select type="text" class="form-control cbxFaixa"></select>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label>Categoria de Idade:</label>
+                <select type="text" class="form-control cbxIdade"></select>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label>Categoria de Peso:</label>
+                <select type="text" class="form-control cbxPesa"></select>
             </div>
         </div>
     </div>

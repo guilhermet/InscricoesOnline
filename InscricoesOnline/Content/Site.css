@@ -1135,7 +1135,7 @@ h2 {
 }
 
 .x_panel, .x_title {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     margin-Top: 10px;
 }
 
@@ -1151,6 +1151,7 @@ h2 {
 }
 
 .x_panel {
+    margin-top: 30px;
     width: 100%;
     padding: 10px 17px;
     display: inline-block;
@@ -2455,11 +2456,12 @@ legend {
 }
 
 .form-control-feedback {
-    margin-top: 8px;
+    margin-top: 6px;
     height: 23px;
     color: #bbb;
     line-height: 24px;
     font-size: 15px;
+    right: 8px;
 }
 
     .form-control-feedback.left {
