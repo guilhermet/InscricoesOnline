@@ -1,13 +1,14 @@
-﻿@model InscricoesOnline.Models.Equipe
+﻿@model InscricoesOnline.ViewModel.ViewModelInscricoes
 
 @{
     ViewBag.Title = "Inscricoes";
 }
 
+<div class="modal"></div>
 <div class="container">
     <div class="x_panel">
         <div class="x_title">
-            <h2>@Model.Nome</h2>
+            <h2>@Model.Equipe.Nome</h2>
             <div class="clearfix"></div>
         </div>
 
@@ -19,7 +20,7 @@
 
             <div class="form-group col-md-2">
                 <label>Nascimento:</label>
-                <input type="text" class="form-control txtNascimento" />
+                <input type="text" class="form-control txtNascimento text-center" onkeypress="mascara(this, mdata);" maxlength="10" />
             </div>
 
             <div class="form-group col-md-2">
@@ -32,25 +33,577 @@
 
             <div class="form-group col-md-2">
                 <label>Faixa:</label>
-                <select type="text" class="form-control cbxFaixa"></select>
+                <select class="form-control cbxFaixa">
+                    <option value="0"
+                            data-ordem="0"></option>
+                    @foreach (var faixa in (IEnumerable<InscricoesOnline.Models.Faixa>)ViewBag.Faixas)
+                    {
+                        <option value="@faixa.Id"
+                                data-ordem="@faixa.Ordem">
+                            @faixa.Descricao
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group col-md-1 text-center">
+                <label>Luta</label>
+                <input type="checkbox" class="form-control chkLuta" />
+            </div>
+            <div class="form-group col-md-1 text-center">
+                <label>Poomsae</label>
+                <input type="checkbox" class="form-control chkPoomsae" />
+            </div>
+            <div class="form-group col-md-1 text-center">
+                <label>Paratkd</label>
+                <input type="checkbox" class="form-control chkParatkd" />
             </div>
         </div>
 
-        <div class="row">
-            <div class="form-group col-md-3">
-                <label>Categoria de Faixa:</label>
-                <select type="text" class="form-control cbxFaixa"></select>
+        <div class="row cat-luta" style="display: none; background-color: #d9f0ff; padding: 10px; margin-top: 5px">
+            <fieldset>
+                <legend class="text-primary pad-top-15">Luta</legend>
+                <div class="form-group col-md-3">
+                    <label>Categoria de Faixa:</label>
+                    <select type="text" class="form-control cbxFaixaLuta"></select>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label>Categoria de Idade:</label>
+                    <select type="text" class="form-control cbxIdadeLuta"></select>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label>Categoria de Peso:</label>
+                    <select type="text" class="form-control cbxPeso"></select>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="row cat-poomsae" style="display: none; background-color: #ddffdb; padding: 10px; margin-top: 5px">
+            <fieldset>
+                <legend class="text-primary pad-top-15">Poomsae</legend>
+                <div class="form-group col-md-3">
+                    <label>Categoria de Faixa:</label>
+                    <select type="text" class="form-control cbxFaixaPoomsae"></select>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label>Categoria de Idade:</label>
+                    <select type="text" class="form-control cbxIdadePoomsae"></select>
+                </div>
+            </fieldset>
+        </div>
+
+        <div>
+            <button class="btn btn-primary btn-Salvar" style="margin-top: 20px">Adicionar</button>
+        </div>
+
+        <div class="listaAtletas">
+            <div class="header row">
+                <div class="col-lg-1">
+                    Ações
+                </div>
+                <div class="col-lg-3">
+                    Atleta
+                </div>
+                <div class="col-lg-1">
+                    Nascimento
+                </div>
+                <div class="col-lg-2">
+                    Faixa
+                </div>
+                <div class="col-lg-1">
+                    Sexo
+                </div>
+                <div class="col-lg-1">
+                    Peso
+                </div>
+                <div class="col-lg-1 text-center">
+                    Luta
+                </div>
+                <div class="col-lg-1 text-center">
+                    Poomsae
+                </div>
+                <div class="col-lg-1 text-center">
+                    ParaTKD
+                </div>
             </div>
 
-            <div class="form-group col-md-2">
-                <label>Categoria de Idade:</label>
-                <select type="text" class="form-control cbxIdade"></select>
-            </div>
-
-            <div class="form-group col-md-2">
-                <label>Categoria de Peso:</label>
-                <select type="text" class="form-control cbxPesa"></select>
+            <div class="atletas">
+                @foreach (var inscricoes in Model.Inscricoes)
+                {
+                    <div class="line row">
+                        <div class="col-lg-1">
+                            <button class="btn btn-circle btn-danger" id="btn-excluir-@inscricoes.Id" data-id="@inscricoes.Id"><i class="fa fa-trash"></i></button>
+                        </div>
+                        <div class="col-lg-3">
+                            @inscricoes.Filiado.Nome
+                        </div>
+                        <div class="col-lg-1">
+                            @inscricoes.Filiado.DataNascimento.Value.ToString("dd/MM/yyyy")
+                        </div>
+                        <div class="col-lg-2">
+                            @inscricoes.Filiado.Faixa.Descricao
+                        </div>
+                        <div class="col-lg-1">
+                            @(inscricoes.Filiado.Sexo == "M" ? "Masculino" : "Feminino")
+                        </div>
+                        <div class="col-lg-1">
+                            @{
+                                var luta = inscricoes.InscricaoModalidade.Where(im => im.ModalidadeId == 1 || im.ModalidadeId == 3).FirstOrDefault();
+                            }
+                            @(luta != null ? luta.CategoriaLutaPeso.Titulo : "")
+                        </div>
+                        <div class="col-lg-1 text-center">
+                            @(inscricoes.InscricaoModalidade.Where(im => im.ModalidadeId == 1 || im.ModalidadeId == 3).FirstOrDefault() != null ? "X" : "")
+                        </div>
+                        <div class="col-lg-1 text-center">
+                            @(inscricoes.InscricaoModalidade.Where(im => im.ModalidadeId == 2).FirstOrDefault() != null ? "X" : "")
+                        </div>
+                        <div class="col-lg-1 text-center">
+                            @(inscricoes.Filiado.Parataekwondo ? "X" : "")
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>
 </div>
+
+
+@section scripts{
+    <script>
+
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
+
+        $('.chkLuta').change(function () {
+            if ($(".chkLuta").prop('checked')) {
+                $(".cat-luta").show();
+            }
+            else {
+                $(".cat-luta").hide();
+            }
+        });
+
+        $('.chkPoomsae').change(function () {
+            if ($(".chkPoomsae").prop('checked')) {
+                $(".cat-poomsae").show();
+            }
+            else {
+                $(".cat-poomsae").hide();
+            }
+        });
+
+        $(".cbxSexo").change(function () {
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Home/BuscaCategoriaPesos",
+                    data: "{" +
+                        "categoriaIdadeId: '" + $(".cbxIdadeLuta").val() + "'," +
+                        "sexo: '" + $(".cbxSexo").val() + "' " +
+                        "}",
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (n) {
+
+                        $(".cbxPeso").empty();
+
+                        for (var j = 0; j < n.length; j++) {
+                            $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxPeso"));
+                        }
+                    }
+                })
+        });
+
+        $(".txtNascimento").change(function () {
+            let ordem = $(".cbxFaixa").children("option:selected").attr("data-ordem");
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Home/BuscaCategoriaIdadeLuta",
+                    data: "{" +
+                        "ordem: '" + ordem + "'," +
+                        "dataNascimento: '" + $(".txtNascimento").val() + "' " +
+                        "}",
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (n) {
+                        $(".cbxIdadeLuta").empty();
+
+                        for (var j = 0; j < n.length; j++) {
+                            $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxIdadeLuta"));
+                        }
+
+                        $.ajax(
+                            {
+                                type: "POST",
+                                url: "/Home/BuscaCategoriaPesos",
+                                data: "{" +
+                                    "categoriaIdadeId: '" + $(".cbxIdadeLuta").val() + "'," +
+                                    "sexo: '" + $(".cbxSexo").val() + "' " +
+                                    "}",
+                                contentType: "application/json",
+                                dataType: "json",
+                                success: function (n) {
+
+                                    $(".cbxPeso").empty();
+
+                                    for (var j = 0; j < n.length; j++) {
+                                        $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxPeso"));
+                                    }
+                                }
+                            })
+                    }
+                })
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Home/BuscaCategoriaIdadePoomsae",
+                    data: "{" +
+                        "dataNascimento: '" + $(".txtNascimento").val() + "' " +
+                        "}",
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (n) {
+                        $(".cbxIdadePoomsae").empty();
+
+                        for (var j = 0; j < n.length; j++) {
+                            $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxIdadePoomsae"));
+                        }
+                    }
+                })
+        });
+
+        $(".cbxFaixa").change(function () {
+            let ordem = $(".cbxFaixa").children("option:selected").attr("data-ordem");
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Home/BuscaCategoriaIdadeLuta",
+                    data: "{" +
+                        "ordem: '" + ordem + "'," +
+                        "dataNascimento: '" + $(".txtNascimento").val() + "' " +
+                        "}",
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (n) {
+                        $(".cbxIdadeLuta").empty();
+
+                        for (var j = 0; j < n.length; j++) {
+                            $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxIdadeLuta"));
+                        }
+                    }
+                })
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Home/BuscaCategoriaFaixaLuta",
+                    data: "{" +
+                        "ordem: '" + ordem + "' " +
+                        "}",
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (n) {
+                        $(".cbxFaixaLuta").empty();
+
+                        for (var j = 0; j < n.length; j++) {
+                            $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxFaixaLuta"));
+                        }
+                    }
+                })
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Home/BuscaCategoriaFaixaPoomsae",
+                    data: "{" +
+                        "ordem: '" + ordem + "' " +
+                        "}",
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (n) {
+                        $(".cbxFaixaPoomsae").empty();
+
+                        for (var j = 0; j < n.length; j++) {
+                            $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxFaixaPoomsae"));
+                        }
+                    }
+                })
+        });
+
+        $("[id^='btn-excluir-']").click(function () {
+
+            let id = $(this).data("id");
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Home/DeleteInscricao",
+                    data: "{" +
+                        "id: '" + id + "' " +
+                        "}",
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (n) {
+                        $("#btn-excluir-" + id).parent().parent().remove();
+                    }, error: function (n) {
+                        alert("Erro ao excluir a inscrição, tente novamente")
+                    }
+                })
+        })
+
+        $(".btn-Salvar").click(function () {
+            if ($(".txtNome").val() == "") {
+                alert("Digite o nome do atleta");
+                return;
+            }
+
+            if ($(".txtNascimento").val() == "") {
+                alert("Digite a data de nascimento do atleta");
+                return;
+            }
+
+            if (!VerificaData($(".txtNascimento").val())) {
+                alert("Digite uma data de nascimento valida");
+                return;
+            }
+
+            if ($(".cbxFaixa").val() == 0) {
+                alert("Selecione a faixa");
+                return;
+            }
+
+            if (!$(".chkLuta").prop('checked') && !$(".chkPoomsae").prop('checked')) {
+                alert("Selecione uma modalidade para competir");
+                return;
+            }
+
+            let nome = $(".txtNome").val();
+            let nascimento = $(".txtNascimento").val();
+            let sexo = $(".cbxSexo").val();
+            let faixaId = $(".cbxFaixa").val();
+            let luta = $(".chkLuta").prop('checked');
+            let poomsae = $(".chkPoomsae").prop('checked');
+            let paratkd = $(".chkParatkd").prop('checked');
+
+            let catFaixaLuta = $(".cbxFaixaLuta").val();
+            let catIdadeLuta = $(".cbxIdadeLuta").val();
+            let catPesoLuta = $(".cbxPeso").val();
+
+            let catFaixaPoomsae = $(".cbxFaixaPoomsae").val();
+            let catIdadePoomsae = $(".cbxIdadePoomsae").val();
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Home/InserirAtleta",
+                    data: "{" +
+                        "eventoId: '" + @Model.Equipe.EventoId + "', " +
+                        "equipeId: '" + @Model.Equipe.Id + "', " +
+                        "nome: '" + nome + "', " +
+                        "nascimento: '" + nascimento + "', " +
+                        "sexo: '" + sexo + "', " +
+                        "faixaId: '" + faixaId + "', " +
+                        "luta: '" + luta + "', " +
+                        "poomsae: '" + poomsae + "', " +
+                        "paratkd: '" + paratkd + "', " +
+                        "catFaixaLuta: '" + catFaixaLuta + "', " +
+                        "catIdadeLuta: '" + catIdadeLuta + "', " +
+                        "catPesoLuta: '" + catPesoLuta + "', " +
+                        "catFaixaPoomsae: '" + catFaixaPoomsae + "', " +
+                        "catIdadePoomsae: '" + catIdadePoomsae + "' " +
+                        "}",
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (n) {
+
+                        $("<div>").addClass("line row").attr("id", "line-" + n.Id).appendTo(".atletas");
+
+                        $("<div>").addClass("col-lg-1").attr("id", "button-" + n.Id).appendTo("#line-" + n.Id);
+                        $("<button>").addClass("btn btn-circle btn-danger").attr("id", "btn-excluir-" + n.Id).data(n.Id).appendTo("#line-" + n.Id + " #button-" + n.Id);
+                        $("<i>").addClass("fa fa-trash").appendTo("#btn-excluir-" + n.Id);
+
+                        $("<div>").addClass("col-lg-3").text(nome).appendTo("#line-" + n.Id);
+
+                        $("<div>").addClass("col-lg-1").text(nascimento).appendTo("#line-" + n.Id);
+
+                        $("<div>").addClass("col-lg-2").text($(".cbxFaixa").children("option:selected").text()).appendTo("#line-" + n.Id);
+
+                        $("<div>").addClass("col-lg-1").text($(".cbxSexo").children("option:selected").text()).appendTo("#line-" + n.Id);
+
+                        if (luta) {
+                            $("<div>").addClass("col-lg-1").text($(".cbxPeso").children("option:selected").text()).appendTo("#line-" + n.Id);
+                        }
+                        else {
+                            $("<div>").addClass("col-lg-1").appendTo("#line-" + n.Id);
+                        }
+
+                        if (luta) {
+                            $("<div>").addClass("col-lg-1 text-center").text("X").appendTo("#line-" + n.Id);
+                        }
+                        else {
+                            $("<div>").addClass("col-lg-1 text-center").appendTo("#line-" + n.Id);
+                        }
+
+                        if (poomsae) {
+                            $("<div>").addClass("col-lg-1 text-center").text("X").appendTo("#line-" + n.Id);
+                        }
+                        else {
+                            $("<div>").addClass("col-lg-1 text-center").appendTo("#line-" + n.Id);
+                        }
+
+                        if (paratkd) {
+                            $("<div>").addClass("col-lg-1 text-center").text("X").appendTo("#line-" + n.Id);
+                        }
+                        else {
+                            $("<div>").addClass("col-lg-1 text-center").appendTo("#line-" + n.Id);
+                        }
+
+                        //$("#btn-excluir-" + n.Id).click(function () {
+
+                        //    let id = $(this).data("id");
+
+                        //    $.ajax(
+                        //        {
+                        //            type: "POST",
+                        //            url: "/Home/DeleteInscricao",
+                        //            data: "{" +
+                        //                "id: '" + id + "' " +
+                        //                "}",
+                        //            contentType: "application/json",
+                        //            dataType: "json",
+                        //            success: function (n) {
+                        //                $("#btn-excluir-" + id).parent().parent().remove();
+                        //            }, error: function (n) {
+                        //                alert("Erro ao excluir a inscrição, tente novamente")
+                        //            }
+                        //        })
+                        //})
+
+                        $(".txtNome").val("");
+                        $(".txtNascimento").val("");
+                        $(".cbxFaixa").val("");
+                        $(".chkLuta").prop('checked', false);
+                        $(".chkLuta").trigger("change");
+                        $(".chkPoomsae").prop('checked', false);
+                        $(".chkPoomsae").trigger("change");
+                        $(".chkParatkd").prop('checked', false);
+
+                        $(".cbxFaixaLuta").val("");
+                        $(".cbxIdadeLuta").val("");
+                        $(".cbxPeso").val("");
+
+                        $(".cbxFaixaPoomsae").val("");
+                        $(".cbxIdadePoomsae").val("");
+                        $(".txtNome").focus();
+                    }
+                })
+        });
+
+        function VerificaData(cData)
+        {
+            var data = cData;
+            var tam = data.length;
+            if (tam != 10)
+            {
+                return false;
+            }
+            var dia = data.substr(0, 2)
+            var mes = data.substr(3, 2)
+            var ano = data.substr(6, 4)
+            if (ano < 1900)
+            {
+                return false;
+            }
+            if (ano >= 2019)
+            {
+                return false;
+            }
+
+            switch (mes)
+            {
+                case '01':
+                    if (dia <= 31)
+                        return (true);
+                    break;
+                case '02':
+                    if (dia <= 29)
+                        return (true);
+                    break;
+                case '03':
+                    if (dia <= 31)
+                        return (true);
+                    break;
+                case '04':
+                    if (dia <= 30)
+                        return (true);
+                    break;
+                case '05':
+                    if (dia <= 31)
+                        return (true);
+                    break;
+                case '06':
+                    if (dia <= 30)
+                        return (true);
+                    break;
+                case '07':
+                    if (dia <= 31)
+                        return (true);
+                    break;
+                case '08':
+                    if (dia <= 31)
+                        return (true);
+                    break;
+                case '09':
+                    if (dia <= 30)
+                        return (true);
+                    break;
+                case '10':
+                    if (dia <= 31)
+                        return (true);
+                    break;
+                case '11':
+                    if (dia <= 30)
+                        return (true);
+                    break;
+                case '12':
+                    if (dia <= 31)
+                        return (true);
+                    break;
+            }
+            return false;
+        }
+
+
+        function mascara(o, f) {
+            v_obj = o
+            v_fun = f
+            setTimeout("execmascara()", 1)
+        }
+
+        function execmascara() {
+            v_obj.value = v_fun(v_obj.value)
+        }
+
+        function mdata(v) {
+            v = v.replace(/\D/g, "");
+            v = v.replace(/(\d{2})(\d)/, "$1/$2");
+            v = v.replace(/(\d{2})(\d)/, "$1/$2");
+
+            v = v.replace(/(\d{2})(\d{2})$/, "$1$2");
+            return v;
+        }
+
+    </script>
+}

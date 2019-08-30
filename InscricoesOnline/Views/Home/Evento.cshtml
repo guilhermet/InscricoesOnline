@@ -16,20 +16,34 @@
             <hr />
 
             <div class="descricao">
-                @Model.Descricao <br />
+                MARINGÁ - PR 18 A 20.OUTUBRO. <br />
+                <br />
+                Maior evento de <b>TAEKWONDO</b> da América do Sul, neste ano completa sua 24° edição. <br />
+                <br />
+                Homologado pela CBTKD e FPTKD. Vale ➡7 pontos para o ranking estadual (Paraná) e ➡vaga para o Grand Slam.<br />
+                <br />
+                Também será realizado o <b>2° Festival Brazil Open Parataekwondo</b>. E apresentação especial da Equipe da Coréia do Sul em homenagem aos 100 anos da Proclamação da Independência da Coréia e 60 anos da Aliança com o Brasil.<br />
+                <br />
+                INFORMAÇÕES:<br />
+                🔊BRAZIL OPEN <br />
+                (43) 99933-0099  <br />
+                (44) 99760-8950 <br />
+                brazilopentkdoficial@gmail.com<br />
+                @@brazilopentaekwondo<br />
+                <br />
+                🔊SELETIVA NACIONAL ABERTA <br />
+                (21) 3594-6958 <br />
+                cbtkd@cbtkd.com.br<br />
 
-                Data do Evento: @Model.DataInicio.Value.ToShortDateString() à @Model.DataFim.Value.ToShortDateString() <br />
-                Cidade: @Model.Cidade - @Model.Estado <br />
-                Local: @Model.Local <br /><br />
-
-                Período de Inscrição: @Model.DataInicioInscricoes.Value.ToShortDateString() à @Model.DataFimInscricoes.Value.ToShortDateString()
+                <br />
+                <p><span style="font-size:22px"><a href="http://www.paranatkd.com.br/static/Uploads/Site/Arquivos/Oficio%20XXIII%20BRAZIL%20OPEN%20-%20Maring%C3%A1%20-%202019.pdf" target="_blank">*** CLIQUE PARA ACESSAR O OF&Iacute;CIO ***</a></span></p>
             </div>
             <br />
             @*@Model.DataFimAlteracoes.Value.ToShortDateString() <br />*@
-            @*@if (Model.DataInicioInscricoes <= DateTime.Now)
-            {*@
+            @if (Model.DataInicioInscricoes <= DateTime.Now)
+            {
                 @Html.ActionLink("Inscrever", "Login", new { id = @Model.Id }, new { @class = "btn btn-primary" })
-            @*}*@
+            }
         </div>
     </div>
 </div>
