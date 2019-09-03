@@ -204,7 +204,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: "/Home/BuscaCategoriaPesos",
+                    url: "/brazilOpen/Home//BuscaCategoriaPesos",
                     data: "{" +
                         "categoriaIdadeId: '" + $(".cbxIdadeLuta").val() + "'," +
                         "sexo: '" + $(".cbxSexo").val() + "' " +
@@ -228,7 +228,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: "/Home/BuscaCategoriaIdadeLuta",
+                    url: "/brazilOpen/Home//BuscaCategoriaIdadeLuta",
                     data: "{" +
                         "ordem: '" + ordem + "'," +
                         "dataNascimento: '" + $(".txtNascimento").val() + "' " +
@@ -245,7 +245,7 @@
                         $.ajax(
                             {
                                 type: "POST",
-                                url: "/Home/BuscaCategoriaPesos",
+                                url: "/brazilOpen/Home//BuscaCategoriaPesos",
                                 data: "{" +
                                     "categoriaIdadeId: '" + $(".cbxIdadeLuta").val() + "'," +
                                     "sexo: '" + $(".cbxSexo").val() + "' " +
@@ -267,7 +267,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: "/Home/BuscaCategoriaIdadePoomsae",
+                    url: "/brazilOpen/Home//BuscaCategoriaIdadePoomsae",
                     data: "{" +
                         "dataNascimento: '" + $(".txtNascimento").val() + "' " +
                         "}",
@@ -289,7 +289,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: "/Home/BuscaCategoriaIdadeLuta",
+                    url: "/brazilOpen/Home//BuscaCategoriaIdadeLuta",
                     data: "{" +
                         "ordem: '" + ordem + "'," +
                         "dataNascimento: '" + $(".txtNascimento").val() + "' " +
@@ -308,7 +308,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: "/Home/BuscaCategoriaFaixaLuta",
+                    url: "/brazilOpen/Home//BuscaCategoriaFaixaLuta",
                     data: "{" +
                         "ordem: '" + ordem + "' " +
                         "}",
@@ -326,7 +326,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: "/Home/BuscaCategoriaFaixaPoomsae",
+                    url: "/brazilOpen/Home//BuscaCategoriaFaixaPoomsae",
                     data: "{" +
                         "ordem: '" + ordem + "' " +
                         "}",
@@ -349,7 +349,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: "/Home/DeleteInscricao",
+                    url: "/brazilOpen/Home//DeleteInscricao",
                     data: "{" +
                         "id: '" + id + "' " +
                         "}",
@@ -407,7 +407,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: "/Home/InserirAtleta",
+                    url: "/brazilOpen/Home//InserirAtleta",
                     data: "{" +
                         "eventoId: '" + @Model.Equipe.EventoId + "', " +
                         "equipeId: '" + @Model.Equipe.Id + "', " +
@@ -427,49 +427,51 @@
                     contentType: "application/json",
                     dataType: "json",
                     success: function (n) {
-
+                        
                         $("<div>").addClass("line row").attr("id", "line-" + n.Id).appendTo(".atletas");
-
+                        
                         $("<div>").addClass("col-lg-1").attr("id", "button-" + n.Id).appendTo("#line-" + n.Id);
-                        $("<button>").addClass("btn btn-circle btn-danger").attr("id", "btn-excluir-" + n.Id).data(n.Id).appendTo("#line-" + n.Id + " #button-" + n.Id);
+                        
+                        $("<button>").addClass("btn btn-circle btn-danger").attr("id", "btn-excluir-" + n.Id).attr("data-id", n.Id).appendTo("#line-" + n.Id + " #button-" + n.Id);
+                        
                         $("<i>").addClass("fa fa-trash").appendTo("#btn-excluir-" + n.Id);
-
+                        
                         $("<div>").addClass("col-lg-3").text(nome).appendTo("#line-" + n.Id);
-
+                        
                         $("<div>").addClass("col-lg-1").text(nascimento).appendTo("#line-" + n.Id);
-
+                        
                         $("<div>").addClass("col-lg-2").text($(".cbxFaixa").children("option:selected").text()).appendTo("#line-" + n.Id);
-
+                        
                         $("<div>").addClass("col-lg-1").text($(".cbxSexo").children("option:selected").text()).appendTo("#line-" + n.Id);
-
+                        
                         if (luta) {
                             $("<div>").addClass("col-lg-1").text($(".cbxPeso").children("option:selected").text()).appendTo("#line-" + n.Id);
                         }
                         else {
                             $("<div>").addClass("col-lg-1").appendTo("#line-" + n.Id);
                         }
-
+                        
                         if (luta) {
                             $("<div>").addClass("col-lg-1 text-center").text("X").appendTo("#line-" + n.Id);
                         }
                         else {
                             $("<div>").addClass("col-lg-1 text-center").appendTo("#line-" + n.Id);
                         }
-
+                        
                         if (poomsae) {
                             $("<div>").addClass("col-lg-1 text-center").text("X").appendTo("#line-" + n.Id);
                         }
                         else {
                             $("<div>").addClass("col-lg-1 text-center").appendTo("#line-" + n.Id);
                         }
-
+                        
                         if (paratkd) {
                             $("<div>").addClass("col-lg-1 text-center").text("X").appendTo("#line-" + n.Id);
                         }
                         else {
                             $("<div>").addClass("col-lg-1 text-center").appendTo("#line-" + n.Id);
                         }
-
+                        
                         //$("#btn-excluir-" + n.Id).click(function () {
 
                         //    let id = $(this).data("id");
@@ -477,7 +479,7 @@
                         //    $.ajax(
                         //        {
                         //            type: "POST",
-                        //            url: "/Home/DeleteInscricao",
+                        //            url: "/brazilOpen/brazilOpen/Home//DeleteInscricao",
                         //            data: "{" +
                         //                "id: '" + id + "' " +
                         //                "}",
