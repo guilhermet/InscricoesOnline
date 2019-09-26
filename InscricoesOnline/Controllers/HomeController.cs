@@ -182,9 +182,7 @@ namespace InscricoesOnline.Controllers
 
         public ActionResult BuscaCategoriaFaixaLuta(long ordem)
         {
-            var modalidadeId = ordem >= 10 ? 3 : 1;
-
-            var categoriaFaixas = db.CategoriaFaixas.Where(c => c.FaixaInicial.Ordem <= ordem && c.FaixaFinal.Ordem >= ordem && c.ModalidadeId == modalidadeId).OrderBy(c => c.FaixaInicial.Ordem).ToList();
+            var categoriaFaixas = db.CategoriaFaixas.Where(c => c.FaixaInicial.Ordem <= ordem && c.FaixaFinal.Ordem >= ordem && (c.ModalidadeId == 1 || c.ModalidadeId == 3)).OrderBy(c => c.FaixaInicial.Ordem).ToList();
 
             return Json(categoriaFaixas);
         }
