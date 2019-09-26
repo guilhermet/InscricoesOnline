@@ -200,167 +200,132 @@
             }
         });
 
-        $(".cbxSexo").change(function () {
-            $.ajax(
-                {
-                    type: "POST",
-                    url: "/Home//BuscaCategoriaPesos",
-                    data: "{" +
-                        "categoriaIdadeId: '" + $(".cbxIdadeLuta").val() + "'," +
-                        "sexo: '" + $(".cbxSexo").val() + "' " +
-                        "}",
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (n) {
-
-                        $(".cbxPeso").empty();
-
-                        for (var j = 0; j < n.length; j++) {
-                            $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxPeso"));
-                        }
-                    }
-                })
-        });
+        $(".cbxSexo").change(() => AtualizaCategoriasPesoLuta());
 
         $(".txtNascimento").change(function () {
-            let ordem = $(".cbxFaixa").children("option:selected").attr("data-ordem");
-
-            $.ajax(
-                {
-                    type: "POST",
-                    url: "/Home//BuscaCategoriaFaixaLuta",
-                    data: "{" +
-                        "ordem: '" + ordem + "' " +
-                        "}",
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (n) {
-                        $(".cbxFaixaLuta").empty();
-
-                        for (var j = 0; j < n.length; j++) {
-                            $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxFaixaLuta"));
-                        }
-
-                        let modadelidadeId = n[0].ModalidadeId;
-
-                        $.ajax(
-                        {
-                            type: "POST",
-                            url: "/Home//BuscaCategoriaIdadeLuta",
-                            data: "{" +
-                                "modalidadeId: '" + modadelidadeId + "'," +
-                                "dataNascimento: '" + $(".txtNascimento").val() + "' " +
-                                "}",
-                            contentType: "application/json",
-                            dataType: "json",
-                            success: function (n) {
-                                $(".cbxIdadeLuta").empty();
-
-                                for (var j = 0; j < n.length; j++) {
-                                    $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxIdadeLuta"));
-                                }
-
-                                $.ajax(
-                                    {
-                                        type: "POST",
-                                        url: "/Home//BuscaCategoriaPesos",
-                                        data: "{" +
-                                            "categoriaIdadeId: '" + $(".cbxIdadeLuta").val() + "'," +
-                                            "sexo: '" + $(".cbxSexo").val() + "' " +
-                                            "}",
-                                        contentType: "application/json",
-                                        dataType: "json",
-                                        success: function (n) {
-
-                                            $(".cbxPeso").empty();
-
-                                            for (var j = 0; j < n.length; j++) {
-                                                $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxPeso"));
-                                            }
-                                        }
-                                    })
-                            }
-                        })
-                    }
-                })
-
-            $.ajax(
-                {
-                    type: "POST",
-                    url: "/Home//BuscaCategoriaIdadePoomsae",
-                    data: "{" +
-                        "dataNascimento: '" + $(".txtNascimento").val() + "' " +
-                        "}",
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (n) {
-                        $(".cbxIdadePoomsae").empty();
-
-                        for (var j = 0; j < n.length; j++) {
-                            $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxIdadePoomsae"));
-                        }
-                    }
-                })
+            AtualizaCategoriasFaixaLuta()
+            AtualizaCategoriasIdadePoomsae()
         });
+
+        $(".cbxFaixaLuta").change(() => AtualizaCategoriasIdadeLuta());
 
         $(".cbxFaixa").change(function () {
+            AtualizaCategoriasFaixaLuta();
+            AtualizaCategoriasFaixaPoomsae();
+        });
+
+        function AtualizaCategoriasFaixaPoomsae() {
             let ordem = $(".cbxFaixa").children("option:selected").attr("data-ordem");
 
             $.ajax(
-                {
-                    type: "POST",
-                    url: "/Home//BuscaCategoriaIdadeLuta",
-                    data: "{" +
-                        "ordem: '" + ordem + "'," +
-                        "dataNascimento: '" + $(".txtNascimento").val() + "' " +
-                        "}",
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (n) {
-                        $(".cbxIdadeLuta").empty();
+            {
+                type: "POST",
+                url: "/brazilopen/Home/BuscaCategoriaFaixaPoomsae",
+                data: "{" +
+                    "ordem: '" + ordem + "' " +
+                    "}",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (n) {
+                    $(".cbxFaixaPoomsae").empty();
 
-                        for (var j = 0; j < n.length; j++) {
-                            $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxIdadeLuta"));
-                        }
+                    for (var j = 0; j < n.length; j++) {
+                        $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxFaixaPoomsae"));
                     }
-                })
+                }
+            })
+        }
+
+        function AtualizaCategoriasIdadePoomsae() {
 
             $.ajax(
-                {
-                    type: "POST",
-                    url: "/Home//BuscaCategoriaFaixaLuta",
-                    data: "{" +
-                        "ordem: '" + ordem + "' " +
-                        "}",
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (n) {
-                        $(".cbxFaixaLuta").empty();
-
-                        for (var j = 0; j < n.length; j++) {
-                            $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxFaixaLuta"));
-                        }
+            {
+                type: "POST",
+                url: "/brazilopen/Home//BuscaCategoriaIdadePoomsae",
+                data: "{" +
+                    "dataNascimento: '" + $(".txtNascimento").val() + "' " +
+                    "}",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (n) {
+                    $(".cbxIdadePoomsae").empty();
+ 
+                    for (var j = 0; j < n.length; j++) {
+                        $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxIdadePoomsae"));
                     }
-                })
+                }
+            })
+        }
+
+        function AtualizaCategoriasFaixaLuta() {
+            let ordem = $(".cbxFaixa").children("option:selected").attr("data-ordem");
 
             $.ajax(
-                {
-                    type: "POST",
-                    url: "/Home//BuscaCategoriaFaixaPoomsae",
-                    data: "{" +
-                        "ordem: '" + ordem + "' " +
-                        "}",
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (n) {
-                        $(".cbxFaixaPoomsae").empty();
+            {
+                type: "POST",
+                url: "/brazilopen/Home/BuscaCategoriaFaixaLuta",
+                data: "{" +
+                    "ordem: '" + ordem + "', " +
+                    "nascimento: '" + $(".txtNascimento").val() + "' " +
+                    "}",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (n) {
+                    $(".cbxFaixaLuta").empty();
 
-                        for (var j = 0; j < n.length; j++) {
-                            $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxFaixaPoomsae"));
-                        }
+                    for (var j = 0; j < n.length; j++) {
+                        $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).attr("data-modalidade", n[j].ModalidadeId).appendTo($(".cbxFaixaLuta"));
                     }
-                })
-        });
+
+                    AtualizaCategoriasIdadeLuta();
+                }
+            })
+        }
+
+        function AtualizaCategoriasIdadeLuta() {
+            $.ajax(
+            {
+                type: "POST",
+                url: "/brazilopen/Home/BuscaCategoriaIdadeLuta",
+                data: "{" +
+                    "modalidadeId: '" + $(".cbxFaixaLuta").children("option:selected").attr("data-modalidade") + "'," +
+                    "dataNascimento: '" + $(".txtNascimento").val() + "' " +
+                    "}",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (n) {
+                    $(".cbxIdadeLuta").empty();
+
+                    for (var j = 0; j < n.length; j++) {
+                        $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxIdadeLuta"));
+                    }
+
+                    AtualizaCategoriasPesoLuta();
+                }
+            })
+        }
+
+        function AtualizaCategoriasPesoLuta() {
+            $.ajax(
+            {
+                type: "POST",
+                url: "/brazilopen/Home/BuscaCategoriaPesos",
+                data: "{" +
+                    "categoriaIdadeId: '" + $(".cbxIdadeLuta").val() + "'," +
+                    "sexo: '" + $(".cbxSexo").val() + "' " +
+                    "}",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (n) {
+
+                    $(".cbxPeso").empty();
+
+                    for (var j = 0; j < n.length; j++) {
+                        $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxPeso"));
+                    }
+                }
+            })
+        }
 
         $("[id^='btn-excluir-']").click(function () {
 
@@ -369,7 +334,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: "/Home//DeleteInscricao",
+                    url: "/brazilopen/Home/DeleteInscricao",
                     data: "{" +
                         "id: '" + id + "' " +
                         "}",
@@ -427,7 +392,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: "/Home//InserirAtleta",
+                    url: "/brazilopen/Home/InserirAtleta",
                     data: "{" +
                         "eventoId: '" + @Model.Equipe.EventoId + "', " +
                         "equipeId: '" + @Model.Equipe.Id + "', " +
@@ -499,7 +464,7 @@
                         //    $.ajax(
                         //        {
                         //            type: "POST",
-                        //            url: "/Home//DeleteInscricao",
+                        //            url: "/brazilopen/Home//DeleteInscricao",
                         //            data: "{" +
                         //                "id: '" + id + "' " +
                         //                "}",

@@ -135,14 +135,10 @@ namespace InscricoesOnline.Controllers
         }
 
         [Route("Inscricoes/{id}")]
-        public ActionResult Inscricoes(long? id)
+        [SiteAuthorize]
+        public ActionResult Inscricoes()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            }
-            var equipe = db.Equipes.Find(id);
+            var equipe = db.Equipes.Find(SiteSessionPersister.IdEquipe);
 
             if (equipe == null)
             {
@@ -154,7 +150,7 @@ namespace InscricoesOnline.Controllers
             var viewModelInscricoes = new ViewModelInscricoes
             {
                 Equipe = equipe,
-                Inscricoes = db.Inscricoes.Where(i => i.AcademiaId == id).ToList()
+                Inscricoes = db.Inscricoes.Where(i => i.AcademiaId == SiteSessionPersister.IdEquipe).ToList()
             };
 
             return View(viewModelInscricoes);
@@ -179,9 +175,21 @@ namespace InscricoesOnline.Controllers
             return Json(categoriaIdades);
         }
 
-        public ActionResult BuscaCategoriaFaixaLuta(long ordem)
+        public ActionResult BuscaCategoriaFaixaLuta(long ordem, string nascimento)
         {
+            DateTime dt;
+
+            var idade = 0;
+            if (DateTime.TryParse(nascimento, out dt))
+            {
+                idade = DateTime.Today.Year - dt.Year;
+            }
+
             var categoriaFaixas = db.CategoriaFaixas.Where(c => c.FaixaInicial.Ordem <= ordem && c.FaixaFinal.Ordem >= ordem && (c.ModalidadeId == 1 || c.ModalidadeId == 3)).OrderBy(c => c.FaixaInicial.Ordem).ToList();
+            if (idade > 14 && ordem < 10)
+            {
+                categoriaFaixas = categoriaFaixas.Where(f => f.ModalidadeId == 1).ToList();
+            }
 
             return Json(categoriaFaixas);
         }
