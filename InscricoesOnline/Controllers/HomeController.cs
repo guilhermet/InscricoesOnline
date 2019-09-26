@@ -160,10 +160,9 @@ namespace InscricoesOnline.Controllers
             return View(viewModelInscricoes);
         }
 
-        public ActionResult BuscaCategoriaIdadeLuta(long ordem, string dataNascimento)
+        public ActionResult BuscaCategoriaIdadeLuta(long modalidadeId, string dataNascimento)
         {
             var idade = DateTime.Now.Year - Convert.ToDateTime(dataNascimento).Year;
-            var modalidadeId = ordem >= 10 ? 3 : 1;
 
             var categoriaIdades = db.CategoriaIdades.Where(c => c.IdadeInicial <= idade && c.IdadeFinal >= idade && c.ModalidadeId == modalidadeId).OrderBy(c => c.IdadeInicial).ToList();
 
