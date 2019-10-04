@@ -26,8 +26,8 @@ namespace InscricoesOnline.Security
             if (SiteSessionPersister.IdEquipe == null)
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
                 {
-                    controller = "AcessoRestrito",
-                    action = "Login",
+                    controller = "Home",
+                    action = "Index",
                     returnUrl = filterContext.HttpContext.Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped)
                 }));
             else
