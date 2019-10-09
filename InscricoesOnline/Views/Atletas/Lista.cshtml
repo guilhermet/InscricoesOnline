@@ -32,7 +32,6 @@
                                 <thead>
                                     <tr role="row">
                                         <th class="text-center">Ações</th>
-                                        <th>Foto</th>
                                         <th>Código</th>
                                         <th>Nome</th>
                                         <th class="text-center">Faixa</th>
@@ -47,11 +46,10 @@
                                             <td class="text-center col-md-1">
                                                 <a class="btn btn-warning btn-circle" href="@Url.Action("Visualizar", "Filiados", new { id = filiado.Id })" data-toggle="tooltip" data-placement="top" title="Visualizar informações do filiado"><i class="fa fa-eye"></i></a>
                                             </td>
-                                            <td> <img src="~/Static/Uploads/Admin/Filiados/@(filiado.URLFoto)" style="width: 28px; height: 40px; display:block; margin: 0 auto;"></td>
                                             <td> @Html.DisplayFor(modelItem => filiado.Id) </td>
                                             <td> @Html.DisplayFor(modelItem => filiado.Nome) </td>
                                             <td class="text-center"> @Html.DisplayFor(modelItem => filiado.Faixa.Descricao) </td>
-                                            <td> @Html.DisplayFor(modelItem => filiado.Academia.Nome) </td>
+                                            <td> @Html.DisplayFor(modelItem => filiado.Equipe.Nome) </td>
                                             <td class="col-md-1 text-center">
                                                 @if (filiado.Ativo)
                                                 {
@@ -67,33 +65,6 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-
-                    <div class="pagination-container">
-
-                        <ul class="pagination">
-                            @if (Model.HasPreviousPage)
-                            {
-                                <li>@Html.ActionLink("<<", "Lista", new { page = 1, idAcademia = ViewBag.Academia })</li>
-                                <li>@Html.ActionLink("<", "Lista", new { page = Model.PageNumber - 1, idAcademia = ViewBag.Academia })</li>
-                            }
-                            @{
-                                int inicio = Model.PageNumber + 2 >= Model.PageCount ? Model.PageCount - 4 : Model.PageNumber - 2;
-                                inicio = inicio < 1 ? 1 : inicio;
-                                int fim = Model.PageNumber >= 3 ? Model.PageNumber + 2 : Model.PageNumber + 4;
-                            }
-                            @for (var i = inicio; i <= fim && i <= Model.PageCount; i++)
-                            {
-                                <li @(i == Model.PageNumber ? "class=active" : "")>
-                                    @Html.ActionLink(i.ToString(), "Lista", new { page = i, idAcademia = ViewBag.Academia })
-                                </li>
-                            }
-                            @if (Model.HasNextPage)
-                            {
-                                <li>@Html.ActionLink(">", "Lista", new { page = Model.PageNumber + 1, idAcademia = ViewBag.Academia })</li>
-                                <li>@Html.ActionLink(">>", "Lista", new { page = Model.PageCount, idAcademia = ViewBag.Academia })</li>
-                            }
-                        </ul>
                     </div>
                 </div>
             </section>
