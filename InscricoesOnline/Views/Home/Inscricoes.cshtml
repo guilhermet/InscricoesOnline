@@ -167,6 +167,10 @@
                     </div>
                 }
             </div>
+
+            <div class="text-center" style="margin-top: 20px">
+                <button type="button" class="bttnFinalizar btn btn-primary">Finalizar</button>
+            </div>
         </div>
     </div>
 </div>
@@ -220,7 +224,7 @@
             $.ajax(
             {
                 type: "POST",
-                url: "/InscricoesOnline/Home/BuscaCategoriaFaixaPoomsae",
+                url: "/brazilOpen/Home/BuscaCategoriaFaixaPoomsae",
                 data: "{" +
                     "ordem: '" + ordem + "' " +
                     "}",
@@ -241,7 +245,7 @@
             $.ajax(
             {
                 type: "POST",
-                url: "/InscricoesOnline/Home//BuscaCategoriaIdadePoomsae",
+                url: "/brazilOpen/Home//BuscaCategoriaIdadePoomsae",
                 data: "{" +
                     "dataNascimento: '" + $(".txtNascimento").val() + "' " +
                     "}",
@@ -249,7 +253,7 @@
                 dataType: "json",
                 success: function (n) {
                     $(".cbxIdadePoomsae").empty();
- 
+
                     for (var j = 0; j < n.length; j++) {
                         $("<option>").attr({ value: n[j].Id }).text(n[j].Titulo).appendTo($(".cbxIdadePoomsae"));
                     }
@@ -263,7 +267,7 @@
             $.ajax(
             {
                 type: "POST",
-                url: "/InscricoesOnline/Home/BuscaCategoriaFaixaLuta",
+                url: "/brazilOpen/Home/BuscaCategoriaFaixaLuta",
                 data: "{" +
                     "ordem: '" + ordem + "', " +
                     "nascimento: '" + $(".txtNascimento").val() + "' " +
@@ -286,7 +290,7 @@
             $.ajax(
             {
                 type: "POST",
-                url: "/InscricoesOnline/Home/BuscaCategoriaIdadeLuta",
+                url: "/brazilOpen/Home/BuscaCategoriaIdadeLuta",
                 data: "{" +
                     "modalidadeId: '" + $(".cbxFaixaLuta").children("option:selected").attr("data-modalidade") + "'," +
                     "dataNascimento: '" + $(".txtNascimento").val() + "' " +
@@ -309,7 +313,7 @@
             $.ajax(
             {
                 type: "POST",
-                url: "/InscricoesOnline/Home/BuscaCategoriaPesos",
+                url: "/brazilOpen/Home/BuscaCategoriaPesos",
                 data: "{" +
                     "categoriaIdadeId: '" + $(".cbxIdadeLuta").val() + "'," +
                     "sexo: '" + $(".cbxSexo").val() + "' " +
@@ -334,7 +338,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: "/InscricoesOnline/Home/DeleteInscricao",
+                    url: "/brazilOpen/Home/DeleteInscricao",
                     data: "{" +
                         "id: '" + id + "' " +
                         "}",
@@ -342,6 +346,7 @@
                     dataType: "json",
                     success: function (n) {
                         $("#btn-excluir-" + id).parent().parent().remove();
+                        liberaFinalizar();
                     }, error: function (n) {
                         alert("Erro ao excluir a inscrição, tente novamente")
                     }
@@ -392,7 +397,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: "/InscricoesOnline/Home/InserirAtleta",
+                    url: "/brazilOpen/Home/InserirAtleta",
                     data: "{" +
                         "eventoId: '" + @Model.Equipe.EventoId + "', " +
                         "equipeId: '" + @Model.Equipe.Id + "', " +
@@ -457,26 +462,27 @@
                             $("<div>").addClass("col-lg-1 text-center").appendTo("#line-" + n.Id);
                         }
 
-                        //$("#btn-excluir-" + n.Id).click(function () {
+                        $("#btn-excluir-" + n.Id).click(function () {
 
-                        //    let id = $(this).data("id");
+                            let id = $(this).data("id");
 
-                        //    $.ajax(
-                        //        {
-                        //            type: "POST",
-                        //            url: "/InscricoesOnline/Home//DeleteInscricao",
-                        //            data: "{" +
-                        //                "id: '" + id + "' " +
-                        //                "}",
-                        //            contentType: "application/json",
-                        //            dataType: "json",
-                        //            success: function (n) {
-                        //                $("#btn-excluir-" + id).parent().parent().remove();
-                        //            }, error: function (n) {
-                        //                alert("Erro ao excluir a inscrição, tente novamente")
-                        //            }
-                        //        })
-                        //})
+                            $.ajax(
+                                {
+                                    type: "POST",
+                                    url: "/brazilOpen/Home/DeleteInscricao",
+                                    data: "{" +
+                                        "id: '" + id + "' " +
+                                        "}",
+                                    contentType: "application/json",
+                                    dataType: "json",
+                                    success: function (n) {
+                                        $("#btn-excluir-" + id).parent().parent().remove();
+                                        liberaFinalizar();
+                                    }, error: function (n) {
+                                        alert("Erro ao excluir a inscrição, tente novamente")
+                                    }
+                                })
+                        })
 
                         $(".txtNome").val("");
                         $(".txtNascimento").val("");
@@ -494,9 +500,24 @@
                         $(".cbxFaixaPoomsae").val("");
                         $(".cbxIdadePoomsae").val("");
                         $(".txtNome").focus();
+
+                        liberaFinalizar();
                     }
                 })
         });
+
+        function liberaFinalizar() {
+            if ($(".line").length > 0)
+                $(".bttnFinalizar").show();
+            else
+                $(".bttnFinalizar").hide();
+        }
+
+    $(".bttnFinalizar").click(function () {
+        alert("Inscrições realizadas com sucesso");
+    });
+
+        liberaFinalizar();
 
         function VerificaData(cData)
         {
