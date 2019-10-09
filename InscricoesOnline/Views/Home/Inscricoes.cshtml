@@ -220,7 +220,7 @@
             $.ajax(
             {
                 type: "POST",
-                url: "/brazilopen/Home/BuscaCategoriaFaixaPoomsae",
+                url: "/InscricoesOnline/Home/BuscaCategoriaFaixaPoomsae",
                 data: "{" +
                     "ordem: '" + ordem + "' " +
                     "}",
@@ -241,7 +241,7 @@
             $.ajax(
             {
                 type: "POST",
-                url: "/brazilopen/Home//BuscaCategoriaIdadePoomsae",
+                url: "/InscricoesOnline/Home//BuscaCategoriaIdadePoomsae",
                 data: "{" +
                     "dataNascimento: '" + $(".txtNascimento").val() + "' " +
                     "}",
@@ -263,7 +263,7 @@
             $.ajax(
             {
                 type: "POST",
-                url: "/brazilopen/Home/BuscaCategoriaFaixaLuta",
+                url: "/InscricoesOnline/Home/BuscaCategoriaFaixaLuta",
                 data: "{" +
                     "ordem: '" + ordem + "', " +
                     "nascimento: '" + $(".txtNascimento").val() + "' " +
@@ -286,7 +286,7 @@
             $.ajax(
             {
                 type: "POST",
-                url: "/brazilopen/Home/BuscaCategoriaIdadeLuta",
+                url: "/InscricoesOnline/Home/BuscaCategoriaIdadeLuta",
                 data: "{" +
                     "modalidadeId: '" + $(".cbxFaixaLuta").children("option:selected").attr("data-modalidade") + "'," +
                     "dataNascimento: '" + $(".txtNascimento").val() + "' " +
@@ -309,7 +309,7 @@
             $.ajax(
             {
                 type: "POST",
-                url: "/brazilopen/Home/BuscaCategoriaPesos",
+                url: "/InscricoesOnline/Home/BuscaCategoriaPesos",
                 data: "{" +
                     "categoriaIdadeId: '" + $(".cbxIdadeLuta").val() + "'," +
                     "sexo: '" + $(".cbxSexo").val() + "' " +
@@ -334,7 +334,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: "/brazilopen/Home/DeleteInscricao",
+                    url: "/InscricoesOnline/Home/DeleteInscricao",
                     data: "{" +
                         "id: '" + id + "' " +
                         "}",
@@ -392,7 +392,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: "/brazilopen/Home/InserirAtleta",
+                    url: "/InscricoesOnline/Home/InserirAtleta",
                     data: "{" +
                         "eventoId: '" + @Model.Equipe.EventoId + "', " +
                         "equipeId: '" + @Model.Equipe.Id + "', " +
@@ -464,7 +464,7 @@
                         //    $.ajax(
                         //        {
                         //            type: "POST",
-                        //            url: "/brazilopen/Home//DeleteInscricao",
+                        //            url: "/InscricoesOnline/Home//DeleteInscricao",
                         //            data: "{" +
                         //                "id: '" + id + "' " +
                         //                "}",

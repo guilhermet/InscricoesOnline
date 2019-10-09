@@ -127,14 +127,16 @@ namespace InscricoesOnline.Controllers
                     db.Equipes.Add(equipe);
                     db.SaveChanges();
 
-                    return RedirectToAction("Inscricoes", new { id = equipe.Id });
+                    SiteSessionPersister.IdEquipe = equipe.Id;
+
+                    return RedirectToAction("Inscricoes");
                 }
             }
 
             return View(equipe);
         }
 
-        [Route("Inscricoes/{id}")]
+        [Route("Inscricoes")]
         [SiteAuthorize]
         public ActionResult Inscricoes()
         {
