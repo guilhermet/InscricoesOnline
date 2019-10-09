@@ -13,17 +13,17 @@ using InscricoesOnline.Models;
 
 namespace InscricoesOnline.Controllers.Admin.Cadastro
 {
-    public class AcademiasController : Controller
+    public class EquipesController : Controller
     {
         private IOContext db = new IOContext();
 
-        [Route("Admin/Academias/Lista")]
+        [Route("Admin/Equipes/Lista")]
         public ActionResult Lista()
         {
             return View(db.Equipes.OrderBy(a => a.Nome).ToList());
         }
 
-        [Route("Admin/Academias/Visualizar/{id}")]
+        [Route("Admin/Equipes/Visualizar/{id}")]
         public ActionResult Visualizar(long? id)
         {
             if (id == null)
@@ -38,7 +38,7 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
             return View(equipe);
         }
 
-        [Route("Admin/Academias/Novo")]
+        [Route("Admin/Equipes/Novo")]
         public ActionResult Novo()
         {
             return View();
@@ -46,7 +46,7 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Admin/Academias/NovoSalvar")]
+        [Route("Admin/Equipes/NovoSalvar")]
         public ActionResult NovoSalvar(Equipe equipe)
         {
             equipe.DataRegistro = DateTime.Now;
@@ -60,7 +60,7 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
             return View("Novo", equipe);
         }
 
-        [Route("Admin/Academias/Edit/{id}")]
+        [Route("Admin/Equipes/Edit/{id}")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -78,7 +78,7 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Admin/Academias/EditSalvar")]
+        [Route("Admin/Equipes/EditSalvar")]
         public ActionResult EditSalvar(Equipe equipe, FormCollection form)
         {
             if (ModelState.IsValid)

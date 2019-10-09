@@ -1,4 +1,4 @@
-﻿@model InscricoesOnline.Models.Academia
+﻿@model InscricoesOnline.Models.Equipe
 
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -11,7 +11,7 @@
                 <small>
                     <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
                     <span class="text-muted">/</span>
-                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Academias")">Academias</a></span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Equipes")">Equipes</a></span>
                     <span class="text-muted">/</span>
                     <span class="text-muted">Novo</span>
                 </small>
@@ -20,7 +20,7 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            @using (Html.BeginForm("NovoSalvar", "Academias", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "panel panel-green fv-form fv-form-bootstrap", @id = "form-acad" }))
+            @using (Html.BeginForm("NovoSalvar", "Equipes", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "panel panel-green fv-form fv-form-bootstrap", @id = "form-acad" }))
             {
                 @Html.AntiForgeryToken()
 
@@ -33,33 +33,8 @@
                             <p>* Campos obrigatórios</p>
                         </div>
                     </div>
-                    <div class="text-center">
-                        @Html.CheckBoxFor(model => model.Ativo, new { @class = "chkAtivo hidden", @checked = "true" })
-                    </div>
 
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                    <div class="form-group">
-                        <fieldset>
-                            <legend class="text-primary pad-top-15">Logo</legend>
-                            <div class="clearfix">
-                                <div class="alert alert-danger pull-left">
-                                    <ul>
-                                        <li>• Logo para o site</li>
-                                        <li>• Extensões permitidas: .jpg</li>
-                                        <li>• Tamanho final da imagem: 350x142 pixels</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="dropzone smalltext smalltools smalladded" style="width: 350px; height: 144px;" data-hidden="hidCrop" data-width="350" data-height="142" data-ajax="false" data-resize="true" data-originalsize="false">
-                                    <input type="file" class="fileCrop" id="fileCrop" name="fileCrop" accept=".jpg">
-                                    <i class="form-control-feedback fv-icon-no-label" data-fv-icon-for="fileCrop" style="display: none; position: absolute;"></i>
-                                </div>
-                                <input type="hidden" id="hidCrop" name="hidCrop">
-                            </div>
-                        </fieldset>
-                    </div>
 
                     <div class="form-group">
                         <label for="txtNome"><span class="text-alerta">*</span> Nome:</label>
@@ -70,61 +45,7 @@
                         <label for="txtCNPJ"> CNPJ:</label>
                         @Html.EditorFor(model => model.CNPJ, new { htmlAttributes = new { @class = "form-control", @id = "txtCNPJ", @maxlength = 20 } })
                     </div>
-                    <div class="form-group">
-                        <label for="drpContrato"><span class="text-alerta">*</span> Tipo de contrato:</label>
-                        @Html.DropDownListFor(model => model.TipoContrato, new SelectList(
-                           new System.Collections.Generic.List<object>{
-                                        new {contrato = "Plena"},
-                                        new {contrato = "Vinculada"},
-                                        new {contrato = "Licenciada"}
-                           }, "contrato", "contrato", "Plena"), new { @class = "form-control" })
-                    </div>
 
-                    <div class="form-group div-academia">
-                        <label for="drpAcademia"><span class="text-alerta">*</span> Vinculada à Academia:</label>
-                        @Html.DropDownListFor(model => model.AcademiaId, ((IEnumerable<InscricoesOnline.Models.Academia>)ViewBag.Academias).Select(option => new SelectListItem
-                        {
-                            Text = option.Nome,
-                            Value = option.Id.ToString(),
-                            Selected = (Model != null) && (option.Id == Model.AcademiaId)
-                        }), "", new { @class = "form-control select2-offscreen", @id = "drpAcademia" })
-                    </div>
-
-                    <div class="form-group">
-                        <label for="txtCEP"><span class="text-alerta">*</span> CEP:</label>
-                        @Html.EditorFor(model => model.Endereco.CEP, new { htmlAttributes = new { @class = "form-control cep", @id = "txtCEP", @maxlength = 15 } })
-                    </div>
-
-                    <div class="form-group">
-                        <label><span class="text-alerta">*</span> Endereço:</label>
-                        @Html.EditorFor(model => model.Endereco.Logradouro, new { htmlAttributes = new { @class = "form-control", @id = "txtLogradouro", @maxlength = 100 } })
-                    </div>
-
-                    <div class="form-group">
-                        <label><span class="text-alerta">*</span> Número:</label>
-                        @Html.EditorFor(model => model.Endereco.Numero, new { htmlAttributes = new { @class = "form-control", @id = "txtNumero", @maxlength = 20 } })
-                    </div>
-
-                    <div class="form-group">
-                        <label> Complemento:</label>
-                        @Html.EditorFor(model => model.Endereco.Complemento, new { htmlAttributes = new { @class = "form-control", @id = "txtComlemento", @maxlength = 150 } })
-                    </div>
-                    <div class="form-group">
-                        <label> Bairro:</label>
-                        @Html.EditorFor(model => model.Endereco.Bairro, new { htmlAttributes = new { @class = "form-control", @id = "txtBairro", @maxlength = 100 } })
-                    </div>
-                    <div class="form-group hidden">
-                        <label><span class="text-alerta">*</span> UF:</label>
-                        @Html.DropDownListFor(model => model.Endereco.Estado, new SelectList(new System.Collections.Generic.List<object> { }), new { @class = "form-control", @id = "drpEstado", @value = "PR" })
-                    </div>
-                    <div class="form-group">
-                        <label><span class="text-alerta">*</span> Cidade:</label>
-                        @Html.DropDownListFor(model => model.Endereco.Cidade, new SelectList(new System.Collections.Generic.List<object> { }), new { @class = "form-control", @id = "drpCidade" })
-                    </div>
-                    <div class="form-group">
-                        <label> Observação:</label>
-                        @Html.EditorFor(model => model.Observacoes, new { htmlAttributes = new { @class = "form-control", @maxlength = 400 } })
-                    </div>
                     <div class="panel-footer text-center">
                         <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i> Salvar</button>
                     </div>
@@ -138,24 +59,6 @@
 @section scripts{
     <script>
 
-        if ($("#TipoContrato").val() == "Vinculada") {
-            $(".div-academia").show()
-        }
-        else {
-            $(".div-academia").hide()
-        }
-
-        $("#TipoContrato").change(function () {
-            if ($(this).val() == "Vinculada") {
-                $(".div-academia").show()
-            }
-            else {
-                $(".div-academia").hide()
-            }
-        });
-
-        $("#drpAcademia").not("[style*='display:none']").select2();
-
         $('#form-acad').formValidation({
             framework: '',
             err: {
@@ -168,58 +71,6 @@
             },
             fields: {
                 Nome: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Campo obrigatório'
-                        }
-                    }
-                },
-                'AcademiaId': {
-                    validators: {
-                        callback: {
-                            message: 'Campo obrigatório',
-                            callback: function (value, validator, $field) {
-                                return (value !== "");
-                            }
-                        }
-                    }
-                },
-                TipoContrato: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Campo obrigatório'
-                        }
-                    }
-                },
-                'Endereco.CEP': {
-                    validators: {
-                        notEmpty: {
-                            message: 'Campo obrigatório'
-                        }
-                    }
-                },
-                'Endereco.Logradouro': {
-                    validators: {
-                        notEmpty: {
-                            message: 'Campo obrigatório'
-                        }
-                    }
-                },
-                'Endereco.Numero': {
-                    validators: {
-                        notEmpty: {
-                            message: 'Campo obrigatório'
-                        }
-                    }
-                },
-                'Endereco.Bairro': {
-                    validators: {
-                        notEmpty: {
-                            message: 'Campo obrigatório'
-                        }
-                    }
-                },
-                'Endereco.Cidade': {
                     validators: {
                         notEmpty: {
                             message: 'Campo obrigatório'
