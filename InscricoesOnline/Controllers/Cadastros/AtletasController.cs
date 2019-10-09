@@ -14,7 +14,7 @@ using InscricoesOnline.Models;
 
 namespace InscricoesOnline.Controllers.Admin.Cadastro
 {
-    public class FiliadosController : Controller
+    public class AtletasController : Controller
     {
         private IOContext db = new IOContext();
 

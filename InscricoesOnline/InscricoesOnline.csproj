@@ -3459,13 +3459,9 @@
     <Content Include="Views\CategoriaIdade\ListaCategoriaLutaPeso.cshtml" />
     <Content Include="Views\CategoriaIdade\Novo.cshtml" />
     <Content Include="Views\CategoriaIdade\NovoCategoriaLutaPeso.cshtml" />
-    <Content Include="Views\Equipes\Contatos.cshtml" />
     <Content Include="Views\Equipes\Edit.cshtml" />
-    <Content Include="Views\Equipes\EditarContato.cshtml" />
     <Content Include="Views\Equipes\Lista.cshtml" />
     <Content Include="Views\Equipes\Novo.cshtml" />
-    <Content Include="Views\Equipes\NovoContato.cshtml" />
-    <Content Include="Views\Equipes\Visualizar.cshtml" />
     <Content Include="Views\Eventos\Arbitro.cshtml" />
     <Content Include="Views\Eventos\Edit.cshtml" />
     <Content Include="Views\Eventos\Lista.cshtml" />
