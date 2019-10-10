@@ -1,4 +1,4 @@
-﻿@model InscricoesOnline.Models.Filiado
+﻿@model InscricoesOnline.Models.Atleta
 
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -11,9 +11,9 @@
                 <small>
                     <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
                     <span class="text-muted">/</span>
-                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Filiados")">Filiados</a></span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Atletas")">Filiados</a></span>
                     <span class="text-muted">/</span>
-                    <span class="text-muted text-capitalize"><a class="text-primary" href="@Url.Action("Visualizar", "Filiados", new { id = Model.Id })">@Model.Nome.ToLower()</a></span>
+                    <span class="text-muted text-capitalize"><a class="text-primary" href="@Url.Action("Visualizar", "Atletas", new { id = Model.Id })">@Model.Nome.ToLower()</a></span>
                     <span class="text-muted">/</span>
                     <span class="text-muted">Edição</span>
                 </small>
@@ -22,7 +22,7 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            @using (Html.BeginForm("EditSalvar", "Filiados", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-con panel panel-primary fv-form fv-form-bootstrap", @id = "form-fili", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("EditSalvar", "Atletas", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-con panel panel-primary fv-form fv-form-bootstrap", @id = "form-fili", @enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 <header class="panel-heading">
@@ -37,39 +37,13 @@
 
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.Id)
-                    @Html.HiddenFor(model => model.Endereco.Id)
-                    @Html.HiddenFor(model => model.EnderecoId)
-                    @Html.HiddenFor(model => model.URLFoto)
                     @Html.HiddenFor(model => model.DataRegistro)
-                    @Html.HiddenFor(model => model.ClienteFornecedorId)
 
                     <div class="text-center">
                         @Html.CheckBoxFor(model => model.Ativo, new { @class = "chkAtivo hidden", @checked = "true" })
                     </div>
 
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                    <div class="form-group">
-                        <fieldset>
-                            <legend class="text-primary pad-top-15">Imagem</legend>
-                            <div class="clearfix">
-                                <div class="alert alert-danger pull-left">
-                                    <ul>
-                                        <li>• Campo obrigatório</li>
-                                        <li>• Extensões permitidas: .jpg</li>
-                                        <li>• Tamanho final da imagem: 145x192 pixels</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="dropzone smalltext smalltools smalladded" style="width: 200px; height: 265px;" data-hidden="hidCrop" data-width="145" data-height="192" data-ajax="false" data-resize="true" data-originalsize="false" data-image="/Static/Uploads/Admin/Filiados/@(Model.URLFoto)">
-                                    <input type="file" class="fileCrop" id="fileCrop" name="fileCrop" accept=".jpg">
-                                    <i class="form-control-feedback fv-icon-no-label" data-fv-icon-for="fileCrop" style="display: none; position: absolute;"></i>
-                                </div>
-                                <input type="hidden" id="hidCrop" name="hidCrop">
-                            </div>
-                        </fieldset>
-                    </div>
 
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label for="txtAtivarInscricao">Categoria ParaTaekwondo:</label>
@@ -83,23 +57,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="drpAcademia"><span class="text-alerta">*</span> Academia:</label>
-                        @Html.DropDownListFor(model => model.AcademiaId, ((IEnumerable<InscricoesOnline.Models.Academia>)ViewBag.Academias).Select(option => new SelectListItem
-        {
-            Text = option.Nome,
-            Value = option.Id.ToString(),
-            Selected = (Model != null) && (option.Id == Model.AcademiaId)
-        }), new { @class = "form-control select2-offscreen", @id = "drpAcademia" })
+                        <label for="drpAcademia"><span class="text-alerta">*</span> Equipe:</label>
+                        @Html.DropDownListFor(model => model.EquipeId, ((IEnumerable<InscricoesOnline.Models.Equipe>)ViewBag.Academias).Select(option => new SelectListItem
+                        {
+                            Text = option.Nome,
+                            Value = option.Id.ToString(),
+                            Selected = (Model != null) && (option.Id == Model.EquipeId)
+                        }), new { @class = "form-control select2-offscreen", @id = "drpAcademia" })
                     </div>
 
                     <div class="form-group">
                         <label for="drpFaixa"><span class="text-alerta">*</span> Faixa:</label>
                         @Html.DropDownListFor(model => model.FaixaId, ((IEnumerable<InscricoesOnline.Models.Faixa>)ViewBag.Faixas).Select(option => new SelectListItem
-        {
-            Text = option.Descricao,
-            Value = option.Id.ToString(),
-            Selected = (Model != null) && (option.Id == Model.FaixaId)
-        }), new { @class = "form-control" })
+                        {
+                            Text = option.Descricao,
+                            Value = option.Id.ToString(),
+                            Selected = (Model != null) && (option.Id == Model.FaixaId)
+                        }), new { @class = "form-control" })
                     </div>
 
                     <div class="row">
@@ -111,94 +85,16 @@
                         <div class="form-group col-lg-3">
                             <label for="drpSexo"><span class="text-alerta">*</span> Sexo:</label>
                             @Html.DropDownListFor(model => model.Sexo, new SelectList(
-           new System.Collections.Generic.List<object>{
-                                    new {value = "M", sexo = "Masculino"},
-                                    new {value = "F", sexo = "Feminino"}
-           }, "value", "sexo", "Masculino"), new { @class = "form-control", @id = "drpSexo", @name = "drpSexo" })
-                        </div>
-
-                        <div class="form-group col-lg-3">
-                            <label for="txtRG">RG:</label>
-                            @Html.EditorFor(model => model.RG, new { htmlAttributes = new { @class = "form-control", @id = "txtRG", @name = "txtRG", @maxlength = 20 } })
+                               new System.Collections.Generic.List<object>{
+                                                        new {value = "M", sexo = "Masculino"},
+                                                        new {value = "F", sexo = "Feminino"}
+                               }, "value", "sexo", "Masculino"), new { @class = "form-control", @id = "drpSexo", @name = "drpSexo" })
                         </div>
 
                         <div class="form-group col-lg-3">
                             <label for="txtCPF">CPF:</label>
                             @Html.EditorFor(model => model.CPF, new { htmlAttributes = new { @class = "form-control cpf", @id = "txtCPF", @name = "txtCPF", @maxlength = 20 } })
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-lg-6">
-                            <label for="txtCertidao">Certidão de Nascimento:</label>
-                            @Html.EditorFor(model => model.CertidaoNascimento, new { htmlAttributes = new { @class = "form-control", @id = "txtCertidao", @name = "txtCertidao", @maxlength = 40 } })
-                        </div>
-
-                        <div class="form-group col-lg-6">
-                            <label for="drpEstCivil"><span class="text-alerta">*</span> Estado Civil:</label>
-                            @Html.DropDownListFor(model => model.EstadoCivil, new SelectList(
-           new System.Collections.Generic.List<object>{
-                                    new {value = "Solteiro"},
-                                    new {value = "Casado"}
-           }, "value", "value", "Solteiro"), new { @class = "form-control", @id = "drpEstCivil", @name = "drpEstCivil" })
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-lg-6">
-                            <label for="txtNomePai">Nome do Pai:</label>
-                            @Html.EditorFor(model => model.NomePai, new { htmlAttributes = new { @class = "form-control", @id = "txtNomePai", @name = "txtNomePai", @maxlength = 150 } })
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <label for="txtNomeMae">Nome da Mãe:</label>
-                            @Html.EditorFor(model => model.NomeMae, new { htmlAttributes = new { @class = "form-control", @id = "txtNomeMae", @name = "txtNomeMae", @maxlength = 150 } })
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="txtRegCBTKD">Registro CBTKD</label>
-                        @Html.EditorFor(model => model.RegistroCBTKD, new { htmlAttributes = new { @class = "form-control", @id = "txtRegCBTKD", @name = "txtRegCBTKD", @maxlength = 40 } })
-                    </div>
-
-                    <div class="form-group">
-                        <label for="txtCEP"><span class="text-alerta">*</span> CEP:</label>
-                        @Html.EditorFor(model => model.Endereco.CEP, new { htmlAttributes = new { @class = "form-control cep", @id = "txtCEP", @name = "txtCEP", @maxlength = 15 } })
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-lg-6">
-                            <label for="drpEstado"><span class="text-alerta">*</span> Estado:</label>
-                            @Html.DropDownListFor(model => model.Endereco.Estado, new SelectList(new System.Collections.Generic.List<object> { }), new { @class = "form-control", @id = "drpEstado", @name = "drpEstado", @value = Model.Endereco.Estado })
-                        </div>
-
-                        <div class="form-group col-lg-6">
-                            <label for="drpCidade"><span class="text-alerta">*</span> Cidade:</label>
-                            @Html.DropDownListFor(model => model.Endereco.Cidade, new SelectList(new System.Collections.Generic.List<object> { }), new { @class = "form-control", @id = "drpCidade", @name = "drpCidade", @value = Model.Endereco.Cidade })
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="txtEndereco"><span class="text-alerta">*</span> Logradouro:</label>
-                        @Html.EditorFor(model => model.Endereco.Logradouro, new { htmlAttributes = new { @class = "form-control", @id = "txtEndereco", @name = "txtEndereco", @maxlength = 100 } })
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-lg-2">
-                            <label for="txtNumero"><span class="text-alerta">*</span> Número:</label>
-                            @Html.EditorFor(model => model.Endereco.Numero, new { htmlAttributes = new { @class = "form-control", @id = "txtNumero", @name = "txtNumero", @maxlength = 20 } })
-                        </div>
-
-                        <div class="form-group col-lg-10">
-                            <label for="txtComplemento">Complemento:</label>
-                            @Html.EditorFor(model => model.Endereco.Complemento, new { htmlAttributes = new { @class = "form-control", @id = "txtComplemento", @name = "txtComplemento", @maxlength = 150 } })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="txtDescricao">Observações:</label>
-                        @Html.EditorFor(model => model.Observacoes, new { htmlAttributes = new { @class = "form-control", @id = "txtDescricao", @name = "txtDescricao", @maxlength = 400 } })
                     </div>
 
                     <div style="clear: both" />
@@ -278,7 +174,7 @@
                             }
                         }
                     },
-                    'AcademiaId': {
+                    'EquipeId': {
                         validators: {
                             callback: {
                                 message: 'Campo obrigatório',
@@ -301,48 +197,6 @@
                                 format: 'DD/MM/YYYY',
                                 message: 'Data inválida'
                             },
-                            notEmpty: {
-                                message: 'Campo obrigatório'
-                            }
-                        }
-                    },
-                    'Endereco.CEP': {
-                        validators: {
-                            notEmpty: {
-                                message: "Campo obrigatório"
-                            },
-                        }
-                    },
-                    'Endereco.Logradouro': {
-                        validators: {
-                            notEmpty: {
-                                message: "Campo obrigatório"
-                            }
-                        }
-                    },
-                    'Endereco.Numero': {
-                        validators: {
-                            notEmpty: {
-                                message: "Campo obrigatório"
-                            }
-                        }
-                    },
-                    'Endereco.Cidade': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Campo obrigatório'
-                            }
-                        }
-                    },
-                    'Endereco.Estado': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Campo obrigatório'
-                            }
-                        }
-                    },
-                    EstadoCivil: {
-                        validators: {
                             notEmpty: {
                                 message: 'Campo obrigatório'
                             }

@@ -16,6 +16,7 @@ using InscricoesOnline.ViewModel;
 
 namespace InscricoesOnline.Controllers
 {
+    [AdminAuthorizeAttribute]
     public class AccountController : Controller
     {
         private IOContext db = new IOContext();

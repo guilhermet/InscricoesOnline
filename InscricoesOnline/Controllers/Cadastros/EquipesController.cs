@@ -10,9 +10,11 @@ using System.Web.Routing;
 using System.IO;
 using System.Drawing;
 using InscricoesOnline.Models;
+using InscricoesOnline.Security;
 
 namespace InscricoesOnline.Controllers.Admin.Cadastro
 {
+    [AdminAuthorizeAttribute]
     public class EquipesController : Controller
     {
         private IOContext db = new IOContext();
@@ -20,7 +22,7 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
         [Route("Admin/Equipes/Lista")]
         public ActionResult Lista()
         {
-            return View(db.Equipes.OrderBy(a => a.Nome).ToList());
+            return View(db.Equipes.Where(a => a.EventoId == AdminSessionPersister.Evento.Id).OrderBy(a => a.Nome).ToList());
         }
 
         [Route("Admin/Equipes/Visualizar/{id}")]
@@ -79,7 +81,7 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/Equipes/EditSalvar")]
-        public ActionResult EditSalvar(Equipe equipe, FormCollection form)
+        public ActionResult EditSalvar(Equipe equipe)
         {
             if (ModelState.IsValid)
             {

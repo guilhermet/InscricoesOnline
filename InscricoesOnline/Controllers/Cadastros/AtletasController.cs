@@ -11,9 +11,11 @@ using System.IO;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using InscricoesOnline.Models;
+using InscricoesOnline.Security;
 
 namespace InscricoesOnline.Controllers.Admin.Cadastro
 {
+    [AdminAuthorizeAttribute]
     public class AtletasController : Controller
     {
         private IOContext db = new IOContext();
@@ -21,7 +23,7 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
         [Route("Admin/Atletas/Lista")]
         public ActionResult Lista(long? idEquipe)
         {
-            var filiados = db.Atletas.Where(f => (idEquipe != null && idEquipe != 0 ? f.EquipeId == idEquipe : true)).OrderByDescending(f => f.Ativo).ThenBy(f => f.Nome);
+            var filiados = db.Atletas.Where(f => (idEquipe != null && idEquipe != 0 ? f.EquipeId == idEquipe : true) && f.Equipe.EventoId == AdminSessionPersister.Evento.Id).OrderByDescending(f => f.Ativo).ThenBy(f => f.Nome);
 
             ViewBag.TotalFiliados = filiados.Count();
             ViewBag.Academia = idEquipe;
@@ -57,7 +59,7 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/Atletas/NovoSalvar")]
-        public ActionResult NovoSalvar(Atleta atleta, FormCollection form)
+        public ActionResult NovoSalvar(Atleta atleta)
         {
             atleta.DataRegistro = DateTime.Now;
             if (ModelState.IsValid)
@@ -93,7 +95,7 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/Atletas/EditarSalvar")]
-        public ActionResult EditSalvar(Atleta atleta, FormCollection form)
+        public ActionResult EditSalvar(Atleta atleta)
         {
             if (ModelState.IsValid)
             {

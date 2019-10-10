@@ -1,4 +1,4 @@
-﻿@model InscricoesOnline.Models.Filiado
+﻿@model InscricoesOnline.Models.Atleta
 
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -11,7 +11,7 @@
                 <small>
                     <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
                     <span class="text-muted">/</span>
-                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Filiados")">Filiados</a></span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Atletas")">Filiados</a></span>
                     <span class="text-muted">/</span>
                     <span class="text-muted">Novo</span>
                 </small>
@@ -20,7 +20,7 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            @using (Html.BeginForm("NovoSalvar", "Filiados", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-con panel panel-green fv-form fv-form-bootstrap", @id = "form-fili", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("NovoSalvar", "Atletas", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-con panel panel-green fv-form fv-form-bootstrap", @id = "form-fili", @enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 <header class="panel-heading">
@@ -73,11 +73,11 @@
 
                     <div class="form-group">
                         <label for="drpAcademia"><span class="text-alerta">*</span> Academia:</label>
-                        @Html.DropDownListFor(model => model.AcademiaId, ((IEnumerable<InscricoesOnline.Models.Academia>)ViewBag.Academias).Select(option => new SelectListItem
+                        @Html.DropDownListFor(model => model.EquipeId, ((IEnumerable<InscricoesOnline.Models.Equipe>)ViewBag.Academias).Select(option => new SelectListItem
                         {
                             Text = option.Nome,
                             Value = option.Id.ToString(),
-                            Selected = (Model != null) && (option.Id == Model.AcademiaId)
+                            Selected = (Model != null) && (option.Id == Model.EquipeId)
                         }), "", new { @class = "form-control select2-offscreen", @id = "drpAcademia" })
                     </div>
 
@@ -107,86 +107,9 @@
                         </div>
 
                         <div class="form-group col-lg-3">
-                            <label for="txtRG">RG:</label>
-                            @Html.EditorFor(model => model.RG, new { htmlAttributes = new { @class = "form-control", @id = "txtRG", @maxlength = 20 } })
-                        </div>
-
-                        <div class="form-group col-lg-3">
                             <label for="txtCPF">CPF:</label>
                             @Html.EditorFor(model => model.CPF, new { htmlAttributes = new { @class = "form-control cpf", @id = "txtCPF", @maxlength = 20 } })
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-lg-6">
-                            <label for="txtCertidao">Certidão de Nascimento:</label>
-                            @Html.EditorFor(model => model.CertidaoNascimento, new { htmlAttributes = new { @class = "form-control", @id = "txtCertidao", @maxlength = 40 } })
-                        </div>
-
-                        <div class="form-group col-lg-6">
-                            <label for="drpEstCivil"><span class="text-alerta">*</span> Estado Civil:</label>
-                            @Html.DropDownListFor(model => model.EstadoCivil, new SelectList(
-                           new System.Collections.Generic.List<object>{
-                                                    new {value = "Solteiro"},
-                                                    new {value = "Casado"}
-                           }, "value", "value", "Solteiro"), new { @class = "form-control", @id = "drpEstCivil" })
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-lg-6">
-                            <label for="txtNomePai">Nome do Pai:</label>
-                            @Html.EditorFor(model => model.NomePai, new { htmlAttributes = new { @class = "form-control", @id = "txtNomePai", @maxlength = 150 } })
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <label for="txtNomeMae">Nome da Mãe:</label>
-                            @Html.EditorFor(model => model.NomeMae, new { htmlAttributes = new { @class = "form-control", @id = "txtNomeMae", @maxlength = 150 } })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="txtRegCBTKD">Registro CBTKD</label>
-                        @Html.EditorFor(model => model.RegistroCBTKD, new { htmlAttributes = new { @class = "form-control", @id = "txtRegCBTKD", @maxlength = 40 } })
-                    </div>
-
-                    <div class="form-group">
-                        <label for="txtCEP"><span class="text-alerta">*</span> CEP:</label>
-                        @Html.EditorFor(model => model.Endereco.CEP, new { htmlAttributes = new { @class = "form-control cep", @id = "txtCEP", @maxlength = 15 } })
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-lg-6">
-                            <label for="drpEstado"><span class="text-alerta">*</span> Estado:</label>
-                            @Html.DropDownListFor(model => model.Endereco.Estado, new SelectList(new System.Collections.Generic.List<object> { }), new { @class = "form-control", @id = "drpEstado", @value = "PR" })
-                        </div>
-
-                        <div class="form-group col-lg-6">
-                            <label for="drpCidade"><span class="text-alerta">*</span> Cidade:</label>
-                            @Html.DropDownListFor(model => model.Endereco.Cidade, new SelectList(new System.Collections.Generic.List<object> { }), new { @class = "form-control", @id = "drpCidade" })
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="txtEndereco"><span class="text-alerta">*</span> Logradouro:</label>
-                        @Html.EditorFor(model => model.Endereco.Logradouro, new { htmlAttributes = new { @class = "form-control", @id = "txtEndereco", @maxlength = 100 } })
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-lg-2">
-                            <label for="txtNumero"><span class="text-alerta">*</span> Número:</label>
-                            @Html.EditorFor(model => model.Endereco.Numero, new { htmlAttributes = new { @class = "form-control", @id = "txtNumero", @maxlength = 20 } })
-                        </div>
-
-                        <div class="form-group col-lg-10">
-                            <label for="txtComplemento">Complemento:</label>
-                            @Html.EditorFor(model => model.Endereco.Complemento, new { htmlAttributes = new { @class = "form-control", @id = "txtComplemento", @maxlength = 150 } })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="txtDescricao">Observações:</label>
-                        @Html.EditorFor(model => model.Observacoes, new { htmlAttributes = new { @class = "form-control", @id = "txtDescricao", @maxlength = 400 } })
                     </div>
 
                     <div style="clear: both" />
@@ -227,22 +150,6 @@
                     validating: "fa fa-refresh fa-spin"
                 },
                 fields: {
-                    RG: {
-                        trigger: 'blur',
-                        message: "Este RG já existe no sistema",
-                        validators: {
-                            remote: {
-                                url: '/Filiados/ValidarRG/{rg}',
-                                data: function (validator, $field, value) {
-                                    return {
-                                        rg: value,
-                                        id: @(Model == null ? 0 : Model.Id),
-                                    };
-                                },
-                                type: 'POST'
-                            }
-                        }
-                    },
                     CPF: {
                         trigger: 'blur',
                         message: "Este CPF já existe no sistema",
@@ -266,7 +173,7 @@
                             }
                         }
                     },
-                    'AcademiaId': {
+                    'EquipeId': {
                         validators: {
                             callback: {
                                 message: 'Campo obrigatório',
@@ -289,48 +196,6 @@
                                 format: 'DD/MM/YYYY',
                                 message: 'Data inválida'
                             },
-                            notEmpty: {
-                                message: 'Campo obrigatório'
-                            }
-                        }
-                    },
-                    'Endereco.CEP': {
-                        validators: {
-                            notEmpty: {
-                                message: "Campo obrigatório"
-                            },
-                        }
-                    },
-                    'Endereco.Logradouro': {
-                        validators: {
-                            notEmpty: {
-                                message: "Campo obrigatório"
-                            }
-                        }
-                    },
-                    'Endereco.Numero': {
-                        validators: {
-                            notEmpty: {
-                                message: "Campo obrigatório"
-                            }
-                        }
-                    },
-                    'Endereco.Cidade': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Campo obrigatório'
-                            }
-                        }
-                    },
-                    'Endereco.Estado': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Campo obrigatório'
-                            }
-                        }
-                    },
-                    EstadoCivil: {
-                        validators: {
                             notEmpty: {
                                 message: 'Campo obrigatório'
                             }

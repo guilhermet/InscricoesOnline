@@ -24,7 +24,7 @@
                 </header>
                 <div class="panel-body">
                     <div class="pad-bot-15 text-center">
-                        <a href="@Url.Action("Novo", "Filiados")" class="btn btn-success"><i class="fa fa-plus-circle"></i> Novo filiado</a>
+                        <a href="@Url.Action("Novo", "Atletas")" class="btn btn-success"><i class="fa fa-plus-circle"></i> Novo filiado</a>
                     </div>
                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                         <div class="col-sm-12 table-responsive">
@@ -35,23 +35,28 @@
                                         <th>Código</th>
                                         <th>Nome</th>
                                         <th class="text-center">Faixa</th>
-                                        <th>Academia</th>
+                                        <th>Equipe</th>
                                         <th class="text-center">Ativo</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var filiado in Model)
+                                    @foreach (var atleta in Model)
                                     {
                                         <tr role="row">
-                                            <td class="text-center col-md-1">
-                                                <a class="btn btn-warning btn-circle" href="@Url.Action("Visualizar", "Filiados", new { id = filiado.Id })" data-toggle="tooltip" data-placement="top" title="Visualizar informações do filiado"><i class="fa fa-eye"></i></a>
+                                            <td class="text-center col-md-2">
+                                                <a class="btn btn-primary btn-circle" href="@Url.Action("Edit", "Atletas", new { id = atleta.Id })" data-toggle="tooltip" data-placement="top" title="Editar atleta"><i class="fa fa-pencil"></i></a>
+                                                <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Excluir atleta">
+                                                    <a class="btn btn-danger btn-circle btn-excluir" href="#" data-href="@Url.Action("Delete", "Atletas", new { id = atleta.Id })" data-toggle="modal" data-target="#mod-excluir">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                </span>
                                             </td>
-                                            <td> @Html.DisplayFor(modelItem => filiado.Id) </td>
-                                            <td> @Html.DisplayFor(modelItem => filiado.Nome) </td>
-                                            <td class="text-center"> @Html.DisplayFor(modelItem => filiado.Faixa.Descricao) </td>
-                                            <td> @Html.DisplayFor(modelItem => filiado.Equipe.Nome) </td>
+                                            <td> @Html.DisplayFor(modelItem => atleta.Id) </td>
+                                            <td> @Html.DisplayFor(modelItem => atleta.Nome) </td>
+                                            <td class="text-center"> @Html.DisplayFor(modelItem => atleta.Faixa.Descricao) </td>
+                                            <td> @Html.DisplayFor(modelItem => atleta.Equipe.Nome) </td>
                                             <td class="col-md-1 text-center">
-                                                @if (filiado.Ativo)
+                                                @if (atleta.Ativo)
                                                 {
                                                     <i data-toggle="tooltip" data-placement="left" title="Sim" class="fa fa-lg fa-thumbs-up text-success"></i>
                                                 }

@@ -336,16 +336,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Shared\_AdminLoginLayout.cshtml" />
-    <Content Include="Views\Atletas\Contatos.cshtml" />
     <Content Include="Views\Atletas\Edit.cshtml" />
-    <Content Include="Views\Atletas\EditarContato.cshtml" />
-    <Content Include="Views\Atletas\EditUsuario.cshtml" />
     <Content Include="Views\Atletas\Lista.cshtml" />
     <Content Include="Views\Atletas\Novo.cshtml" />
-    <Content Include="Views\Atletas\NovoContato.cshtml" />
-    <Content Include="Views\Atletas\NovoUsuario.cshtml" />
-    <Content Include="Views\Atletas\Visualizar.cshtml" />
-    <Content Include="Views\Atletas\VisualizarUsuario.cshtml" />
     <Content Include="Views\CategoriaFaixa\Edit.cshtml" />
     <Content Include="Views\CategoriaFaixa\Lista.cshtml" />
     <Content Include="Views\CategoriaFaixa\Novo.cshtml" />
