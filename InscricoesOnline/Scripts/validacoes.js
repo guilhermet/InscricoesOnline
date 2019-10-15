@@ -466,17 +466,15 @@ function Filiado() {
     }
 }
 
-function AdicionarAtletaLista(idAcademia, idEvento) {
+function AdicionarAtletaLista(idAcademia) {
     var n = $(".txtCodFili").val();
     var a = idAcademia;
-    var e = idEvento;
     $.ajax(
         {
             type: "POST",
-            url: "/brazilOpen/Admin/BuscaFiliado/{idAcademia}/{idEvento}/{id}",
+            url: "/brazilOpen/Admin/BuscaFiliado/{idAcademia}/{id}",
             data: "{" +
                 "id: '" + n + "'," +
-                "idEvento: '" + e + "'," +
                 "idAcademia: '" + a + "'" +
                 "}",
             contentType: "application/json",
@@ -556,14 +554,13 @@ function AdicionarAtletaLista(idAcademia, idEvento) {
         })
 }
 
-function buscarInscricoes(idAcademia, idEvento) {
+function buscarInscricoes(idAcademia) {
 
     $.ajax(
         {
             type: "POST",
-            url: "/brazilOpen/Admin/BuscaInscricoes/{idAcademia}/{idEvento}",
+            url: "/brazilOpen/Admin/BuscaInscricoes/{idAcademia}",
             data: "{" +
-                "idEvento: '" + idEvento + "'," +
                 "idAcademia: '" + idAcademia + "'" +
                 "}",
             contentType: "application/json",
@@ -599,22 +596,20 @@ function buscarInscricoes(idAcademia, idEvento) {
 }
 
 function Inscricoes() {
-
+    
     if (VerificarURL("Inscricao")) {
         $("#drpAcademia").not("[style*='display:none']").select2();
         $("#drpFiliado").not("[style*='display:none']").select2();
 
-        var u = $("#form-inscricao"), a, e, n, t = 0;
-
-        e = $("#drpEvento").val();
+        var u = $("#form-inscricao"), a, n, t = 0;
 
         $("#drpAcademia").change(function () {
             a = $("#drpAcademia").val();
-            a && e && $("#atletas").removeClass("class-none").fadeIn("slow") && buscarInscricoes(a, e);
+            a && $("#atletas").removeClass("class-none").fadeIn("slow") && buscarInscricoes(a);
         });
 
         $(".txtCodFili").keyup(function (t) {
-            t.keyCode == 13 && (AdicionarAtletaLista(a, e), n = $(".txtCodFili").val());
+            t.keyCode == 13 && (AdicionarAtletaLista(a), n = $(".txtCodFili").val());
             t.keyCode == 45 && addAtleta();
         });
 

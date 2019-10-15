@@ -126,6 +126,7 @@ namespace InscricoesOnline.Controllers.Admin.Campeonato
 
                         var incricaoModalidade = new InscricaoModalidade();
                         incricaoModalidade.ModalidadeId = IdsModalidades[i];
+                        incricaoModalidade.EventoId = AdminSessionPersister.Evento.Id;
                         incricaoModalidade.CategoriaFaixaId = IdsCategoriasFaixa[i] != 0 ? (long?)IdsCategoriasFaixa[i] : null;
                         incricaoModalidade.CategoriaIdadeId = IdsCategoriasIdade[i] != 0 ? (long?)IdsCategoriasIdade[i] : null;
                         incricaoModalidade.CategoriaLutaPesoId = IdsCategoriasPeso[i] != 0 ? (long?)IdsCategoriasPeso[i] : null;
@@ -244,225 +245,216 @@ namespace InscricoesOnline.Controllers.Admin.Campeonato
             return RedirectToAction("Lista", new { id = idEvento });
         }
 
-        //[Route("Admin/Inscricao/GerarChaves/{id}")]
-        //public ActionResult GerarChaves(long? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
+        [Route("Admin/Inscricao/GerarChaves")]
+        public ActionResult GerarChaves()
+        {
+            var evento = db.Eventos.Where(e => e.Id == AdminSessionPersister.Evento.Id).FirstOrDefault();
+            if (evento == null)
+            {
+                return HttpNotFound();
+            }
 
-        //    var evento = db.Eventos.Where(e => e.Id == id).FirstOrDefault();
-        //    if (evento == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
+            var modalidades = db.Modalidades.ToList();
 
-        //    var modalidades = db.EventoModalidades.Where(e => e.EventoId == id).Select(e => e.Modalidade).ToList();
+            foreach (var modalidade in modalidades)
+            {
+                if (modalidade.CategoriaFaixa)
+                {
+                    foreach (var categoriaFaixa in db.CategoriaFaixas.Where(cf => cf.ModalidadeId == modalidade.Id).OrderBy(cf => cf.FaixaInicial.Ordem))
+                    {
+                        if (modalidade.CategoriaIdade)
+                        {
+                            foreach (var categoriaIdade in db.CategoriaIdades.Where(ci => ci.ModalidadeId == modalidade.Id).OrderBy(ci => ci.IdadeInicial))
+                            {
+                                if (modalidade.CategoriaPeso)
+                                {
+                                    foreach (var categoriaPeso in db.CategoriaLutaPeso.Where(cp => cp.CategoriaIdadeId == categoriaIdade.Id).OrderBy(cf => cf.PesoInicial))
+                                    {
+                                        var chave = db.Chaves.Where(c => c.EventoId == evento.Id &&
+                                                                         c.ModalidadeId == modalidade.Id &&
+                                                                         c.Sexo == categoriaPeso.Sexo &&
+                                                                         c.CategoriaFaixaId == categoriaFaixa.Id &&
+                                                                         c.CategoriaIdadeId == categoriaIdade.Id &&
+                                                                         c.CategoriaLutaPesoId == categoriaPeso.Id).FirstOrDefault();
+                                        if (chave == null)
+                                        {
+                                            chave = new Chave
+                                            {
+                                                Evento = evento,
+                                                Modalidade = modalidade,
+                                                Sexo = categoriaPeso.Sexo,
+                                                CategoriaFaixa = categoriaFaixa,
+                                                CategoriaIdade = categoriaIdade,
+                                                CategoriaLutaPeso = categoriaPeso
+                                            };
+                                            db.Chaves.Add(chave);
+                                        }
+                                        chave.Inscritos = db.InscricoesModalidades.Where(i => i.Inscricao.EventoId == evento.Id &&
+                                                                                              i.ModalidadeId == modalidade.Id &&
+                                                                                              i.CategoriaFaixaId == categoriaFaixa.Id &&
+                                                                                              i.CategoriaIdadeId == categoriaIdade.Id &&
+                                                                                              i.CategoriaLutaPesoId == categoriaPeso.Id).ToList();
+                                    }
+                                }
+                                else
+                                {
+                                    foreach (var sexo in new[] { "M", "F" })
+                                    {
+                                        var chave = db.Chaves.Where(c => c.EventoId == evento.Id &&
+                                                                         c.ModalidadeId == modalidade.Id &&
+                                                                         c.Sexo == sexo &&
+                                                                         c.CategoriaFaixaId == categoriaFaixa.Id &&
+                                                                         c.CategoriaIdadeId == categoriaIdade.Id &&
+                                                                         c.CategoriaLutaPesoId == null).FirstOrDefault();
+                                        if (chave == null)
+                                        {
+                                            chave = new Chave
+                                            {
+                                                Evento = evento,
+                                                Modalidade = modalidade,
+                                                Sexo = sexo,
+                                                CategoriaFaixa = categoriaFaixa,
+                                                CategoriaIdade = categoriaIdade,
+                                            };
+                                            db.Chaves.Add(chave);
+                                        }
+                                        chave.Inscritos = db.InscricoesModalidades.Where(i => i.Inscricao.EventoId == evento.Id &&
+                                                                                              i.ModalidadeId == modalidade.Id &&
+                                                                                              i.CategoriaFaixaId == categoriaFaixa.Id &&
+                                                                                              i.CategoriaIdadeId == categoriaIdade.Id &&
+                                                                                              i.Inscricao.Filiado.Sexo == sexo).ToList();
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (var sexo in new[] { "M", "F" })
+                            {
+                                var chave = db.Chaves.Where(c => c.EventoId == evento.Id &&
+                                                                 c.ModalidadeId == modalidade.Id &&
+                                                                 c.Sexo == sexo &&
+                                                                 c.CategoriaFaixaId == categoriaFaixa.Id &&
+                                                                 c.CategoriaIdadeId == null &&
+                                                                 c.CategoriaLutaPesoId == null).FirstOrDefault();
+                                if (chave == null)
+                                {
+                                    chave = new Chave
+                                    {
+                                        Evento = evento,
+                                        Sexo = sexo,
+                                        Modalidade = modalidade,
+                                        CategoriaFaixa = categoriaFaixa,
+                                    };
+                                    db.Chaves.Add(chave);
+                                }
+                                chave.Inscritos = db.InscricoesModalidades.Where(i => i.Inscricao.EventoId == evento.Id &&
+                                                                                      i.ModalidadeId == modalidade.Id &&
+                                                                                      i.CategoriaFaixaId == categoriaFaixa.Id &&
+                                                                                      i.Inscricao.Filiado.Sexo == sexo).ToList();
+                            }
+                        }
+                    }
+                }
+                else if (modalidade.CategoriaIdade)
+                {
+                    foreach (var categoriaIdade in db.CategoriaIdades.Where(ci => ci.ModalidadeId == modalidade.Id).OrderBy(ci => ci.IdadeInicial))
+                    {
+                        if (modalidade.CategoriaPeso)
+                        {
+                            foreach (var categoriaPeso in db.CategoriaLutaPeso.Where(cp => cp.CategoriaIdadeId == categoriaIdade.Id).OrderBy(cf => cf.PesoInicial))
+                            {
+                                var chave = db.Chaves.Where(c => c.EventoId == evento.Id &&
+                                                                 c.ModalidadeId == modalidade.Id &&
+                                                                 c.Sexo == categoriaPeso.Sexo &&
+                                                                 c.CategoriaFaixaId == null &&
+                                                                 c.CategoriaIdadeId == categoriaIdade.Id &&
+                                                                 c.CategoriaLutaPesoId == categoriaPeso.Id).FirstOrDefault();
+                                if (chave == null)
+                                {
+                                    chave = new Chave
+                                    {
+                                        Evento = evento,
+                                        Modalidade = modalidade,
+                                        Sexo = categoriaPeso.Sexo,
+                                        CategoriaIdade = categoriaIdade,
+                                        CategoriaLutaPeso = categoriaPeso,
+                                    };
+                                    db.Chaves.Add(chave);
+                                }
+                                chave.Inscritos = db.InscricoesModalidades.Where(i => i.Inscricao.EventoId == evento.Id &&
+                                                                                      i.ModalidadeId == modalidade.Id &&
+                                                                                      i.CategoriaIdadeId == categoriaIdade.Id &&
+                                                                                      i.CategoriaLutaPesoId == categoriaPeso.Id).ToList();
+                            }
+                        }
+                        else
+                        {
+                            foreach (var sexo in new[] { "M", "F" })
+                            {
+                                var chave = db.Chaves.Where(c => c.EventoId == evento.Id &&
+                                                                 c.ModalidadeId == modalidade.Id &&
+                                                                 c.Sexo == sexo &&
+                                                                 c.CategoriaFaixaId == null &&
+                                                                 c.CategoriaIdadeId == categoriaIdade.Id &&
+                                                                 c.CategoriaLutaPesoId == null).FirstOrDefault();
+                                if (chave == null)
+                                {
+                                    chave = new Chave
+                                    {
+                                        Evento = evento,
+                                        Modalidade = modalidade,
+                                        Sexo = sexo,
+                                        CategoriaIdade = categoriaIdade,
+                                    };
+                                    db.Chaves.Add(chave);
+                                }
+                                chave.Inscritos = db.InscricoesModalidades.Where(i => i.Inscricao.EventoId == evento.Id &&
+                                                                                      i.ModalidadeId == modalidade.Id &&
+                                                                                      i.CategoriaIdadeId == categoriaIdade.Id &&
+                                                                                      i.Inscricao.Filiado.Sexo == sexo).ToList();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var sexo in new[] { "M", "F" })
+                    {
+                        var chave = db.Chaves.Where(c => c.EventoId == evento.Id &&
+                                                         c.ModalidadeId == modalidade.Id &&
+                                                         c.Sexo == sexo &&
+                                                         c.CategoriaFaixaId == null &&
+                                                         c.CategoriaIdadeId == null &&
+                                                         c.CategoriaLutaPesoId == null).FirstOrDefault();
+                        if (chave == null)
+                        {
+                            chave = new Chave
+                            {
+                                Evento = evento,
+                                Modalidade = modalidade,
+                                Sexo = sexo
+                            };
+                            db.Chaves.Add(chave);
+                        }
+                        chave.Inscritos = db.InscricoesModalidades.Where(i => i.Inscricao.EventoId == evento.Id &&
+                                                                              i.ModalidadeId == modalidade.Id &&
+                                                                              i.Inscricao.Filiado.Sexo == sexo).ToList();
+                    }
+                }
+            }
 
-        //    foreach (var modalidade in modalidades)
-        //    {
-        //        if (modalidade.CategoriaFaixa)
-        //        {
-        //            foreach (var categoriaFaixa in db.CategoriaFaixas.Where(cf => cf.ModalidadeId == modalidade.Id).OrderBy(cf => cf.FaixaInicial.Ordem))
-        //            {
-        //                if (modalidade.CategoriaIdade)
-        //                {
-        //                    foreach (var categoriaIdade in db.CategoriaIdades.Where(ci => ci.ModalidadeId == modalidade.Id).OrderBy(ci => ci.IdadeInicial))
-        //                    {
-        //                        if (modalidade.CategoriaPeso)
-        //                        {
-        //                            foreach (var categoriaPeso in db.CategoriaLutaPeso.Where(cp => cp.CategoriaIdadeId == categoriaIdade.Id).OrderBy(cf => cf.PesoInicial))
-        //                            {
-        //                                var chave = db.Chaves.Where(c => c.EventoId == evento.Id &&
-        //                                                                 c.ModalidadeId == modalidade.Id &&
-        //                                                                 c.Sexo == categoriaPeso.Sexo &&
-        //                                                                 c.CategoriaFaixaId == categoriaFaixa.Id &&
-        //                                                                 c.CategoriaIdadeId == categoriaIdade.Id &&
-        //                                                                 c.CategoriaLutaPesoId == categoriaPeso.Id).FirstOrDefault();
-        //                                if (chave == null)
-        //                                {
-        //                                    chave = new Chave
-        //                                    {
-        //                                        Evento = evento,
-        //                                        Modalidade = modalidade,
-        //                                        Sexo = categoriaPeso.Sexo,
-        //                                        CategoriaFaixa = categoriaFaixa,
-        //                                        CategoriaIdade = categoriaIdade,
-        //                                        CategoriaLutaPeso = categoriaPeso
-        //                                    };
-        //                                    db.Chaves.Add(chave);
-        //                                }
-        //                                chave.Inscritos = db.InscricoesModalidades.Where(i => i.Inscricao.EventoId == evento.Id &&
-        //                                                                                      i.ModalidadeId == modalidade.Id &&
-        //                                                                                      i.CategoriaFaixaId == categoriaFaixa.Id &&
-        //                                                                                      i.CategoriaIdadeId == categoriaIdade.Id &&
-        //                                                                                      i.CategoriaLutaPesoId == categoriaPeso.Id).ToList();
-        //                            }
-        //                        }
-        //                        else
-        //                        {
-        //                            foreach (var sexo in new[] { "M", "F" })
-        //                            {
-        //                                var chave = db.Chaves.Where(c => c.EventoId == evento.Id &&
-        //                                                                 c.ModalidadeId == modalidade.Id &&
-        //                                                                 c.Sexo == sexo &&
-        //                                                                 c.CategoriaFaixaId == categoriaFaixa.Id &&
-        //                                                                 c.CategoriaIdadeId == categoriaIdade.Id &&
-        //                                                                 c.CategoriaLutaPesoId == null).FirstOrDefault();
-        //                                if (chave == null)
-        //                                {
-        //                                    chave = new Chave
-        //                                    {
-        //                                        Evento = evento,
-        //                                        Modalidade = modalidade,
-        //                                        Sexo = sexo,
-        //                                        CategoriaFaixa = categoriaFaixa,
-        //                                        CategoriaIdade = categoriaIdade,
-        //                                    };
-        //                                    db.Chaves.Add(chave);
-        //                                }
-        //                                chave.Inscritos = db.InscricoesModalidades.Where(i => i.Inscricao.EventoId == evento.Id &&
-        //                                                                                      i.ModalidadeId == modalidade.Id &&
-        //                                                                                      i.CategoriaFaixaId == categoriaFaixa.Id &&
-        //                                                                                      i.CategoriaIdadeId == categoriaIdade.Id &&
-        //                                                                                      i.Inscricao.Filiado.Sexo == sexo).ToList();
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    foreach (var sexo in new[] { "M", "F" })
-        //                    {
-        //                        var chave = db.Chaves.Where(c => c.EventoId == evento.Id &&
-        //                                                         c.ModalidadeId == modalidade.Id &&
-        //                                                         c.Sexo == sexo &&
-        //                                                         c.CategoriaFaixaId == categoriaFaixa.Id &&
-        //                                                         c.CategoriaIdadeId == null &&
-        //                                                         c.CategoriaLutaPesoId == null).FirstOrDefault();
-        //                        if (chave == null)
-        //                        {
-        //                            chave = new Chave
-        //                            {
-        //                                Evento = evento,
-        //                                Sexo = sexo,
-        //                                Modalidade = modalidade,
-        //                                CategoriaFaixa = categoriaFaixa,
-        //                            };
-        //                            db.Chaves.Add(chave);
-        //                        }
-        //                        chave.Inscritos = db.InscricoesModalidades.Where(i => i.Inscricao.EventoId == evento.Id &&
-        //                                                                              i.ModalidadeId == modalidade.Id &&
-        //                                                                              i.CategoriaFaixaId == categoriaFaixa.Id &&
-        //                                                                              i.Inscricao.Filiado.Sexo == sexo).ToList();
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        else if (modalidade.CategoriaIdade)
-        //        {
-        //            foreach (var categoriaIdade in db.CategoriaIdades.Where(ci => ci.ModalidadeId == modalidade.Id).OrderBy(ci => ci.IdadeInicial))
-        //            {
-        //                if (modalidade.CategoriaPeso)
-        //                {
-        //                    foreach (var categoriaPeso in db.CategoriaLutaPeso.Where(cp => cp.CategoriaIdadeId == categoriaIdade.Id).OrderBy(cf => cf.PesoInicial))
-        //                    {
-        //                        var chave = db.Chaves.Where(c => c.EventoId == evento.Id &&
-        //                                                         c.ModalidadeId == modalidade.Id &&
-        //                                                         c.Sexo == categoriaPeso.Sexo &&
-        //                                                         c.CategoriaFaixaId == null &&
-        //                                                         c.CategoriaIdadeId == categoriaIdade.Id &&
-        //                                                         c.CategoriaLutaPesoId == categoriaPeso.Id).FirstOrDefault();
-        //                        if (chave == null)
-        //                        {
-        //                            chave = new Chave
-        //                            {
-        //                                Evento = evento,
-        //                                Modalidade = modalidade,
-        //                                Sexo = categoriaPeso.Sexo,
-        //                                CategoriaIdade = categoriaIdade,
-        //                                CategoriaLutaPeso = categoriaPeso,
-        //                            };
-        //                            db.Chaves.Add(chave);
-        //                        }
-        //                        chave.Inscritos = db.InscricoesModalidades.Where(i => i.Inscricao.EventoId == evento.Id &&
-        //                                                                              i.ModalidadeId == modalidade.Id &&
-        //                                                                              i.CategoriaIdadeId == categoriaIdade.Id &&
-        //                                                                              i.CategoriaLutaPesoId == categoriaPeso.Id).ToList();
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    foreach (var sexo in new[] { "M", "F" })
-        //                    {
-        //                        var chave = db.Chaves.Where(c => c.EventoId == evento.Id &&
-        //                                                         c.ModalidadeId == modalidade.Id &&
-        //                                                         c.Sexo == sexo &&
-        //                                                         c.CategoriaFaixaId == null &&
-        //                                                         c.CategoriaIdadeId == categoriaIdade.Id &&
-        //                                                         c.CategoriaLutaPesoId == null).FirstOrDefault();
-        //                        if (chave == null)
-        //                        {
-        //                            chave = new Chave
-        //                            {
-        //                                Evento = evento,
-        //                                Modalidade = modalidade,
-        //                                Sexo = sexo,
-        //                                CategoriaIdade = categoriaIdade,
-        //                            };
-        //                            db.Chaves.Add(chave);
-        //                        }
-        //                        chave.Inscritos = db.InscricoesModalidades.Where(i => i.Inscricao.EventoId == evento.Id &&
-        //                                                                              i.ModalidadeId == modalidade.Id &&
-        //                                                                              i.CategoriaIdadeId == categoriaIdade.Id &&
-        //                                                                              i.Inscricao.Filiado.Sexo == sexo).ToList();
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            foreach (var sexo in new[] { "M", "F" })
-        //            {
-        //                var chave = db.Chaves.Where(c => c.EventoId == evento.Id &&
-        //                                                 c.ModalidadeId == modalidade.Id &&
-        //                                                 c.Sexo == sexo &&
-        //                                                 c.CategoriaFaixaId == null &&
-        //                                                 c.CategoriaIdadeId == null &&
-        //                                                 c.CategoriaLutaPesoId == null).FirstOrDefault();
-        //                if (chave == null)
-        //                {
-        //                    chave = new Chave
-        //                    {
-        //                        Evento = evento,
-        //                        Modalidade = modalidade,
-        //                        Sexo = sexo
-        //                    };
-        //                    db.Chaves.Add(chave);
-        //                }
-        //                chave.Inscritos = db.InscricoesModalidades.Where(i => i.Inscricao.EventoId == evento.Id &&
-        //                                                                      i.ModalidadeId == modalidade.Id &&
-        //                                                                      i.Inscricao.Filiado.Sexo == sexo).ToList();
-        //            }
-        //        }
-        //    }
+            db.SaveChanges();
+            var chaves = db.Chaves.Include(c => c.Inscritos).Include(c => c.ChaveParticipantes)
+                                  .Where(c => c.EventoId == AdminSessionPersister.Evento.Id && (c.Inscritos.Count() > 0 || c.ChaveParticipantes.Count() > 0))
+                                  .OrderBy(c => c.Modalidade.Titulo)
+                                  .ThenBy(c => c.CategoriaFaixa.FaixaInicial.Ordem)
+                                  .ThenBy(c => c.CategoriaIdade.IdadeInicial)
+                                  .ThenBy(c => c.Sexo)
+                                  .ThenBy(c => c.CategoriaLutaPeso.PesoInicial).ToList();
 
-        //    db.SaveChanges();
-        //    var chaves = db.Chaves.Include(c => c.Inscritos).Include(c => c.ChaveParticipantes)
-        //                          .Where(c => c.EventoId == id && (c.Inscritos.Count() > 0 || c.ChaveParticipantes.Count() > 0))
-        //                          .OrderBy(c => c.Modalidade.Titulo)
-        //                          .ThenBy(c => c.CategoriaFaixa.FaixaInicial.Ordem)
-        //                          .ThenBy(c => c.CategoriaIdade.IdadeInicial)
-        //                          .ThenBy(c => c.Sexo)
-        //                          .ThenBy(c => c.CategoriaLutaPeso.PesoInicial).ToList();
-        //    var chaveViewModel = new ChaveViewModel
-        //    {
-        //        Evento = evento,
-        //        Chaves = chaves
-        //    };
-        //    return View(chaveViewModel);
-        //}
+            return View(chaves);
+        }
 
         //[Route("Admin/Inscricao/SortearChaves/{id}")]
         //public ActionResult SortearEvento(long? id)

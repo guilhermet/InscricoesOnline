@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row col-lg-12" style="margin-top: 15px;">
+    <section class="panel panel-default">
+        <header class="panel-heading">
+            <i class="fa fa-bar-chart-o"></i> <b>Relatórios para campeonato</b> - Selecione uma opção
+        </header>
+        <div class="panel-body">
+            <ul>
+                <li class="col-sm-6 col-md-4 col-lg-3">
+                    <a href="@Url.Action("Inscricoes", "Relatorios")"><div class="panel panel-info"><div class="panel-heading text-center"><i class="fa fa-wpforms fa-3x"></i><br>Inscrições</div></div></a>
+                </li>
+                <li class="col-sm-6 col-md-4 col-lg-3">
+                    <a href="@Url.Action("Resultados", "Relatorios")"><div class="panel panel-info"><div class="panel-heading text-center"><i class="fa fa-trophy fa-3x"></i><br>Resultados</div></div></a>
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>

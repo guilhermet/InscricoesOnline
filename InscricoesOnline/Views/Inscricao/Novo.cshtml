@@ -1,4 +1,4 @@
-﻿@model InscricoesOnline.ModelView.InscricaoViewModel
+﻿@model InscricoesOnline.ViewModel.InscricaoViewModel
 
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -11,9 +11,7 @@
                 <small>
                     <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
                     <span class="text-muted">/</span>
-                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Eventos", "Inscricao")">Eventos</a></span>
-                    <span class="text-muted">/</span>
-                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Inscricao", new { id = Model.Evento.Id })">@Model.Evento.Titulo</a></span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Inscricao")">Inscrições</a></span>
                     <span class="text-muted">/</span>
                     <span class="text-muted">Nova inscrição</span>
                 </small>
@@ -26,7 +24,7 @@
             {
                 @Html.AntiForgeryToken()
                 <header class="panel-heading">
-                    <i class="fa fa-file-text-o"></i> Dados cadastrais - @Model.Evento.Titulo
+                    <i class="fa fa-file-text-o"></i> Dados cadastrais
                 </header>
                 <div class="panel-body">
                     <div class="clearfix">
@@ -36,17 +34,14 @@
                     </div>
 
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.Evento.Id)
-
-                    <input type="text" value="@Model.Evento.Id" id="drpEvento" style="display: none" />
 
                     <div class="form-group">
                         <label for="drpAcademia"><span class="text-alerta">*</span> Academia:</label>
-                        @Html.DropDownListFor(model => model.Academia.Id, ((IEnumerable<InscricoesOnline.Models.Academia>)ViewBag.Academias).Select(option => new SelectListItem
+                        @Html.DropDownListFor(model => model.Equipe.Id, ((IEnumerable<InscricoesOnline.Models.Equipe>)ViewBag.Academias).Select(option => new SelectListItem
                         {
                             Text = option.Nome,
                             Value = option.Id.ToString(),
-                            Selected = (Model != null) && (option.Id == Model.Academia.Id)
+                            Selected = (Model != null) && (option.Id == Model.Equipe.Id)
                         }), "", new { @class = "form-control select2-offscreen", @id = "drpAcademia" })
                     </div>
 
@@ -135,107 +130,7 @@
 @section scripts{
     <script>
 
-        $('#txtData')
-            .on('dp.change', function (e) {
-                $('#form-inscricao').formValidation('revalidateField', 'DataRealizacao');
-            });
-
-
-        $("#form-inscricao")
-
-            .find('AcademiaId')
-            .change(function (e) {
-                $('#form-inscricao').formValidation('revalidateField', 'AcademiaId');
-            })
-            .end()
-
-            .find('FiliadoIdMestre')
-            .change(function (e) {
-                $('#form-inscricao').formValidation('revalidateField', 'FiliadoIdMestre');
-            })
-            .end()
-
-            .find('FiliadoIdProfessor')
-            .change(function (e) {
-                $('#form-inscricao').formValidation('revalidateField', 'FiliadoIdProfessor');
-            })
-            .end()
-
-            .formValidation({
-                framework: '',
-                err: {
-                    container: 'tooltip'
-                },
-                excluded: [':disabled', ':hidden', ':not(:visible)', '.disabled'],
-                icon: {
-                    valid: "fa fa-check",
-                    invalid: "fa fa-times",
-                    validating: "fa fa-refresh fa-spin"
-                },
-                fields: {
-                    'AcademiaId': {
-                        validators: {
-                            callback: {
-                                message: 'Campo obrigatório',
-                                callback: function (value, validator, $field) {
-                                    return (value !== "");
-                                }
-                            }
-                        }
-                    },
-                    'FiliadoIdMestre': {
-                        validators: {
-                            callback: {
-                                message: 'Campo obrigatório',
-                                callback: function (value, validator, $field) {
-                                    return (value !== "");
-                                }
-                            }
-                        }
-                    },
-                    'FiliadoIdProfessor': {
-                        validators: {
-                            callback: {
-                                message: 'Campo obrigatório',
-                                callback: function (value, validator, $field) {
-                                    return (value !== "");
-                                }
-                            },
-                            notEmpty: {
-                                message: 'Campo obrigatório'
-                            }
-                        }
-                    },
-                    DataRealizacao: {
-                        validators: {
-                            date: {
-                                format: 'DD/MM/YYYY',
-                                message: 'Data inválida'
-                            },
-                            notEmpty: {
-                                message: 'Campo obrigatório'
-                            }
-                        }
-                    },
-                    Cidade: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Campo obrigatório'
-                            }
-                        }
-                    }
-                }
-            }).on('err.field.fv', function (e, data) {
-                var $icon = data.element.data('fv.icon'),
-                    title = $icon.data('bs.tooltip').getTitle();
-
-                $icon.tooltip('destroy').tooltip({
-                    html: true,
-                    placement: 'left',
-                    title: title,
-                    container: 'body'
-                });
-            });
+        
 
     </script>
 }

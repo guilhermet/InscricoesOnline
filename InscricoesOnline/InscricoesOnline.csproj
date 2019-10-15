@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Design, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -172,6 +175,7 @@
     <Compile Include="Controllers\Campeonato\ModalidadesController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RelatoriosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -382,6 +386,25 @@
     <Content Include="Views\Home\Equipe.cshtml" />
     <Content Include="Views\Home\Inscricoes.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Relatorios\Academia.cshtml" />
+    <Content Include="Views\Relatorios\Administrativo.cshtml" />
+    <Content Include="Views\Relatorios\Arbitros.cshtml" />
+    <Content Include="Views\Relatorios\Campeonato.cshtml" />
+    <Content Include="Views\Relatorios\CategoriaFaixa.cshtml" />
+    <Content Include="Views\Relatorios\CategoriaPeso.cshtml" />
+    <Content Include="Views\Relatorios\Configuracoes.cshtml" />
+    <Content Include="Views\Relatorios\ContasAPagar.cshtml" />
+    <Content Include="Views\Relatorios\ContasAReceber.cshtml" />
+    <Content Include="Views\Relatorios\ConteudoSite.cshtml" />
+    <Content Include="Views\Relatorios\Eventos.cshtml" />
+    <Content Include="Views\Relatorios\Exames.cshtml" />
+    <Content Include="Views\Relatorios\Extratos.cshtml" />
+    <Content Include="Views\Relatorios\Filiados.cshtml" />
+    <Content Include="Views\Relatorios\Financeiro.cshtml" />
+    <Content Include="Views\Relatorios\Import.cshtml" />
+    <Content Include="Views\Relatorios\Inscricoes.cshtml" />
+    <Content Include="Views\Relatorios\Noticias.cshtml" />
+    <Content Include="Views\Relatorios\Resultados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

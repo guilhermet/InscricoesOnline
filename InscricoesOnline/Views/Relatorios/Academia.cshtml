@@ -1,0 +1,255 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Campeonato", "Relatorios")">Relatórios administrativos</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Academias</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel panel-info">
+                <header class="panel-heading">
+                    <i class="fa fa-list"></i> Lista de academias
+                </header>
+
+                <div class="panel-body">
+
+                    <section class="panel panel-info">
+                        <header class="panel-heading">
+                            <i class="fa fa-filter"></i><strong> Filtros</strong>
+                        </header>
+
+                        <div class="panel-body">
+
+                            <input class="none" type="hidden" id="txtMestreId" name="mestres" readonly="readonly">
+                            <input class="none" type="hidden" id="txtTipoContrato" name="tiposContratos" readonly="readonly">
+                            <input class="none" type="hidden" id="txtCidades" name="cidades" readonly="readonly">
+                            <input class="none" type="hidden" id="txtStatus" name="status" readonly="readonly">
+
+                            <div class="form-group">
+                                <label for="EventoId"> Mestres:</label>
+                                <select class="form-control select2-offscreen" id="MestreId" name="MestreId" multiple>
+                                    @foreach (var filiado in (IEnumerable<FPTKD.Models.Filiado>)ViewBag.MestreId)
+                                    {
+                                        <option value="@filiado.Id">
+                                            @filiado.Nome
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="txtDataFimInscricoes"> Tipo de contrato:</label>
+                                <select class="form-control select2-offscreen" id="TipoContrato" name="TipoContrato" multiple>
+                                    @foreach (var tipoContrato in (IEnumerable<String>)ViewBag.TipoContrato)
+                                    {
+                                        <option value="@tipoContrato">
+                                            @tipoContrato
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="AcademiaId"> Cidade:</label>
+                                <select class="form-control select2-offscreen" id="Cidades" name="Cidades" multiple>
+                                    @foreach (var cidade in (IEnumerable<String>)ViewBag.Cidades)
+                                    {
+                                        <option value="@cidade">
+                                            @cidade
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="AcademiaId"> Status:</label>
+                                <select class="form-control select2-offscreen" id="Status" name="Status" multiple>
+                                    <option value="1">Ativo</option>
+                                    <option value="0">Inativo</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="AcademiaId"> Tipo de relatório:</label>
+                                <select class="form-control" id="cbxArquivo" name="cbxArquivo">
+                                    <option value="Geral">Relatório geral de academias</option>
+                                    <option value="Por Tipo de Contrato">Relatório agrupado por tipo de contrato</option>
+                                    <option value="Por Cidade">Relatório agrupado por cidade</option>
+                                    <option value="Por Mestre">Relatório agrupado por mestre</option>
+                                </select>
+                            </div>
+
+                            <div class="pad-bot-15 text-center">
+                                <button type="button" class="btn btn-primary btn-gerar"><i class="fa fa-search"></i> Buscar registros</button>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <div class="pad-bot-15 text-center">
+                        <button class="btn btn-pdf"><i class="fa fa-file-pdf-o"></i> PDF</button>
+                        &nbsp;&nbsp;
+                        <button class="btn btn-excel"><i class="fa fa-file-excel-o"></i> Excel</button>
+                    </div>
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                        <div class="col-sm-12 table-responsive">
+                            <table class="fp-table table table-striped table-bordered table-hover" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th>Código</th>
+                                        <th>Nome</th>
+                                        <th>CNPJ</th>
+                                        <th>Tipo de contrato</th>
+                                        <th>Mestre</th>
+                                        <th>Endereço</th>
+                                        <th>Cidade</th>
+                                        <th>Ativo</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        $("#MestreId").select2();
+
+        $("#MestreId").change(function () {
+            $("#txtMestreId").val("");
+
+            var data = $('#MestreId').select2('data')
+            var i = 0, ids = "";
+            while (typeof data[i] !== 'undefined') {
+                if (ids == "")
+                    ids += data[i].id;
+                else
+                    ids += ',' + data[i].id;
+
+                i++;
+            }
+            $("#txtMestreId").val(ids);
+        });
+
+        $("#TipoContrato").select2();
+
+        $("#TipoContrato").change(function () {
+            $("#txtTipoContrato").val("");
+
+            var data = $('#TipoContrato').select2('data')
+            var i = 0, ids = "";
+            while (typeof data[i] !== 'undefined') {
+                if (ids == "")
+                    ids += data[i].id;
+                else
+                    ids += ',' + data[i].id;
+
+                i++;
+            }
+            $("#txtTipoContrato").val(ids);
+        });
+
+        $("#Cidades").select2();
+
+        $("#Cidades").change(function () {
+            $("#txtCidades").val("");
+
+            var data = $('#Cidades').select2('data')
+            var i = 0, ids = "";
+            while (typeof data[i] !== 'undefined') {
+                if (ids == "")
+                    ids += data[i].id;
+                else
+                    ids += ',' + data[i].id;
+
+                i++;
+            }
+            $("#txtCidades").val(ids);
+        });
+
+        $("#Status").select2();
+
+        $("#Status").change(function () {
+            $("#txtStatus").val("");
+
+            var data = $('#Status').select2('data')
+            var i = 0, ids = "";
+            while (typeof data[i] !== 'undefined') {
+                if (ids == "")
+                    ids += data[i].id;
+                else
+                    ids += ',' + data[i].id;
+
+                i++;
+            }
+            $("#txtStatus").val(ids);
+        });
+
+        $(".btn-pdf").click(function () {
+            window.location = '/Admin/Relatorios/Administrativo/AcademiaDados?tipo=PDF&' +
+                'arquivo=' + $("#cbxArquivo").val() + '&' +
+                'mestre=' + $("#txtMestreId").val() + '&' +
+                'tipoContrato=' + $("#txtTipoContrato").val() + '&' +
+                'cidade=' + $("#txtCidades").val() + '&' +
+                'ativo=' + $("#txtStatus").val()
+        });
+
+        $(".btn-excel").click(function () {
+            window.location = '/Admin/Relatorios/Administrativo/AcademiaDados?tipo=EXCEL&' +
+                'arquivo=' + $("#cbxArquivo").val() + '&' +
+                'mestre=' + $("#txtMestreId").val() + '&' +
+                'tipoContrato=' + $("#txtTipoContrato").val() + '&' +
+                'cidade=' + $("#txtCidades").val() + '&' +
+                'ativo=' + $("#txtStatus").val()
+        });
+
+        $(".btn-gerar").click(function () {
+            $.ajax(
+                {
+                    type: "POST",
+                    url: '/Admin/Relatorios/Administrativo/AcademiaDados?' +
+                        'arquivo=' + $("#cbxArquivo").val() + '&' +
+                        'mestre=' + $("#txtMestreId").val() + '&' +
+                        'tipoContrato=' + $("#txtTipoContrato").val() + '&' +
+                        'cidade=' + $("#txtCidades").val() + '&' +
+                        'ativo=' + $("#txtStatus").val(),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (n) {
+                        $("table > tbody").empty();
+
+                        for (var i = 0; i < n.length; i++) {
+                            $("<tr>").attr("id", "tr-" + i).appendTo("table > tbody");
+                            $("<td>").text(n[i].Id).appendTo("table > tbody > #tr-" + i);
+                            $("<td>").text(n[i].Nome).appendTo("table > tbody > #tr-" + i);
+                            $("<td>").text(n[i].CNPJ).appendTo("table > tbody > #tr-" + i);
+                            $("<td>").text(n[i].TipoContrato).appendTo("table > tbody > #tr-" + i);
+                            $("<td>").text(n[i].Mestre).appendTo("table > tbody > #tr-" + i);
+                            $("<td>").text(n[i].Logradouro + ', ' + n[i].Numero).appendTo("table > tbody > #tr-" + i);
+                            $("<td>").text(n[i].Cidade).appendTo("table > tbody > #tr-" + i); 
+                            $("<td>").text(n[i].Ativo).appendTo("table > tbody > #tr-" + i);
+                        }
+                    },
+                })
+        });
+
+    </script>
+}

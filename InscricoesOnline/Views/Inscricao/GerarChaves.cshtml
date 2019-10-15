@@ -1,6 +1,6 @@
-﻿@model InscricoesOnline.ModelView.ChaveViewModel
+﻿@model IEnumerable<InscricoesOnline.Models.Chave>
 
-@{
+@{ 
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -11,9 +11,7 @@
                 <small>
                     <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
                     <span class="text-muted">/</span>
-                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Eventos", "Inscricao" )">Eventos</a></span>
-                    <span class="text-muted">/</span>
-                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Inscricao", new { id = Model.Evento.Id})">@Model.Evento.Titulo</a></span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Inscricao")">Inscrições</a></span>
                     <span class="text-muted">/</span>
                     <span class="text-muted">Geração de chaves</span>
                 </small>
@@ -24,17 +22,17 @@
         <div class="col-lg-12">
             <section class="panel panel-info">
                 <header class="panel-heading">
-                    <i class="fa fa-list"></i> Lista de chaves - <strong>@Model.Chaves.Count() registros</strong>
+                    <i class="fa fa-list"></i> Lista de chaves - <strong>@Model.Count() registros</strong>
                 </header>
                 <div class="panel-body">
                     <div class="pad-bot-15 text-center">
                         <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Gerar chave">
-                            <a class="btn btn-primary btn-gerar-chave" href="#" data-href="@Url.Action("SortearEvento", "Inscricao", new { id = Model.Evento.Id })" data-toggle="modal" data-target="#mod-gerar-chave">
+                            <a class="btn btn-primary btn-gerar-chave" href="#" data-href="@Url.Action("SortearEvento", "Inscricao")" data-toggle="modal" data-target="#mod-gerar-chave">
                                 <i class="fa fa-sitemap"></i> Gerar chaves
                             </a>
                         </span>
                         &nbsp;&nbsp;
-                        <a href="@Url.Action("ImprimirEvento", "Inscricao", new { id = Model.Evento.Id })" class="btn btn-warning"><i class="fa fa-print"></i> Imprimir chaves</a>
+                        <a href="@Url.Action("ImprimirEvento", "Inscricao")" class="btn btn-warning"><i class="fa fa-print"></i> Imprimir chaves</a>
                     </div>
                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                         <div class="col-sm-12 table-responsive">
@@ -52,7 +50,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var chave in Model.Chaves)
+                                    @foreach (var chave in Model)
                                     {
                                         <tr id="@chave.Id" role="row" style="background-color: @(chave.ChaveParticipantes.Count() != @chave.Inscritos.Count() ? "#f2dede" : "")">
                                             <td class="text-center col-md-2" style="white-space: nowrap;">

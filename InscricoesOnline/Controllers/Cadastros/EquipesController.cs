@@ -37,6 +37,7 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
         public ActionResult NovoSalvar(Equipe equipe)
         {
             equipe.DataRegistro = DateTime.Now;
+            equipe.EventoId = AdminSessionPersister.Evento.Id;
             if (ModelState.IsValid)
             {
                 db.Equipes.Add(equipe);

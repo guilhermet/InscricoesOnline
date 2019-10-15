@@ -1,0 +1,252 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                <small>
+                    <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Campeonato", "Relatorios")">Relatórios de campeonato</a></span>
+                    <span class="text-muted">/</span>
+                    <span class="text-muted">Inscrições</span>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel panel-info">
+                <header class="panel-heading">
+                    <i class="fa fa-list"></i> Resultados
+                </header>
+
+                <div class="panel-body">
+
+                    <section class="panel panel-info">
+                        <header class="panel-heading">
+                            <i class="fa fa-filter"></i><strong> Filtros</strong>
+                        </header>
+
+                        <div class="panel-body">
+
+                            <input class="none" type="hidden" id="txtIdsModalidades" name="modalidades" readonly="readonly">
+                            <input class="none" type="hidden" id="txtIdsAcademias" name="academias" readonly="readonly">
+                            <input class="none" type="hidden" id="txtIdsEventos" name="eventos" readonly="readonly">
+                            <input class="none" type="hidden" id="txtSexo" name="sexos" readonly="readonly">
+
+                            <div class="form-group">
+                                <label for="EventoId"> Eventos disponíveis:</label>
+                                <select class="form-control select2-offscreen" id="EventoId" name="EventoId" multiple>
+                                    @foreach (var evento in (IEnumerable<FPTKD.Models.Evento>)ViewBag.EventoId)
+                                    {
+                                        <option value="@evento.Id">
+                                            @evento.Titulo
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="txtDataFimInscricoes"> Modalidades disponíveis:</label>
+                                <select class="form-control select2-offscreen" id="ModalidadesId" name="ModalidadesId" multiple>
+                                    @foreach (var modadelidade in (IEnumerable<FPTKD.Models.Modalidade>)ViewBag.ModalidadesId)
+                                    {
+                                        <option value="@modadelidade.Id">
+                                            @modadelidade.Titulo
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="AcademiaId"> Academias disponíveis:</label>
+                                <select class="form-control select2-offscreen" id="AcademiaId" name="AcademiaId" multiple>
+                                    @foreach (var academia in (IEnumerable<FPTKD.Models.Academia>)ViewBag.AcademiaId)
+                                    {
+                                        <option value="@academia.Id">
+                                            @academia.Nome
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="AcademiaId"> Sexo:</label>
+                                <select class="form-control select2-offscreen" id="Sexo" name="Sexo" multiple>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="AcademiaId"> Tipo de relatório:</label>
+                                <select class="form-control" id="cbxArquivo" name="cbxArquivo">
+                                    <option value="Geral">Resultado Geral</option>
+                                    <option value="Por Academia">Somatório por Academia</option>
+                                    <option value="Por Modalidade">Somatório por Modalidade</option>
+                                </select>
+                            </div>
+
+                            <div class="pad-bot-15 text-center">
+                                <button type="button" class="btn btn-primary btn-gerar"><i class="fa fa-search"></i> Buscar registros</button>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <div class="pad-bot-15 text-center">
+                        <button class="btn btn-pdf"><i class="fa fa-file-pdf-o"></i> PDF</button>
+                        &nbsp;&nbsp;
+                        <button class="btn btn-excel"><i class="fa fa-file-excel-o"></i> Excel</button>
+                    </div>
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                        <div class="col-sm-12 table-responsive">
+                            <table class="fp-table table table-striped table-bordered table-hover" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th>Evento</th>
+                                        <th>Academia</th>
+                                        <th>Filiado</th>
+                                        <th>Modalidades</th>
+                                        <th>Categoria Faixa</th>
+                                        <th>Categoria Idade</th>
+                                        <th>Categoria Peso</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        $("#ModalidadesId").select2();
+
+        $("#ModalidadesId").change(function () {
+            $("#txtIdsModalidades").val("");
+
+            var data = $('#ModalidadesId').select2('data')
+            var i = 0, ids = "";
+            while (typeof data[i] !== 'undefined') {
+                if (ids == "")
+                    ids += data[i].id;
+                else
+                    ids += ',' + data[i].id;
+
+                i++;
+            }
+            $("#txtIdsModalidades").val(ids);
+        });
+
+        $("#EventoId").select2();
+
+        $("#EventoId").change(function () {
+            $("#txtIdsEventos").val("");
+
+            var data = $('#EventoId').select2('data')
+            var i = 0, ids = "";
+            while (typeof data[i] !== 'undefined') {
+                if (ids == "")
+                    ids += data[i].id;
+                else
+                    ids += ',' + data[i].id;
+
+                i++;
+            }
+            $("#txtIdsEventos").val(ids);
+        });
+
+        $("#AcademiaId").select2();
+
+        $("#AcademiaId").change(function () {
+            $("#txtIdsAcademias").val("");
+
+            var data = $('#AcademiaId').select2('data')
+            var i = 0, ids = "";
+            while (typeof data[i] !== 'undefined') {
+                if (ids == "")
+                    ids += data[i].id;
+                else
+                    ids += ',' + data[i].id;
+
+                i++;
+            }
+            $("#txtIdsAcademias").val(ids);
+        });
+
+        $("#Sexo").select2();
+
+        $("#Sexo").change(function () {
+            $("#txtSexo").val("");
+
+            var data = $('#Sexo').select2('data')
+            var i = 0, ids = "";
+            while (typeof data[i] !== 'undefined') {
+                if (ids == "")
+                    ids += data[i].id;
+                else
+                    ids += ',' + data[i].id;
+
+                i++;
+            }
+            $("#txtSexo").val(ids);
+        });
+
+        $(".btn-pdf").click(function () {
+            window.location = '/Admin/Relatorios/Campeonato/ResultadosDados?tipo=PDF&' +
+                'arquivo=' + $("#cbxArquivo").val() + '&' +
+                'modalidades=' + $("#txtIdsModalidades").val() + '&' +
+                'eventos=' + $("#txtIdsEventos").val() + '&' +
+                'sexo=' + $("#txtSexo").val() + '&' +
+                'academias=' + $("#txtIdsAcademias").val()
+        });
+
+        $(".btn-excel").click(function () {
+            window.location = '/Admin/Relatorios/Campeonato/ResultadosDados?tipo=EXCEL&' +
+                'arquivo=' + $("#cbxArquivo").val() + '&' +
+                'modalidades=' + $("#txtIdsModalidades").val() + '&' +
+                'eventos=' + $("#txtIdsEventos").val() + '&' +
+                'sexo=' + $("#txtSexo").val() + '&' +
+                'academias=' + $("#txtIdsAcademias").val()
+        });
+
+        $(".btn-gerar").click(function () {
+            $.ajax(
+                {
+                    type: "POST",
+                    url: '/Admin/Relatorios/Campeonato/ResultadosDados?' +
+                        'arquivo=' + $("#cbxArquivo").text() + '&' +
+                        'modalidades=' + $("#txtIdsModalidades").val() + '&' +
+                        'eventos=' + $("#txtIdsEventos").val() + '&' +
+                        'sexo=' + $("#txtSexo").val() + '&' +
+                        'academias=' + $("#txtIdsAcademias").val(),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (n) {
+                        $("table > tbody").empty();
+
+                        for (var i = 0; i < n.length; i++) {
+                            $("<tr>").attr("id", "tr-" + i).appendTo("table > tbody");
+                            $("<td>").text(n[i].EventoTitulo).appendTo("table > tbody > #tr-" + i);
+                            $("<td>").text(n[i].AcademiaNome).appendTo("table > tbody > #tr-" + i);
+                            $("<td>").text(n[i].FiliadoNome).appendTo("table > tbody > #tr-" + i);
+                            $("<td>").text(n[i].ModalidadeTitulo).appendTo("table > tbody > #tr-" + i);
+                            $("<td>").text(n[i].CategoriaFaixaTitulo).appendTo("table > tbody > #tr-" + i);
+                            $("<td>").text(n[i].CategoriaIdadeTitulo).appendTo("table > tbody > #tr-" + i);
+                            $("<td>").text(n[i].CategoriaPesoTitulo).appendTo("table > tbody > #tr-" + i);
+                        }
+                    },
+                })
+        });
+
+    </script>
+}
