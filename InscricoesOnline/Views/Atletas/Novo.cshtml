@@ -11,7 +11,7 @@
                 <small>
                     <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
                     <span class="text-muted">/</span>
-                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Atletas")">Filiados</a></span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Atletas")">Atletas</a></span>
                     <span class="text-muted">/</span>
                     <span class="text-muted">Novo</span>
                 </small>
@@ -37,28 +37,6 @@
                     </div>
 
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                    <div class="form-group">
-                        <fieldset>
-                            <legend class="text-primary pad-top-15">Imagem</legend>
-                            <div class="clearfix">
-                                <div class="alert alert-danger pull-left">
-                                    <ul>
-                                        <li>• Campo obrigatório</li>
-                                        <li>• Extensões permitidas: .jpg</li>
-                                        <li>• Tamanho final da imagem: 145x192 pixels</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="dropzone smalltext smalltools smalladded" style="width: 200px; height: 265px;" data-hidden="hidCrop" data-width="145" data-height="192" data-ajax="false" data-resize="true" data-originalsize="false">
-                                    <input type="file" class="fileCrop" id="fileCrop" name="fileCrop" accept=".jpg" required="required">
-                                    <i class="form-control-feedback fv-icon-no-label" data-fv-icon-for="fileCrop" style="display: none; position: absolute;"></i>
-                                </div>
-                                <input type="hidden" id="hidCrop" name="hidCrop">
-                            </div>
-                        </fieldset>
-                    </div>
 
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label for="txtAtivarInscricao">Categoria ParaTaekwondo:</label>
@@ -124,6 +102,9 @@
 
 @section scripts{
     <script>
+
+        $("#drpAcademia").select2();
+        $(".data").mask("99/99/9999");
 
         $("#form-fili")
             .find('AcademiaId')

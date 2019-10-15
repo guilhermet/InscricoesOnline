@@ -31,27 +31,11 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
             return View(filiados.ToList());
         }
 
-        [Route("Admin/Atletas/Visualizar/{id}")]
-        public ActionResult Visualizar(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Atleta filiado = db.Atletas.Find(id);
-
-            if (filiado == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(filiado);
-        }
-
         [Route("Admin/Atletas/Novo")]
         public ActionResult Novo(Atleta atleta)
         {
             ViewBag.Faixas = db.Faixas.OrderBy(f => f.Ordem).ToList();
+            ViewBag.Academias = db.Equipes.OrderBy(a => a.Nome).ToList();
             atleta.Ativo = true;
             return View(atleta);
         }
@@ -68,10 +52,11 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
                 db.Atletas.Add(atleta);
                 db.SaveChanges();
 
-                return RedirectToAction("Visualizar", new { id = atleta.Id });
+                return RedirectToAction("Lista", new { id = atleta.Id });
             }
 
             ViewBag.Faixas = db.Faixas.OrderBy(f => f.Ordem).ToList();
+            ViewBag.Academias = db.Equipes.OrderBy(a => a.Nome).ToList();
             return View("Novo", atleta);
         }
 
@@ -89,6 +74,7 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
             }
 
             ViewBag.Faixas = db.Faixas.OrderBy(f => f.Ordem).ToList();
+            ViewBag.Academias = db.Equipes.OrderBy(a => a.Nome).ToList();
             return View(atleta);
         }
 
@@ -103,10 +89,11 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
 
                 db.Entry(atleta).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Visualizar", new { id = atleta.Id });
+                return RedirectToAction("Lista", new { id = atleta.Id });
             }
 
             ViewBag.Faixas = db.Faixas.OrderBy(f => f.Ordem).ToList();
+            ViewBag.Academias = db.Equipes.OrderBy(a => a.Nome).ToList();
             return View("Edit", atleta);
         }
 

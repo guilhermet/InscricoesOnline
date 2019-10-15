@@ -27,7 +27,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        @Html.ActionLink("ParanaTKD", "Index", new { controller = "Admin" }, new { @class = "site_title" })
+                        @Html.ActionLink("Brazil Open", "Index", new { controller = "Admin" }, new { @class = "site_title" })
                     </div>
 
                     <div class="clearfix"></div>
@@ -41,7 +41,7 @@
                                 <li>
                                     <a><i class="fa fa-cogs"></i> Configuração<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="@Url.Action("Edit", "Evento")"><i class="fa fa-calendar-o"></i> Configurar Evento</a></li>
+                                        <li><a href="@Url.Action("Edit", "Eventos")"><i class="fa fa-calendar-o"></i> Configurar Evento</a></li>
                                         <li><a href="@Url.Action("Lista", "Faixas")"><i class="fa fa-level-up"></i> Faixas</a></li>
                                         <li><a href="@Url.Action("Lista", "Modalidades")"><i class="fa fa-cubes"></i> Modalidades</a></li>
                                         <li><a href="@Url.Action("Lista", "CategoriaIdade")"><i class="fa fa-hourglass"></i> Categorias Idades</a></li>
@@ -56,6 +56,7 @@
                                     <ul class="nav child_menu">
                                         <li><a href="@Url.Action("Lista", "Equipes")"><i class="fa fa-building-o"></i> Equipes</a></li>
                                         <li><a href="@Url.Action("Lista", "Atletas")"><i class="fa fa-user"></i> Atletas</a></li>
+                                        <li><a href="@Url.Action("Lista", "Inscricao")"><i class="fa fa-wpforms"></i> Inscrições</a></li>
                                     </ul>
                                 </li>
                             </ul>

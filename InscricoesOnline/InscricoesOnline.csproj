@@ -163,10 +163,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Cadastros\EquipesController.cs" />
+    <Compile Include="Controllers\Cadastros\EventosController.cs" />
     <Compile Include="Controllers\Cadastros\FaixasController.cs" />
     <Compile Include="Controllers\Cadastros\AtletasController.cs" />
     <Compile Include="Controllers\Campeonato\CategoriaFaixasController.cs" />
     <Compile Include="Controllers\Campeonato\CategoriaIdadesController.cs" />
+    <Compile Include="Controllers\Campeonato\InscricaoController.cs" />
     <Compile Include="Controllers\Campeonato\ModalidadesController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -206,6 +208,7 @@
     <Compile Include="Security\Site\SiteSessionPersister.cs" />
     <Compile Include="ViewModel\AccountViewModels.cs" />
     <Compile Include="ViewModel\CategoriaPesoViewModel.cs" />
+    <Compile Include="ViewModel\InscricaoViewModel.cs" />
     <Compile Include="ViewModel\ViewModelInscricoes.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -351,10 +354,7 @@
     <Content Include="Views\Equipes\Edit.cshtml" />
     <Content Include="Views\Equipes\Lista.cshtml" />
     <Content Include="Views\Equipes\Novo.cshtml" />
-    <Content Include="Views\Eventos\Arbitro.cshtml" />
     <Content Include="Views\Eventos\Edit.cshtml" />
-    <Content Include="Views\Eventos\Lista.cshtml" />
-    <Content Include="Views\Eventos\Novo.cshtml" />
     <Content Include="Views\Faixas\Edit.cshtml" />
     <Content Include="Views\Faixas\Lista.cshtml" />
     <Content Include="Views\Faixas\Novo.cshtml" />

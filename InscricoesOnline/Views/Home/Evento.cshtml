@@ -40,7 +40,7 @@
             </div>
             <br />
             @*@Model.DataFimAlteracoes.Value.ToShortDateString() <br />*@
-            @if (Model.DataInicioInscricoes <= DateTime.Now)
+            @if (Model.DataInicioInscricoes <= DateTime.Now && DateTime.Now <= Model.DataFimInscricoes)
             {
                 @Html.ActionLink("Inscrever", "Login", new { id = @Model.Id }, new { @class = "btn btn-primary" })
             }

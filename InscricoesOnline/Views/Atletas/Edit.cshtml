@@ -11,7 +11,7 @@
                 <small>
                     <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
                     <span class="text-muted">/</span>
-                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Atletas")">Filiados</a></span>
+                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Atletas")">Atletas</a></span>
                     <span class="text-muted">/</span>
                     <span class="text-muted text-capitalize"><a class="text-primary" href="@Url.Action("Visualizar", "Atletas", new { id = Model.Id })">@Model.Nome.ToLower()</a></span>
                     <span class="text-muted">/</span>
@@ -109,6 +109,9 @@
 
 @section scripts{
     <script>
+
+        $("#drpAcademia").select2();
+        $(".data").mask("99/99/9999");
 
         $("#form-fili")
             .find('AcademiaId')

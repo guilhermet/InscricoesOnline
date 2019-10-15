@@ -196,7 +196,9 @@ function Eventos() {
         var n = $("#drpCidade"),
             es = $("#drpEstado"),
             e = $("#form-eventos"),
+            d = $(".data"),
             r = e.data("formValidation");
+        d.mask("99/99/9999");
         i = $(".fileCrop");
         n.length > 0 && es.length > 0 && new dgCidadesEstados({ cidade: n.get(0), estado: es.get(0) });
 
@@ -206,138 +208,6 @@ function Eventos() {
                 r.revalidateField("Cidade")
             }, 500)
         });
-
-        function t() {
-            r.addField(i, v)
-        }
-
-        function u() {
-            r.removeField(i)
-        }
-
-        v = {
-            validators:
-                {
-                    regexp:
-                        {
-                            regexp: /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
-                            message: "Recorte a imagem para aplicar"
-                        }
-                }
-        };
-
-        $(".dropzone").html5imageupload(
-            {
-                onAfterProcessImage: function (a) {
-                    u()
-                },
-                onAfterCancel: function (a) {
-                    t()
-                }
-            })
-    }
-}
-
-function EventosArbitros() {
-    if (VerificarURL("Eventos") && VerificarURL("Arbitros")) {
-
-        function i(n) {
-            $.ajax(
-                {
-                    type: "POST",
-                    url: "/Eventos/BuscarAcademiaArbitro/{id}",
-                    data: "{id:'" + n + "'}",
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (n) {
-                        $(".drpAcademia").val(n.Id).trigger('change')
-                    }
-                });
-        }
-
-        $('.drpArbitro').select2();
-        $('.drpAcademia').select2();
-
-        var u = $("#form-inscricao"), a, n;
-
-        $(".drpArbitro").change(function () {
-            n = $(".drpArbitro option:selected").val();
-            i(n);
-        });
-
-        $(".drpAcademia").change(function () {
-            a = $(".drpAcademia option:selected").val();
-        });
-
-        function addArbitro() {
-            if (a && n && !$("#div-" + n).length) {
-                var d = $(".drpAcademia option:selected"),
-                    b = $(".drpArbitro option:selected");
-                $("<div>").attr("id", "div-" + n).addClass("col-lg-12 form-group").prependTo("#listaArbitro").hide().fadeIn();
-
-                $("<input>").addClass("none").attr({ type: "hidden", name: "txtCodArbitroEvento", value: 0, readonly: "readonly" }).appendTo("#div-" + n);
-
-                $("<div>").addClass("form-group listArbitro col-lg-5 ").appendTo("#div-" + n);
-                $("<input>").addClass("form-control").attr({ type: "text", name: "txtNomeArbitro", value: b.text(), readonly: "readonly" }).appendTo("#div-" + n + " > .listArbitro");
-                $("<input>").addClass("none").attr({ type: "hidden", name: "txtCodArbitro", value: b.val(), readonly: "readonly" }).appendTo("#div-" + n + " > .listArbitro");
-
-                $("<div>").addClass("form-group listAcademia col-lg-6").appendTo("#div-" + n);
-                $("<input>").addClass("form-control").attr({ type: "text", name: "drpAcademiaArbitro", value: d.text(), readonly: "readonly" }).appendTo("#div-" + n + " > .listAcademia");
-                $("<input>").addClass("none").attr({ type: "hidden", name: "txtCodAcademia", value: d.val(), readonly: "readonly" }).appendTo("#div-" + n + " > .listAcademia");
-
-                $("<div>").addClass("listExcluir col-lg-1").appendTo("#div-" + n);
-                $("<span>").addClass("btn btn-danger btn-circle excluir-arbitro").appendTo("#div-" + n + " > .listExcluir");
-                $("<i>").addClass("fa fa-trash").appendTo("#div-" + n + " > .listExcluir .btn");
-                $(".drpAcademia").select2("val", ""); $(".drpArbitro").select2("val", "");
-            }
-            else {
-                if (!n)
-                    alert('Selecione um árbitro!');
-                if (a && n)
-                    alert('Esta(a) árbitro(a) já está vinculada ao evento!');
-            }
-        }
-
-        $(".btn-add-arbitro").click(function () {
-            addArbitro();
-        });
-
-        $(document).on("click", ".excluir-arbitro", function () {
-            $(this).parent().parent().remove();
-            t--
-        });
-
-        u.keydown(function (n) {
-            if (n.keyCode == 13)
-                return n.preventDefault(), !1
-        });
-
-        $(".drpAcademiaArbitro").change(function () {
-            $('.txtCodAcademia[data-filiado="' + $(this).data("filiado") + '"]').val($(this).find('option:selected').val())
-        });
-    }
-}
-
-function CKEditor() {
-    if ((VerificarURL("Eventos") || VerificarURL("Institucional") || VerificarURL("Noticia")) && (VerificarURL("Novo") || VerificarURL("Edit"))) {
-        if (VerificarURL("Eventos")) {
-            var editor = CKEDITOR.instances['editor1'];
-            if (editor) {
-                editor.destroy(true);
-            }
-            CKEDITOR.replace('Evento.Descricao', {
-                filebrowserBrowseUrl: '/Scripts/ckfinder/ckfinder.html',
-                filebrowserImageBrowseUrl: '/Scripts/ckfinder/ckfinder.html?Type=Images',
-                filebrowserUploadUrl: '/Scripts/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
-                filebrowserImageUploadUrl: '/Scripts/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',    
-            });
-
-            //CKFinder.setupCKEditor(null, '../../../Scripts/ckfinder/');
-            
-        }
-        else {
-            CKEDITOR.replace('Descricao');
-        }
     }
 }
 
@@ -407,12 +277,12 @@ function Zoom() { (VerificarURL("Academias") || VerificarURL("Filiado")) && !Ver
 function Pesquisar() {
     $(".pesq-fili-input").on("keypress", function (n) {
         var t, i; n.keyCode == 13 && (t = $(".pesq-fili-input").val(),
-            i = "http://" + window.location.host + "/Admin/Filiado/ResultadoPesquisa/" + t, location = i)
+            i = "http://" + window.location.host + "/brazilOpen/Admin/Filiado/ResultadoPesquisa/" + t, location = i)
     });
 
     $(".pesquisar-filiados .btn").click(function () {
         var n = $(".pesq-fili-input").val(), t;
-        t = "http://" + window.location.host + "/Admin/Filiado/ResultadoPesquisa/" + n;
+        t = "http://" + window.location.host + "/brazilOpen/Admin/Filiado/ResultadoPesquisa/" + n;
         location = t
     })
 }
@@ -603,7 +473,7 @@ function AdicionarAtletaLista(idAcademia, idEvento) {
     $.ajax(
         {
             type: "POST",
-            url: "/Admin/BuscaFiliado/{idAcademia}/{idEvento}/{id}",
+            url: "/brazilOpen/Admin/BuscaFiliado/{idAcademia}/{idEvento}/{id}",
             data: "{" +
                 "id: '" + n + "'," +
                 "idEvento: '" + e + "'," +
@@ -650,7 +520,7 @@ function AdicionarAtletaLista(idAcademia, idEvento) {
                             {
 
                                 type: "POST",
-                                url: "/Admin/BuscaPesos/{idCategoriaIdade}/{sexo}",
+                                url: "/brazilOpen/Admin/BuscaPesos/{idCategoriaIdade}/{sexo}",
                                 data: "{" +
                                     "idCategoriaIdade: '" + $(this).val() + "'," +
                                     "sexo: '" + $(".txtSexo").val().substring(0, 1) + "' " +
@@ -691,7 +561,7 @@ function buscarInscricoes(idAcademia, idEvento) {
     $.ajax(
         {
             type: "POST",
-            url: "/Admin/BuscaInscricoes/{idAcademia}/{idEvento}",
+            url: "/brazilOpen/Admin/BuscaInscricoes/{idAcademia}/{idEvento}",
             data: "{" +
                 "idEvento: '" + idEvento + "'," +
                 "idAcademia: '" + idAcademia + "'" +
@@ -822,7 +692,7 @@ function Inscricoes() {
             $.ajax(
                 {
                     type: "POST",
-                    url: "/Admin/BuscaPesos/{idCategoriaIdade}/{sexo}",
+                    url: "/brazilOpen/Admin/BuscaPesos/{idCategoriaIdade}/{sexo}",
                     data: "{" +
                         "idCategoriaIdade: '" + $(this).val() + "'," +
                         "sexo: '" + $(".txtSexo").val().substring(0, 1) + "' " +
@@ -986,7 +856,7 @@ function GerarChave() {
             $.ajax(
                 {
                     type: "POST",
-                    url: "/Admin/Inscricao/SortearChave/{id}",
+                    url: "/brazilOpen/Admin/Inscricao/SortearChave/{id}",
                     data: "{" +
                         "id: '" + id + "'" +
                         "}",
@@ -997,7 +867,7 @@ function GerarChave() {
                         $("<td>").addClass("text-center col-md-2 acoes").appendTo("tr#" + id);
                         $("<span>").addClass("btn btn-primary btn-gerar-chave-single btn-circle").attr("data-id", n.Id).appendTo("tr#" + id + " > .acoes");
                         $("<i>").addClass("fa fa-sitemap").appendTo("tr#" + id + " > .acoes .btn-primary");
-                        $("<a>").addClass("btn btn-warning btn-circle").attr("href", "/Admin/Inscricao/ImprimirChave/" + n.Id).attr("data-toggle", "tooltip").attr("placement", "top").attr("title", "Imprimir chave").appendTo("tr#" + id + " > .acoes");
+                        $("<a>").addClass("btn btn-warning btn-circle").attr("href", "/brazilOpen/Admin/Inscricao/ImprimirChave/" + n.Id).attr("data-toggle", "tooltip").attr("placement", "top").attr("title", "Imprimir chave").appendTo("tr#" + id + " > .acoes");
                         $("<i>").addClass("fa fa-print").appendTo("tr#" + id + " > .acoes .btn-warning");
                         $("<td>").addClass("text-center").text(n.QtdeParticipantes).appendTo("tr#" + id);
                         $("<td>").addClass("text-center").text(n.QtdeInscritos).appendTo("tr#" + id);
@@ -2139,9 +2009,7 @@ if (!function (n, t) {
                 AdicionarContatoLista();
                 Arquivo();
                 Eventos();
-                EventosArbitros();
                 Inscricoes();
-                CKEditor();
                 GerarChave();
                 GerarChave();
             }),

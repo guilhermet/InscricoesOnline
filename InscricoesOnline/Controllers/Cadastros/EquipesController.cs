@@ -25,21 +25,6 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
             return View(db.Equipes.Where(a => a.EventoId == AdminSessionPersister.Evento.Id).OrderBy(a => a.Nome).ToList());
         }
 
-        [Route("Admin/Equipes/Visualizar/{id}")]
-        public ActionResult Visualizar(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Equipe equipe = db.Equipes.Find(id);
-            if (equipe == null)
-            {
-                return HttpNotFound();
-            }
-            return View(equipe);
-        }
-
         [Route("Admin/Equipes/Novo")]
         public ActionResult Novo()
         {
@@ -56,7 +41,7 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
             {
                 db.Equipes.Add(equipe);
                 db.SaveChanges();
-                return RedirectToAction("Visualizar", new { id = equipe.Id });
+                return RedirectToAction("Lista", new { id = equipe.Id });
             }
 
             return View("Novo", equipe);
@@ -87,7 +72,7 @@ namespace InscricoesOnline.Controllers.Admin.Cadastro
             {
                 db.Entry(equipe).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Visualizar", new { id = equipe.Id });
+                return RedirectToAction("Lista", new { id = equipe.Id });
             }
 
             return View("Edit", equipe);
