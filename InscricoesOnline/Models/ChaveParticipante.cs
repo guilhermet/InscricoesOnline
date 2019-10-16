@@ -26,5 +26,7 @@ namespace InscricoesOnline.Models
 
         public long EventoId { get; set; }
         public virtual Evento Evento { get; set; }
+
+        public bool Ativo { get; set; }
     }
 }

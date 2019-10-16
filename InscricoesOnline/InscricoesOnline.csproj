@@ -47,6 +47,7 @@
   <ItemGroup>
     <Reference Include="CrystalDecisions.CrystalReports.Design, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -187,6 +188,14 @@
     <Compile Include="Migrations\201908200324074_evento.Designer.cs">
       <DependentUpon>201908200324074_evento.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910161637140_add-ativo-chave-participante.cs" />
+    <Compile Include="Migrations\201910161637140_add-ativo-chave-participante.Designer.cs">
+      <DependentUpon>201910161637140_add-ativo-chave-participante.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910161642208_remove-add-ativo-chave-participante.cs" />
+    <Compile Include="Migrations\201910161642208_remove-add-ativo-chave-participante.Designer.cs">
+      <DependentUpon>201910161642208_remove-add-ativo-chave-participante.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Equipe.cs" />
     <Compile Include="Models\CategoriaFaixa.cs" />
@@ -204,6 +213,563 @@
     <Compile Include="Models\MyDbConfiguration.cs" />
     <Compile Include="Models\NVarcharInterceptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\academias001.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\academias0011.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>academias001.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\academias002.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\academias0021.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>academias002.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\academias003.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\academias0031.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>academias003.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\academias004.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\academias0041.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>academias004.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves002.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0021.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves002.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves003.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0031.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves003.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves004.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0041.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves004.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves005.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0051.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves005.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves006.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0061.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves006.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves007.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0071.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves007.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves008.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0081.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves008.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves009.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0091.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves009.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves010.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0101.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves010.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves011.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0111.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves011.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves012.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0121.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves012.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves013.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0131.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves013.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves014.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0141.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves014.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves015.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0151.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves015.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves016.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0161.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves016.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves017.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0171.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves017.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves018.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0181.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves018.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves019.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0191.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves019.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves020.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0201.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves020.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves021.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0211.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves021.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves022.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0221.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves022.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves023.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0231.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves023.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves024.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0241.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves024.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves025.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0251.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves025.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves026.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0261.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves026.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves027.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0271.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves027.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves028.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0281.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves028.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves029.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0291.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves029.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves030.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0301.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves030.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves031.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0311.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves031.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves032.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chaves0321.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chaves032.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chavesNota.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\chavesNota1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>chavesNota.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\DataSet\Academias.Designer.cs" />
+    <Compile Include="Reports\DataSet\Chaves.Designer.cs" />
+    <Compile Include="Reports\DataSet\Exames.Designer.cs" />
+    <Compile Include="Reports\DataSet\Extrato.Designer.cs" />
+    <Compile Include="Reports\DataSet\Filiados.Designer.cs" />
+    <Compile Include="Reports\DataSet\Inscritos.Designer.cs" />
+    <Compile Include="Reports\DataSet\Pendencias.Designer.cs" />
+    <Compile Include="Reports\DataSet\Resultados.Designer.cs" />
+    <Compile Include="Reports\exames001.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\exames0011.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>exames001.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\extrato001.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\extrato0011.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>extrato001.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\extrato002.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\extrato0021.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>extrato002.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\extrato003.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\extrato0031.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>extrato003.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\extrato004.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\extrato0041.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>extrato004.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\extrato005.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\extrato0051.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>extrato005.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\extrato006.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\extrato0061.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>extrato006.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\extrato007.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\extrato0071.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>extrato007.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\filiados001.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\filiados0011.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>filiados001.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\inscritos001.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\inscritos0011.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>inscritos001.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\inscritos002.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\inscritos0021.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>inscritos002.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\inscritos003.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\inscritos0031.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>inscritos003.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\inscritos004.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\inscritos0041.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>inscritos004.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\inscritos005.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\inscritos0051.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>inscritos005.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\inscritos006.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\inscritos0061.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>inscritos006.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\inscritos007.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\inscritos0071.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>inscritos007.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\pendencias001.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\pendencias0011.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>pendencias001.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\pendencias002.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\pendencias0021.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>pendencias002.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\pendencias003.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\pendencias0031.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>pendencias003.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\pendencias004.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\pendencias0041.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>pendencias004.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\pendencias005.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\pendencias0051.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>pendencias005.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\resultados001.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\resultados0011.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>resultados001.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\resultados002.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\resultados0021.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>resultados002.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\resultados003.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\resultados0031.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>resultados003.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Security\Admin\AdminAuthorizeAttribute.cs" />
     <Compile Include="Security\Admin\AdminPrincipal.cs" />
     <Compile Include="Security\Admin\AdminSessionPersister.cs" />
@@ -294,6 +860,62 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <Content Include="Reports\DataSet\Academias.xsc">
+      <DependentUpon>Academias.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\DataSet\Academias.xsd" />
+    <Content Include="Reports\DataSet\Academias.xss">
+      <DependentUpon>Academias.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\DataSet\Chaves.xsc">
+      <DependentUpon>Chaves.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\DataSet\Chaves.xsd" />
+    <Content Include="Reports\DataSet\Chaves.xss">
+      <DependentUpon>Chaves.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\DataSet\Exames.xsc">
+      <DependentUpon>Exames.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\DataSet\Exames.xsd" />
+    <Content Include="Reports\DataSet\Exames.xss">
+      <DependentUpon>Exames.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\DataSet\Extrato.xsc">
+      <DependentUpon>Extrato.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\DataSet\Extrato.xsd" />
+    <Content Include="Reports\DataSet\Extrato.xss">
+      <DependentUpon>Extrato.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\DataSet\Filiados.xsc">
+      <DependentUpon>Filiados.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\DataSet\Filiados.xsd" />
+    <Content Include="Reports\DataSet\Filiados.xss">
+      <DependentUpon>Filiados.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\DataSet\Inscritos.xsc">
+      <DependentUpon>Inscritos.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\DataSet\Inscritos.xsd" />
+    <Content Include="Reports\DataSet\Inscritos.xss">
+      <DependentUpon>Inscritos.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\DataSet\Pendencias.xsc">
+      <DependentUpon>Pendencias.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\DataSet\Pendencias.xsd" />
+    <Content Include="Reports\DataSet\Pendencias.xss">
+      <DependentUpon>Pendencias.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\DataSet\Resultados.xsc">
+      <DependentUpon>Resultados.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\DataSet\Resultados.xsd" />
+    <Content Include="Reports\DataSet\Resultados.xss">
+      <DependentUpon>Resultados.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-admin.min.js" />
     <Content Include="Scripts\jquery-sortable.js" />
@@ -407,6 +1029,259 @@
     <EmbeddedResource Include="Migrations\201908200324074_evento.resx">
       <DependentUpon>201908200324074_evento.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910161637140_add-ativo-chave-participante.resx">
+      <DependentUpon>201910161637140_add-ativo-chave-participante.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910161642208_remove-add-ativo-chave-participante.resx">
+      <DependentUpon>201910161642208_remove-add-ativo-chave-participante.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\academias001.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>academias0011.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\academias002.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>academias0021.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\academias003.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>academias0031.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\academias004.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>academias0041.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves002.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0021.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves003.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0031.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves004.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0041.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves005.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0051.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves006.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0061.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves007.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0071.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves008.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0081.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves009.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0091.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves010.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0101.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves011.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0111.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves012.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0121.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves013.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0131.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves014.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0141.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves015.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0151.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves016.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0161.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves017.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0171.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves018.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0181.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves019.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0191.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves020.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0201.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves021.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0211.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves022.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0221.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves023.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0231.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves024.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0241.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves025.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0251.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves026.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0261.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves027.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0271.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves028.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0281.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves029.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0291.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves030.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0301.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves031.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0311.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chaves032.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chaves0321.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\chavesNota.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>chavesNota1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\exames001.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>exames0011.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\extrato001.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>extrato0011.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\extrato002.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>extrato0021.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\extrato003.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>extrato0031.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\extrato004.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>extrato0041.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\extrato005.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>extrato0051.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\extrato006.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>extrato0061.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\extrato007.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>extrato0071.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\filiados001.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>filiados0011.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\inscritos001.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>inscritos0011.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\inscritos002.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>inscritos0021.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\inscritos003.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>inscritos0031.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\inscritos004.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>inscritos0041.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\inscritos005.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>inscritos0051.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\inscritos006.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>inscritos0061.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\inscritos007.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>inscritos0071.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\pendencias001.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>pendencias0011.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\pendencias002.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>pendencias0021.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\pendencias003.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>pendencias0031.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\pendencias004.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>pendencias0041.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\pendencias005.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>pendencias0051.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\resultados001.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>resultados0011.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\resultados002.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>resultados0021.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\resultados003.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>resultados0031.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

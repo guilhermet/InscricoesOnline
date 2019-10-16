@@ -28,12 +28,6 @@
                 </header>
 
                 <div class="panel-body">
-                    <div class="pad-bot-15 text-center">
-                        <a href="@Url.Action("Desclassificar", "Inscricao", new { id = Model.First().Evento.Id })" class="btn btn-danger"><i class="fa fa-ban"></i> Desclassificar Atletas</a>
-                    </div>
-                </div>
-
-                <div class="panel-body">
                     @foreach (var chave in Model)
                     {
                         <section class="panel panel-info">
@@ -69,49 +63,12 @@
                             </div>
                             <div class="pad-bot-15 text-center">
                                 <a href="@Url.Action("Classificar", "Inscricao", new { id = chave.Id })" class="btn btn-warning"><i class="fa fa-sort-numeric-asc"></i> Classificar</a>
+                                <a href="@Url.Action("Desclassificar", "Inscricao", new { id = chave.Id })" class="btn btn-danger"><i class="fa fa-ban"></i> Desclassificar Atletas</a>
                             </div>
                         </section>
                     }
                 </div>
             </section>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="mod-gerar-chave" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h4 class="modal-title text-primary" id="mod-excluir-label">ATENÇÃO</h4>
-            </div>
-            <div class="modal-body">
-                A geração de chaves apagará as chaves geradas anteriormente,
-                deseja realmente gerar todas as chaves deste evento?
-            </div>
-            <div class="modal-footer">
-                <div class="form-actions no-color">
-                    <a href="#" class="btn btn-primary mod-gerar-chave-a"><i class="fa fa-check-circle"></i> Sim</a>
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancelar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="mod-aviso" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-warning">
-                <h4 class="modal-title text-warning" id="mod-excluir-label">ATENÇÃO</h4>
-            </div>
-            <div class="modal-body">
-                Não há atletas inscritos nessa categoria.
-            </div>
-            <div class="modal-footer">
-                <div class="form-actions no-color">
-                    <a href="#" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-check-circle"></i> Ok</a>
-                </div>
-            </div>
         </div>
     </div>
 </div>
