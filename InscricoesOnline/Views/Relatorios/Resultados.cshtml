@@ -38,21 +38,9 @@
                             <input class="none" type="hidden" id="txtSexo" name="sexos" readonly="readonly">
 
                             <div class="form-group">
-                                <label for="EventoId"> Eventos disponíveis:</label>
-                                <select class="form-control select2-offscreen" id="EventoId" name="EventoId" multiple>
-                                    @foreach (var evento in (IEnumerable<FPTKD.Models.Evento>)ViewBag.EventoId)
-                                    {
-                                        <option value="@evento.Id">
-                                            @evento.Titulo
-                                        </option>
-                                    }
-                                </select>
-                            </div>
-
-                            <div class="form-group">
                                 <label for="txtDataFimInscricoes"> Modalidades disponíveis:</label>
                                 <select class="form-control select2-offscreen" id="ModalidadesId" name="ModalidadesId" multiple>
-                                    @foreach (var modadelidade in (IEnumerable<FPTKD.Models.Modalidade>)ViewBag.ModalidadesId)
+                                    @foreach (var modadelidade in (IEnumerable<InscricoesOnline.Models.Modalidade>)ViewBag.ModalidadesId)
                                     {
                                         <option value="@modadelidade.Id">
                                             @modadelidade.Titulo
@@ -64,7 +52,7 @@
                             <div class="form-group">
                                 <label for="AcademiaId"> Academias disponíveis:</label>
                                 <select class="form-control select2-offscreen" id="AcademiaId" name="AcademiaId" multiple>
-                                    @foreach (var academia in (IEnumerable<FPTKD.Models.Academia>)ViewBag.AcademiaId)
+                                    @foreach (var academia in (IEnumerable<InscricoesOnline.Models.Equipe>)ViewBag.AcademiaId)
                                     {
                                         <option value="@academia.Id">
                                             @academia.Nome
@@ -202,7 +190,7 @@
         });
 
         $(".btn-pdf").click(function () {
-            window.location = '/Admin/Relatorios/Campeonato/ResultadosDados?tipo=PDF&' +
+            window.location = '/brazilOpen/admin//Relatorios/Campeonato/ResultadosDados?tipo=PDF&' +
                 'arquivo=' + $("#cbxArquivo").val() + '&' +
                 'modalidades=' + $("#txtIdsModalidades").val() + '&' +
                 'eventos=' + $("#txtIdsEventos").val() + '&' +
@@ -211,7 +199,7 @@
         });
 
         $(".btn-excel").click(function () {
-            window.location = '/Admin/Relatorios/Campeonato/ResultadosDados?tipo=EXCEL&' +
+            window.location = '/brazilOpen/admin//Relatorios/Campeonato/ResultadosDados?tipo=EXCEL&' +
                 'arquivo=' + $("#cbxArquivo").val() + '&' +
                 'modalidades=' + $("#txtIdsModalidades").val() + '&' +
                 'eventos=' + $("#txtIdsEventos").val() + '&' +
@@ -223,7 +211,7 @@
             $.ajax(
                 {
                     type: "POST",
-                    url: '/Admin/Relatorios/Campeonato/ResultadosDados?' +
+                    url: '/brazilOpen/admin//Relatorios/Campeonato/ResultadosDados?' +
                         'arquivo=' + $("#cbxArquivo").text() + '&' +
                         'modalidades=' + $("#txtIdsModalidades").val() + '&' +
                         'eventos=' + $("#txtIdsEventos").val() + '&' +

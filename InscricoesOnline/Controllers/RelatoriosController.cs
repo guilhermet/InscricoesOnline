@@ -18,6 +18,12 @@ namespace FPTKD.Controllers.Admin
     {
         private IOContext db = new IOContext();
 
+        [Route("Admin/Relatorios/Campeonato")]
+        public ActionResult Campeonato()
+        {
+            return View();
+        }
+
         [Route("Admin/Relatorios/Campeonato/Inscricoes")]
         public ActionResult Inscricoes()
         {
@@ -239,7 +245,7 @@ namespace FPTKD.Controllers.Admin
         {
             var evento = db.Eventos.FirstOrDefault();
             ((TextObject)rd.ReportDefinition.ReportObjects["txtNomeEmpresa"]).Text = evento.Titulo.ToUpper();
-            //((TextObject)rd.ReportDefinition.ReportObjects["txtCNPJ"]).Text = evento.CNPJ.ToUpper();
+            ((TextObject)rd.ReportDefinition.ReportObjects["txtCNPJ"]).Text = evento.Descricao.ToUpper();
             ((TextObject)rd.ReportDefinition.ReportObjects["txtEndereco"]).Text = evento.Local.ToUpper();
         }
 

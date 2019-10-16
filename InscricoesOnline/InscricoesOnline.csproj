@@ -386,24 +386,8 @@
     <Content Include="Views\Home\Equipe.cshtml" />
     <Content Include="Views\Home\Inscricoes.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\Relatorios\Academia.cshtml" />
-    <Content Include="Views\Relatorios\Administrativo.cshtml" />
-    <Content Include="Views\Relatorios\Arbitros.cshtml" />
     <Content Include="Views\Relatorios\Campeonato.cshtml" />
-    <Content Include="Views\Relatorios\CategoriaFaixa.cshtml" />
-    <Content Include="Views\Relatorios\CategoriaPeso.cshtml" />
-    <Content Include="Views\Relatorios\Configuracoes.cshtml" />
-    <Content Include="Views\Relatorios\ContasAPagar.cshtml" />
-    <Content Include="Views\Relatorios\ContasAReceber.cshtml" />
-    <Content Include="Views\Relatorios\ConteudoSite.cshtml" />
-    <Content Include="Views\Relatorios\Eventos.cshtml" />
-    <Content Include="Views\Relatorios\Exames.cshtml" />
-    <Content Include="Views\Relatorios\Extratos.cshtml" />
-    <Content Include="Views\Relatorios\Filiados.cshtml" />
-    <Content Include="Views\Relatorios\Financeiro.cshtml" />
-    <Content Include="Views\Relatorios\Import.cshtml" />
     <Content Include="Views\Relatorios\Inscricoes.cshtml" />
-    <Content Include="Views\Relatorios\Noticias.cshtml" />
     <Content Include="Views\Relatorios\Resultados.cshtml" />
   </ItemGroup>
   <ItemGroup>
