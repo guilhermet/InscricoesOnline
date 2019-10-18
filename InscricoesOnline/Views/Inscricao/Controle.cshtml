@@ -11,8 +11,6 @@
                 <small>
                     <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
                     <span class="text-muted">/</span>
-                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Eventos", "Inscricao" )">Eventos</a></span>
-                    <span class="text-muted">/</span>
                     <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Inscricao", new { id = Model.First().Evento.Id })">@Model.First().Evento.Titulo</a></span>
                     <span class="text-muted">/</span>
                     <span class="text-muted">Controle</span>
@@ -51,7 +49,7 @@
                                         <tbody>
                                             @foreach (var participante in chave.ChaveParticipantes.OrderByDescending(c => c.Ativo).ThenBy(c => c.Colocacao))
                                             {
-                                                <tr id="@chave.Id" role="row" style="background-color: @(chave.ChaveParticipantes.Count() != @chave.Inscritos.Count() ? "#f2dede" : "")">
+                                                <tr id="@chave.Id" role="row" style="background-color: @(participante.Colocacao == 0 ? "#f2dede" : "")">
                                                     <td> @Html.DisplayFor(modelItem => participante.InscricaoModalidade.Inscricao.Filiado.Nome) </td>
                                                     <td> @Html.DisplayFor(modelItem => participante.InscricaoModalidade.Inscricao.Academia.Nome) </td>
                                                     <td> @Html.DisplayFor(modelItem => participante.Colocacao) </td>

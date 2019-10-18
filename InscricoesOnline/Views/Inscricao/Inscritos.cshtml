@@ -11,8 +11,6 @@
                 <small>
                     <a class="text-primary" href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i>Início</a>
                     <span class="text-muted">/</span>
-                    <span class="text-muted"><a class="text-primary" href="@Url.Action("Eventos", "Inscricao" )">Eventos</a></span>
-                    <span class="text-muted">/</span>
                     <span class="text-muted"><a class="text-primary" href="@Url.Action("Lista", "Inscricao", new { id = Model.Evento.Id})">@Model.Evento.Titulo</a></span>
                     <span class="text-muted">/</span>
                     <span class="text-muted"><a class="text-primary" href="@Url.Action("GerarChaves", "Inscricao", new { id = Model.Evento.Id })">Geração de chaves</a></span>
